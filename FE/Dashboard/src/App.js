@@ -4,7 +4,7 @@ import { Route, Routes } from "react-router-dom";
 import Homepage from 'containers/Homepage';
 import Shop from 'containers/Shop';
 import Blog from 'containers/Blog';
-
+import Login from 'containers/Login';
 function App() {
   return (
     <Routes>
@@ -13,6 +13,7 @@ function App() {
         <Route path="shop" element={<Shop />} />
         <Route path="blog" element={<Blog />} />
       </Route>
+      <Route path="/login" element={<Login></Login>}></Route>
     </Routes>
   );
 }
