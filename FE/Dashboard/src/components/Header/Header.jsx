@@ -84,22 +84,27 @@ export const Header = () => {
     <HeaderStyled>
       <div className="logo">lisa</div>
       <div className="navbar">
-        <NavLink to="/" className="nav-item" exact activeClassName="active">
+        <NavLink
+          to="/"
+          className="nav-item"
+          exact="true"
+          activeclassname="active"
+        >
           home
         </NavLink>
-        <NavLink to="/shop" className="nav-item" activeClassName="active">
+        <NavLink to="/shop" className="nav-item" activeclassname="active">
           shop
         </NavLink>
-        <NavLink to="/blog" className="nav-item" activeClassName="active">
+        <NavLink to="/blog" className="nav-item" activeclassname="active">
           blog
         </NavLink>
-        <NavLink to="/sale" className="nav-item" activeClassName="active">
+        <NavLink to="/sale" className="nav-item" activeclassname="active">
           sale
         </NavLink>
         <NavLink
           to="/contact"
           className="nav-item contact"
-          activeClassName="active"
+          activeclassname="active"
         >
           <img src={search} alt="search icon" />
           contact us
