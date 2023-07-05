@@ -1,0 +1,10 @@
+.main {
+    display: flex;
+    gap: 1rem;
+}
+
+.container {
+    width: calc(10/12 * 100%);
+    margin-left: calc(2/12 * 100%);
+    background-color: var(--color-gray-100);
+}
