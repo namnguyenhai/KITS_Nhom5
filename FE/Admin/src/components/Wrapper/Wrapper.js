@@ -1,6 +1,6 @@
-function Wrapper({ children, className }) {
+function Wrapper({ children, className, ...props }) {
     return ( 
-        <div className={className}>
+        <div className={className} {...props}>
             {children}
         </div>
     );
