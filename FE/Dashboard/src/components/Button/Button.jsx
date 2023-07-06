@@ -7,10 +7,11 @@ const StyledButton = styled.button`
     props.borderColor ? `2px solid ${props.borderColor}` : "none"};
   border-radius: ${(props) => props.borderRadius};
   background: ${(props) => props.bgColor};
-  font-weight: bold;
   color: ${(props) => props.textColor};
   font-size: ${(props) => props.fontSize}px;
   text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 0.5px;
   cursor: pointer;
 `;
 

@@ -8,7 +8,7 @@ import text from "assets/images/carousel/text.svg";
 import model1 from "assets/images/carousel/model 1.svg";
 import model2 from "assets/images/carousel/model 2.svg";
 import { Button } from "components/Button";
-import bgchose from "assets/images/chosebrand/bgchose.svg";
+import { BrandAds, HomeFilters } from "components/Home";
 
 const HomeStyled = styled.div`
   margin: 20px;
@@ -58,22 +58,6 @@ const BgBanner = styled.div`
   }
 `;
 
-const ChoseBrand = styled.div`
-  margin-top: 40px;
-  background: url(${bgchose});
-  width: 100%;
-  min-height: 200px;
-  background-repeat: no-repeat;
-  background-size: cover;
-  .title-chose {
-    color: #000;
-    text-align: center;
-    font-size: 24px;
-    font-weight: 400;
-    text-transform: uppercase;
-  }
-`;
-
 const Homepage = () => {
   return (
     <HelmetProvider>
@@ -82,7 +66,7 @@ const Homepage = () => {
       </Helmet>
       <HomeStyled>
         <Carousel
-          autoPlay={true}
+          autoPlay={false}
           interval={3000}
           showThumbs={false}
           showArrows={false}
@@ -103,9 +87,8 @@ const Homepage = () => {
           </BgBanner>
           <BgBanner></BgBanner>
         </Carousel>
-        <ChoseBrand>
-          <p className="title-chose">chose your brand</p>
-        </ChoseBrand>
+        <BrandAds />
+        <HomeFilters />
       </HomeStyled>
     </HelmetProvider>
   );
