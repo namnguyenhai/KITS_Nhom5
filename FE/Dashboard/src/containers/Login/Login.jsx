@@ -22,7 +22,7 @@ const LoginStyled = styled.div`
     }
     .div_form{
         width: 40%;
-        height: 500px;
+        height: 600px;
         display: flex;
         gap: 20px;
         flex-direction: column;
@@ -42,11 +42,12 @@ const LoginStyled = styled.div`
         display: flex;
         justify-content: space-between;
         width: 100%;
+       
     }
     .flexrow{
         display: flex;
         gap: 10px;
-        align-items: flex-start;
+        align-items: center;
     }
     .flexrowSignInUp{
         display: flex;
@@ -122,6 +123,10 @@ const LoginStyled = styled.div`
         border: none;
         background-color: transparent;
     }
+    .buttonForgot{
+        border: none;
+        background-color: transparent;
+    }
 
 `
 
@@ -133,8 +138,11 @@ export const Login = ({ }) => {
             </Helmet>
             <LoginStyled >
                 <div className="div_left" >
+                    {/* <div>
+                    
+                    </div> */}
                     <div className="div_form">
-                        <TextFormat size={"100px"} weight={500} fontfam={"Oswald"}>LISA</TextFormat>
+                        <TextFormat size={"50px"} weight={500} fontfam={"Oswald"}>LISA</TextFormat>
                         <TextFormat size={"33px"} weight={600} fontfam={"Inter"}>Sign In</TextFormat>
                         <TextFormat size={"16px"} weight={400} fontfam={"Inter"} color={"#8A92A6"}>Sign in to stay connected.</TextFormat>
                         <form action="">
@@ -153,10 +161,10 @@ export const Login = ({ }) => {
                                     <TextFormat size={"16px"} weight={400} fontfam={"Inter"} color={"#8A92A6"}>Remember me?</TextFormat>
                                 </div>
                                 <div>
-                                    <TextFormat size={"16px"} weight={500} fontfam={"Inter"}>Forgot password</TextFormat>
+                                    <button className="buttonForgot"><TextFormat size={"16px"} weight={500} fontfam={"Inter"}>Forgot password</TextFormat></button>
                                 </div>
                             </div>
-                            <button className="buttonSignIn"><TextFormat color={"#FFFFFF"} fontfam={"Inter"} size={"16px"} weight={500}>Sign in</TextFormat></button>
+                            <button type="submit" className="buttonSignIn"><TextFormat color={"#FFFFFF"} fontfam={"Inter"} size={"16px"} weight={500}>Sign in</TextFormat></button>
                         </form>
                         <TextFormat color={"#232D42"} size={"16px"} weight={500} fontfam={"Inter"}>or sign in with other accounts?</TextFormat>
                         <div className="flexrowSocial" >
