@@ -6,7 +6,7 @@ import Card from "components/Card";
 import PieeChart from "components/PieeChart";
 import Input from "components/Input";
 import Button from "components/Button";
-
+import Table from 'components/Table';
 
 const cx = classNames.bind(styles);
 
@@ -38,6 +38,16 @@ function Products() {
             <PieeChart className={cx('pie-chart')} db={data} />
         </>
     )
+
+    const handleEdit = (id) => {
+        console.log(id)
+    }
+    const handleDelete = (id) => {
+        console.log(id)
+    }
+    const handleSelectedAll = (arr) => {
+        console.log(arr)
+    }
     return (
         <Wrapper className={cx('products')}>
             <div className={cx('statistics')}>
@@ -62,7 +72,11 @@ function Products() {
                     <Button className={cx('content__btn-add')} content="Create Product" />
                 </div>
                 <div className={cx('content__table')}>
-
+                    <Table 
+                        deleteById={handleDelete} 
+                        EditById={handleEdit} 
+                        selectedAll={handleSelectedAll}
+                    />
                 </div>
             </div>
         </Wrapper>

@@ -18,12 +18,16 @@ import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
-import DeleteIcon from '@mui/icons-material/Delete';
-import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
+import { Trash, Filter, Eye, Edit, More } from 'components/ImageList';
+import classNames from 'classnames/bind';
+import styles from './Table.module.scss';
 
-function createData(name, calories, fat, carbs, protein) {
+const cx = classNames.bind(styles);
+
+function createData(id, name, calories, fat, carbs, protein) {
     return {
+        id,
         name,
         calories,
         fat,
@@ -33,21 +37,22 @@ function createData(name, calories, fat, carbs, protein) {
 }
 
 const rows = [
-    createData('Cupcake', 305, 3.7, 67, 4.3),
-    createData('Donut', 452, 25.0, 51, 4.9),
-    createData('Eclair', 262, 16.0, 24, 6.0),
-    createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-    createData('Gingerbread', 356, 16.0, 49, 3.9),
-    createData('Honeycomb', 408, 3.2, 87, 6.5),
-    createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-    createData('Jelly Bean', 375, 0.0, 94, 0.0),
-    createData('KitKat', 518, 26.0, 65, 7.0),
-    createData('Lollipop', 392, 0.2, 98, 0.0),
-    createData('Marshmallow', 318, 0, 81, 2.0),
-    createData('Nougat', 360, 19.0, 9, 37.0),
-    createData('Oreo', 437, 18.0, 63, 4.0),
+    createData(1,'Cupcake', 305, 3.7, 67, 4.3),
+    createData(2,'Donut', 452, 25.0, 51, 4.9),
+    createData(3,'Eclair', 262, 16.0, 24, 6.0),
+    createData(4,'Frozen yoghurt', 159, 6.0, 24, 4.0),
+    createData(5,'Gingerbread', 356, 16.0, 49, 3.9),
+    createData(6,'Honeycomb', 408, 3.2, 87, 6.5),
+    createData(7,'Ice cream sandwich', 237, 9.0, 37, 4.3),
+    createData(8,'Jelly Bean', 375, 0.0, 94, 0.0),
+    createData(9,'KitKat', 518, 26.0, 65, 7.0),
+    createData(10,'Lollipop', 392, 0.2, 98, 0.0),
+    createData(11,'Marshmallow', 318, 0, 81, 2.0),
+    createData(12,'Nougat', 360, 19.0, 9, 37.0),
+    createData(13,'Oreo', 437, 18.0, 63, 4.0),
 ];
 
+// Filter desc
 function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
         return -1;
@@ -82,34 +87,46 @@ function stableSort(array, comparator) {
 
 const headCells = [
   {
+    id: 'id',
+    numeric: 'left',
+    disablePadding: true,
+    label: 'ID',
+  },
+  {
     id: 'name',
-    numeric: false,
+    numeric: 'left',
     disablePadding: true,
     label: 'Dessert (100g serving)',
   },
   {
     id: 'calories',
-    numeric: true,
+    numeric: 'right',
     disablePadding: false,
     label: 'Calories',
   },
   {
     id: 'fat',
-    numeric: true,
+    numeric: 'right',
     disablePadding: false,
     label: 'Fat (g)',
   },
   {
     id: 'carbs',
-    numeric: true,
+    numeric: 'right',
     disablePadding: false,
     label: 'Carbs (g)',
   },
   {
     id: 'protein',
-    numeric: true,
+    numeric: 'right',
     disablePadding: false,
     label: 'Protein (g)',
+  },
+  {
+    id: 'action',
+    numeric: 'center',
+    disablePadding: false,
+    label: 'Action',
   },
 ];
 
@@ -137,7 +154,7 @@ function EnhancedTableHead(props) {
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
-            align={headCell.numeric ? 'right' : 'left'}
+            align={headCell.numeric}
             padding={headCell.disablePadding ? 'none' : 'normal'}
             sortDirection={orderBy === headCell.id ? order : false}
           >
@@ -170,8 +187,12 @@ EnhancedTableHead.propTypes = {
 };
 
 function EnhancedTableToolbar(props) {
-  const { numSelected } = props;
+  const { numSelected, selected, selectedAll } = props;
 
+  function handleManyDelete(arr) {
+// Get all selected all 
+    selectedAll(arr)
+  }
   return (
     <Toolbar
       sx={{
@@ -199,20 +220,20 @@ function EnhancedTableToolbar(props) {
           id="tableTitle"
           component="div"
         >
-          Nutrition
+          0 selected
         </Typography>
       )}
 
       {numSelected > 0 ? (
-        <Tooltip title="Delete">
+        <Tooltip title="Delete" onClick={() => handleManyDelete(selected)}>
           <IconButton>
-            <DeleteIcon />
+            <Trash />
           </IconButton>
         </Tooltip>
       ) : (
         <Tooltip title="Filter list">
           <IconButton>
-            <FilterListIcon />
+            <Filter />
           </IconButton>
         </Tooltip>
       )}
@@ -224,7 +245,7 @@ EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
 };
 
-export default function EnhancedTable() {
+export default function EnhancedTable({ deleteById, EditById, selectedAll }) {
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('calories');
   const [selected, setSelected] = React.useState([]);
@@ -240,19 +261,19 @@ export default function EnhancedTable() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelected = rows.map((n) => n.name);
+      const newSelected = rows.map((n) => n.id);
       setSelected(newSelected);
       return;
     }
     setSelected([]);
   };
 
-  const handleClick = (event, name) => {
-    const selectedIndex = selected.indexOf(name);
+  const handleClick = (event, id) => {
+    const selectedIndex = selected.indexOf(id);
     let newSelected = [];
 
     if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
+      newSelected = newSelected.concat(selected, id);
     } else if (selectedIndex === 0) {
       newSelected = newSelected.concat(selected.slice(1));
     } else if (selectedIndex === selected.length - 1) {
@@ -280,7 +301,7 @@ export default function EnhancedTable() {
     setDense(event.target.checked);
   };
 
-  const isSelected = (name) => selected.indexOf(name) !== -1;
+  const isSelected = (id) => selected.indexOf(id) !== -1;
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
@@ -295,10 +316,20 @@ export default function EnhancedTable() {
     [order, orderBy, page, rowsPerPage],
   );
 
+// get ID and handleDelete
+  const handleDelete = (id) => {
+    deleteById(id);
+  }
+
+// get ID and handleEdit
+  const handleEdit = (id) => {
+    EditById(id);
+  }
+
   return (
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
-        <EnhancedTableToolbar numSelected={selected.length} />
+        <EnhancedTableToolbar selectedAll={selectedAll} selected={selected} numSelected={selected.length} />
         <TableContainer>
           <Table
             sx={{ minWidth: 750 }}
@@ -315,17 +346,17 @@ export default function EnhancedTable() {
             />
             <TableBody>
               {visibleRows.map((row, index) => {
-                const isItemSelected = isSelected(row.name);
+                const isItemSelected = isSelected(row.id);
                 const labelId = `enhanced-table-checkbox-${index}`;
 
                 return (
                   <TableRow
                     hover
-                    onClick={(event) => handleClick(event, row.name)}
+                    onClick={(event) => handleClick(event, row.id)}
                     role="checkbox"
                     aria-checked={isItemSelected}
                     tabIndex={-1}
-                    key={row.name}
+                    key={row.id}
                     selected={isItemSelected}
                     sx={{ cursor: 'pointer' }}
                   >
@@ -344,12 +375,26 @@ export default function EnhancedTable() {
                       scope="row"
                       padding="none"
                     >
+                      {row.id}
+                    </TableCell>
+                    <TableCell
+                      component="th"
+                      id={labelId}
+                      scope="row"
+                      padding="none"
+                    >
                       {row.name}
                     </TableCell>
                     <TableCell align="right">{row.calories}</TableCell>
                     <TableCell align="right">{row.fat}</TableCell>
                     <TableCell align="right">{row.carbs}</TableCell>
                     <TableCell align="right">{row.protein}</TableCell>
+                    <TableCell align="center"> 
+                      <div className={cx('btnAction')}>
+                        <Edit onClick={() => handleEdit(row.id)} /> 
+                        <Trash onClick={() => handleDelete(row.id)} /> 
+                      </div> 
+                    </TableCell>
                   </TableRow>
                 );
               })}

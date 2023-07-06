@@ -11,7 +11,7 @@ function PieeChart({ className, db }) {
 
     useEffect(() => {
         setData(db);
-    }, []);
+    }, [db]);
 
     const COLORS = ['#EF4444', '#22C55E', '#0EA5E9', '#7DD3FC', '#FCA5A5'];
     

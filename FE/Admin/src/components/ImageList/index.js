@@ -9,6 +9,11 @@ import { ReactComponent as BarIcon } from 'assets/images/home/chart-bar.svg';
 import { ReactComponent as CartIcon } from 'assets/images/home/shopping-cart.svg';
 import { ReactComponent as BagIcon } from 'assets/images/home/shopping-bag.svg';
 import { ReactComponent as EmojiiIcon } from 'assets/images/home/emoji-happy.svg';
+import { ReactComponent as Trash } from 'assets/images/icons/trash.svg';
+import { ReactComponent as Eye } from 'assets/images/icons/eye.svg';
+import { ReactComponent as Edit } from 'assets/images/icons/edit.svg';
+import { ReactComponent as More } from 'assets/images/icons/more.svg';
+import { ReactComponent as Filter } from 'assets/images/icons/filter.svg';
 
 export {
     DashBoardIcon,
@@ -22,4 +27,9 @@ export {
     CartIcon,
     BagIcon,
     EmojiiIcon,
+    Trash,
+    Eye,
+    Edit,
+    More,
+    Filter,
 }
