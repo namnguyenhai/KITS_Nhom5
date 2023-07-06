@@ -28,7 +28,7 @@ function Sidebar() {
         {
             name: 'Resources',
             icon: <ResourcesIcon />,
-            children: ['Addresses', 'Products', 'Blogs', 'Purchases', 'Ship', 'Categories', 'Admin'],
+            children: ['Addresses', 'Products', 'Orders', 'Blogs', 'Purchases', 'Ship', 'Categories', 'Admin'],
         },
     ];
 
@@ -49,7 +49,8 @@ function Sidebar() {
                 { menu.children.map(subMenu => (
                     <Button 
                         key={subMenu} 
-                        comp="div"
+                        comp="link"
+                        to={`/${subMenu.toLowerCase()}`}
                         className={cx('subMenu__item', isActive === subMenu && 'active')}
                         srcLeft={menu.icon}
                         content={subMenu} 

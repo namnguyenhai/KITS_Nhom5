@@ -7,6 +7,7 @@
     left: 0;
     right: 0;
     background-color: var(--text-color-white);
+    z-index: 99;
 
     .logo {
         width: calc(2/12 * 100%);
@@ -20,6 +21,11 @@
 
         .search {
             width: 25%;
+
+            input {
+                background-color: var(--color-gray-100);
+                border-radius: 999px;
+            }
         }
         .menu {
             display: flex;

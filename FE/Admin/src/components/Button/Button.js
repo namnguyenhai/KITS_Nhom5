@@ -1,6 +1,7 @@
 import classNames from 'classnames/bind';
 import styles from './Button.module.scss';
 import Image from "../Image";
+import { Link } from 'react-router-dom';
 const cx = classNames.bind(styles);
 
 function Button({ className, comp, srcLeft, alt, content, srcRight, ...prop }) {
@@ -9,7 +10,9 @@ function Button({ className, comp, srcLeft, alt, content, srcRight, ...prop }) {
 //  Nếu muốn dùng thẻ div thay cho button thì truyền prop type là div
     if (comp === 'div') {
         Type = 'div';
-    } 
+    } else if (comp === 'link') {
+        Type = Link
+    }
 
     return ( 
 
