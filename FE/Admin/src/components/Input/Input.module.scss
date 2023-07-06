@@ -4,8 +4,9 @@
   label {
     position: absolute;
     top: 0;
+    bottom: 0;
     left: 40px;
-    padding: 10px;
+    padding: 13px;
     transition: all 0.3s;
     cursor: pointer;
     z-index: 1;
@@ -26,32 +27,35 @@
     border-radius: 4px;
     outline: none;
     width: 100%;
+    border: 1px solid #ccc;
 
     &:focus {
-      border-bottom: 1px solid blue; // Màu border khi input được focus
+      border: 1px solid blue; // Màu border khi input được focus
       box-shadow: 0 0 5px rgba(0, 0, 255, 0.5); // Hiệu ứng shadow khi input được focus
     }
 
     & + svg {
       position: absolute;
       top: 50%;
-      left: 10px;
+      left: 1rem;
       transform: translateY(-50%);
     }
   }
 
   &.label-up {
     input {
-      border-bottom: 1px solid blue; // Màu border khi label được click
+      border: 1px solid blue; // Màu border khi label được click
       box-shadow: 0 0 5px rgba(0, 0, 255, 0.5); // Hiệu ứng shadow khi label được click
     }
 
     label {
       top: -12px;
       left: 40px;
-      background-color: white;
-      padding: 2px 8px;
-      font-size: 12px;
+      opacity: 0;
+      transition: top .3s ease-in, opacity .5s ease-in;
+      // background-color: white;
+      // padding: 2px 8px;
+      // font-size: 12px;
     }
   }
 }

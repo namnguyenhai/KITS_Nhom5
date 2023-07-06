@@ -1,8 +1,8 @@
-import Wrapper from '../../components/Wrapper';
+import Wrapper from 'components/Wrapper';
 import classNames from 'classnames/bind';
 import styles from './Login.module.scss';
-import Button from '../../components/Button';
-import { DashBoardIcon, ArrowBottomIcon, avatar } from '../../components/ImageList';
+import Button from 'components/Button';
+import { DashBoardIcon, ArrowBottomIcon, avatar } from 'components/ImageList';
 
 const cx = classNames.bind(styles);
 

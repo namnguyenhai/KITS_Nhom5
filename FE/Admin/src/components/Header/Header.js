@@ -5,15 +5,16 @@ import Image from "components/Image";
 import Button from "components/Button";
 import { Logo, SearchIcon, NotificationIcon, avatar, ArrowBottomIcon } from 'components/ImageList'
 import Input from "components/Input";
+import { Link } from "react-router-dom";
 
 const cx = classNames.bind(styles);
 
 function Header() {
     return (
         <Wrapper className={cx('header')}>
-            <div className={cx('logo')}>
+            <Link className={cx('logo')} to="/">
                 <Image comp={<Logo />} />
-            </div>
+            </Link>
 
             <div className={cx('nav')}>
                 <Input className={cx('search')} label="Press / to search" icon={<SearchIcon />} />

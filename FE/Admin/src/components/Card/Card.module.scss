@@ -2,23 +2,32 @@
     font-weight: 400;
     color: var(--color-gray-500);
     box-shadow: 0px 1px 2px -1px rgba(0, 0, 0, 0.2), 0px 1px 3px 0px rgba(0, 0, 0, 0.2);
+    background-color: #FFF;
     padding: 16px 24px;
     border-radius: 8px;
     flex: 1;
 
-    .label {
-        font-size: var(--text-size-14);
-        line-height: var(--text-height-14);
-        font-weight: 800;
+    .header {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 1rem;
+
+        .header__label {
+            font-size: var(--text-size-16);
+            line-height: var(--text-height-16);
+            font-weight: 800;
+        }
     }
     .content {
         display: flex;
+        flex-wrap: wrap;
         align-items: center;
         margin: 16px 0;
         gap: 1rem;
         
         .content__icon {
-            padding: 16px 20px;
+            padding: 14px 18px;
             border-radius: 8px;
         }
         .red {
