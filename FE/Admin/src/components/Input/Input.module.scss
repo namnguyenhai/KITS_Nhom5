@@ -5,7 +5,7 @@
     position: absolute;
     top: 0;
     bottom: 0;
-    left: 40px;
+    left: 0;
     padding: 13px;
     transition: all 0.3s;
     cursor: pointer;
@@ -19,7 +19,7 @@
 
   input {
     padding: 12px;
-    padding-left: 40px; // Để chừa không gian cho icon
+    padding-left: 1rem; // Để chừa không gian cho icon
     font-size: var(--text-size-16);
     line-height: var(--text-height-16);
     border: none;

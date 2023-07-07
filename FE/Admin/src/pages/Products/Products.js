@@ -144,8 +144,17 @@ function Products() {
             <div className={cx('content')}>
                 <h3>Products</h3>
                 <div className={cx('content__btn')}>
-                    <Input className={cx('content__btn-search')} label="Press / to search" icon={<SearchIcon />} />
-                    <Button className={cx('content__btn-add')} content="Create Product" />
+                    <Input 
+                        className={cx('content__btn-search')} 
+                        label="Press / to search" 
+                        icon={<SearchIcon />} 
+                    />
+                    <Button 
+                        className={cx('content__btn-add')} 
+                        content="Create Product" 
+                        comp="link"
+                        to="/products/add"
+                    />
                 </div>
                 <div className={cx('content__table')}>
                     <Table 

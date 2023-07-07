@@ -1,0 +1,39 @@
+.product-add {
+    margin: 2rem 0;
+
+    h2 {
+        font-size: var(--text-size-24);
+        line-height: var(--text-height-24);
+        color: var(--color-gray-500);
+        font-weight: 400;
+    }
+
+    .form-control {
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+        font-family: 'Nunito Sans', sans-serif;
+
+        p {
+            min-width: max-content;
+            width: 10%;
+            color: var(--color-gray-500);
+
+            span {
+                color: var(--text-color-red);
+            }
+        }
+        .form-control-ip {
+            width: 90%;
+        }
+    }
+    .editor {
+        margin: 1rem 8px;
+        align-items: flex-start;
+
+        p {
+            width: 11%;
+        }
+    }
+
+}

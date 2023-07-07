@@ -16,10 +16,8 @@ import Paper from '@mui/material/Paper';
 import Checkbox from '@mui/material/Checkbox';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Switch from '@mui/material/Switch';
 import { visuallyHidden } from '@mui/utils';
-import { Trash, Filter, Eye, Edit, More } from 'components/ImageList';
+import { Trash, Filter, Edit } from 'components/ImageList';
 import classNames from 'classnames/bind';
 import styles from './Table.module.scss';
 
@@ -136,7 +134,7 @@ function EnhancedTableToolbar(props) {
         <Typography
           sx={{ flex: '1 1 100%' }}
           color="inherit"
-          variant="subtitle1"
+          variant="h6"
           component="div"
         >
           {numSelected} selected
@@ -314,7 +312,7 @@ export default function EnhancedTable(props) {
                       {row.id}
                     </TableCell>
 
-                    { rowKeys.map(key => (
+                    { rowKeys?.map(key => (
                       <TableCell key={key} align="center">{row[key]}</TableCell>
                     )) }
 
@@ -349,10 +347,6 @@ export default function EnhancedTable(props) {
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Paper>
-      <FormControlLabel
-        control={<Switch checked={dense} onChange={handleChangeDense} />}
-        label="Dense padding"
-      />
     </Box>
   );
 }
