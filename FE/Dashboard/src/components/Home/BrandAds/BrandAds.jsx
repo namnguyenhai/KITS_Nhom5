@@ -21,9 +21,16 @@ const AdsStyled = styled.div`
     margin-bottom: 5px;
   }
   .ads {
+    margin-top: 30px;
     display: flex;
     justify-content: center;
-    margin-top: 30px;
+    flex-wrap: wrap;
+    gap: 30px;
+  }
+  .banner-left {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
   }
   .look {
     background: linear-gradient(
@@ -32,14 +39,13 @@ const AdsStyled = styled.div`
       #f1f0f0 10.94%,
       #f3f0ef 100%
     );
-    width: 924px;
+    width: 915px;
     height: 434px;
     display: flex;
   }
   .new {
-    margin-top: 30px;
     height: 434px;
-    width: 924px;
+    width: 915px;
     display: flex;
     justify-content: flex-end;
     background: linear-gradient(
@@ -75,9 +81,8 @@ const AdsStyled = styled.div`
     margin-top: 7px;
   }
   .banner-right {
-    width: 925px;
+    width: 915px;
     height: 898px;
-    margin-left: 30px;
     display: flex;
     justify-content: flex-end;
     background: linear-gradient(

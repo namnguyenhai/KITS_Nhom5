@@ -4,10 +4,10 @@ const StyledButton = styled.button`
   width: ${(props) => props.width};
   height: ${(props) => props.height};
   border: ${(props) =>
-    props.borderColor ? `2px solid ${props.borderColor}` : "none"};
+    props.$borderColor ? `2px solid ${props.$borderColor}` : "none"};
   border-radius: ${(props) => props.borderRadius};
-  background: ${(props) => props.bgColor};
-  color: ${(props) => props.textColor};
+  background: ${(props) => props.$bgColor};
+  color: ${(props) => props.$textColor};
   font-size: ${(props) => props.fontSize}px;
   text-transform: uppercase;
   font-weight: 600;
@@ -30,9 +30,9 @@ export const Button = ({
     <StyledButton
       width={width}
       height={height}
-      textColor={textColor}
-      bgColor={bgColor}
-      borderColor={borderColor}
+      $textColor={textColor}
+      $bgColor={bgColor}
+      $borderColor={borderColor}
       fontSize={fontSize}
       borderRadius={borderRadius}
       {...rest}
