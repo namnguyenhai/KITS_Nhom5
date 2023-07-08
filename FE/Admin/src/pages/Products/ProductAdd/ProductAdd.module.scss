@@ -16,7 +16,7 @@
 
         p {
             min-width: max-content;
-            width: 10%;
+            width: 14%;
             color: var(--color-gray-500);
 
             span {
@@ -27,12 +27,44 @@
             width: 90%;
         }
     }
+    .branch p {
+        width: 12.8%;
+    }
+    .image {
+        align-items: flex-start;
+        margin: 1rem 8px;
+
+        p {
+            width: 13%;
+        }        
+    }
     .editor {
         margin: 1rem 8px;
         align-items: flex-start;
 
         p {
-            width: 11%;
+            width: 15.7%;
+        }
+    }
+    .size {
+        p {
+            width: 13%;
+        }
+
+        .size-list {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;            
+            gap: 1.5rem;
+            
+            span {
+                font-family: 'Nunito Sans', sans-serif;
+                font-size: var(--text-size-16);
+                line-height: var(--text-height-16);
+            }
+        }
+        .size-list span:last-child {
+            color: var(--color-gray-500);
         }
     }
 
