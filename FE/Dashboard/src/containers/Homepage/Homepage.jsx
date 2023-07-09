@@ -9,14 +9,14 @@ import model1 from "assets/images/home/model 1.svg";
 import model2 from "assets/images/home/model 2.svg";
 import mid from "assets/images/home/midbanner.svg";
 import { Button } from "components/Button";
-import { BrandAds, HomeFilters } from "components/Home";
+import { BottomAds, BrandAds, HomeBlog, HomeFilters } from "components/Home";
+import { ProductCarousel } from "components/ProductCarousel";
 
 const HomeStyled = styled.div`
   margin: 20px;
   .mid-banner {
     width: 100%;
     height: 467px;
-    flex-shrink: 0;
     background: linear-gradient(
         90deg,
         #ddebf1 0%,
@@ -52,6 +52,17 @@ const HomeStyled = styled.div`
     position: absolute;
     right: 25%;
     top: 20%;
+  }
+  .bestsell {
+    width: 100%;
+  }
+  .bestsell-title {
+    margin: 145px 0 100px 0;
+    color: #000;
+    font-size: 56px;
+    font-weight: 500;
+    text-transform: uppercase;
+    text-align: center;
   }
 `;
 
@@ -152,6 +163,12 @@ const Homepage = () => {
             <Button>show now</Button>
           </div>
         </div>
+        <div className="bestsell">
+          <p className="bestsell-title">best sellers</p>
+          <ProductCarousel />
+        </div>
+        <BottomAds />
+        <HomeBlog />
       </HomeStyled>
     </HelmetProvider>
   );

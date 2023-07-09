@@ -2,8 +2,7 @@ import { styled } from "styled-components";
 
 const ProductStyled = styled.div`
   width: 344px;
-  height: 548px;
-  flex-shrink: 0;
+  height: 560px;
   position: relative;
   .image {
     width: 344px;

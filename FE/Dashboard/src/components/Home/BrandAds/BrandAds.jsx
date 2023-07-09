@@ -39,13 +39,13 @@ const AdsStyled = styled.div`
       #f1f0f0 10.94%,
       #f3f0ef 100%
     );
-    width: 915px;
+    width: 910px;
     height: 434px;
     display: flex;
   }
   .new {
     height: 434px;
-    width: 915px;
+    width: 910px;
     display: flex;
     justify-content: flex-end;
     background: linear-gradient(
@@ -81,7 +81,7 @@ const AdsStyled = styled.div`
     margin-top: 7px;
   }
   .banner-right {
-    width: 915px;
+    width: 910px;
     height: 898px;
     display: flex;
     justify-content: flex-end;
