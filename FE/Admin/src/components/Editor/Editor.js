@@ -31,7 +31,7 @@ export default function Editorr(props) {
             onInit={(evt, editor) => (editorRef.current = editor)}
             // initialValue="<p>This is the initial content of the editor.</p>"
             init={{
-                height: 500,
+                height: 300,
                 width: "100%",
                 menubar: false,
                 plugins: [

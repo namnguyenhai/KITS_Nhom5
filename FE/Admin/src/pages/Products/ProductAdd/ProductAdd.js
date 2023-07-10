@@ -5,6 +5,7 @@ import Editor from "components/Editor";
 import FormInput from 'components/FormInput'
 import ImageUploader from "components/ImageUploader";
 import styles from './ProductAdd.module.scss';
+import Button from "components/Button";
 
 // Library UI
 import Box from '@mui/material/Box';
@@ -15,32 +16,37 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Select from '@mui/material/Select';
 
+// Axios
+import axios from "axios";
+
 const cx = classNames.bind(styles);
 
 function ProductAdd() {
-    const [branch, setBranch] = useState('');
+    const [name, setName] = useState('');
+    const [price, setPrice] = useState('');
+    const [category, setCategory] = useState('');
     const [description, setDescription] = useState('');
     const [images, setImages] = useState([]);
 
     const [sizes, setSizes] = useState([]);
     const [isCheckedAll, setIsCheckedAll] = useState(false);
 
-// Get branch
-    const getBranch = (event) => {
-        setBranch(event.target.value);
-        console.log(event.target.value);
+    const [colors, setColors] = useState([]);
+    const [isCheckedAllColor, setIsCheckedAllColor] = useState(false);
+
+// Get category
+    const getCategory = (event) => {
+        setCategory(event.target.value);
     };
 
 // Get description
     const getDescription = (desc) => {
         setDescription(desc);
-        console.log(desc);
     };
 
 //  Get images
     const getImages = (images) => {
         setImages(images);
-        console.log(images);
     };
 
 //  Get size
@@ -60,19 +66,50 @@ function ProductAdd() {
         setSizes(checked ? sizeItem : []);
     };
 
-    console.log(sizes)
+    const colorItem = ['White', 'Black', 'Yellow', 'Red', 'Blue'];
+    const handleColorChange = (event) => {
+        const { value, checked } = event.target;
+        if (checked) {
+            setColors((prevSizes) => [...prevSizes, value]);
+        } else {
+            setColors((prevSizes) => prevSizes.filter(item => item !== value));
+        }
+    };
+
+    const handleCheckAllColor = (event) => {
+        const { checked } = event.target;
+        setIsCheckedAllColor(checked);
+        setColors(checked ? colorItem : []);
+    };
+
+    const handleSubmit = e => {
+        e.preventDefault();
+        axios.post("http://localhost:8080/product_images/addProductImage_NewProduct", { 
+            product: {
+                name,
+                brand: price,
+                description,
+                category: {
+                    categoryId: 1,
+                },
+            },
+            urlImage: images[0],
+            size: {
+                name: sizes[0]
+            },
+            color: {
+                name: colors[0]
+            },
+        });
+
+    }
+
 
     return (
         <Wrapper className={cx('product-add')}>
             <h2>Create Product</h2>
-            <Box
-                component="form"
-                padding="2rem"
-                sx={{
-                '& > :not(style)': { m: 1 },
-                }}
-                noValidate
-                autoComplete="off"
+            <form
+                onSubmit={e => handleSubmit(e)}
             >
 
         {/* *********************** PRODUCT NAME ****************************** */}
@@ -80,30 +117,43 @@ function ProductAdd() {
                     className={cx('form-control')}
                     classNameIp={cx('form-control-ip')}
                     label="Name"
-                    onChange={(e) => console.log(e.target.value)}
+                    onChange={(e) => setName(e.target.value)}
                 />
 
         {/* *********************** BRANCH ****************************** */}
-                <FormControl fullWidth>
-                    <div className={cx('form-control', 'branch')}>
-                        <p>Branch <span>*</span> </p>
+                <div className={cx('form-control', 'category')}>
+                    <p>Category <span>*</span> </p>
+                    <div className={cx('category__container')}>
                         <Select
-                            value={branch}
-                            onChange={getBranch}
+                            value={category}
+                            onChange={getCategory}
                             displayEmpty
                             inputProps={{ 'aria-label': 'Without label' }}
                             size="small"
-                            style={{ width: '30%' }}
+                            style={{ width: 200 }}
                         >
                             <MenuItem value="">
                                 <em>None</em>
                             </MenuItem>
-                            <MenuItem value={10}>Ten</MenuItem>
-                            <MenuItem value={20}>Twenty</MenuItem>
-                            <MenuItem value={30}>Thirty</MenuItem>
+                            <MenuItem value={1}>Ten</MenuItem>
+                            <MenuItem value={2}>Twenty</MenuItem>
+                            <MenuItem value={3}>Thirty</MenuItem>
                         </Select>
+
+                        <div className={cx('category__btn')}>
+                            <Button content="Other"/>
+                        </div>
+                        {/* <div className={cx('category__btn', 'input')}>
+                            <FormInput
+                                className={cx('form-control')}
+                                classNameIp={cx('form-control-ip')}
+                                label="Name"
+                                onChange={(e) => setCategory(e.target.value)}
+                            />
+                            <Button content="Other"/>
+                        </div> */}
                     </div>
-                </FormControl>
+                </div>
     
         {/* *********************** IMAGE ****************************** */}
                 <div className={cx('form-control', 'image')}>
@@ -116,11 +166,11 @@ function ProductAdd() {
                     className={cx('form-control')}
                     classNameIp={cx('form-control-ip')}
                     label="Price"
-                    onChange={(e) => console.log(e.target.value)}
+                    onChange={(e) => setPrice(e.target.value)}
                 />
 
         {/* *********************** SIZE ****************************** */}
-                <div className={cx('form-control', 'size')}>
+                <div className={cx('form-control', 'checkbox')}>
                     <p>Size <span>*</span> </p>
                     <FormGroup className={cx('size-list')}>
                         <FormControlLabel
@@ -130,7 +180,7 @@ function ProductAdd() {
                                 onChange={handleCheckAll}
                                 />
                             }
-                            label="Checked All"
+                            label="All"
                         />
                         {sizeItem?.map((item) => (
                         <FormControlLabel
@@ -148,12 +198,52 @@ function ProductAdd() {
                     </FormGroup>
                 </div>
 
+        {/* *********************** COLOR ****************************** */}
+                <div className={cx('form-control', 'checkbox')}>
+                    <p>Color <span>*</span> </p>
+                    <FormGroup className={cx('size-list')}>
+                        <FormControlLabel
+                            control={
+                                <Checkbox
+                                    checked={isCheckedAllColor}
+                                    onChange={handleCheckAllColor}
+                                />
+                            }
+                            label="All"
+                        />
+                        {colorItem?.map((item) => (
+                        <FormControlLabel
+                            key={item}
+                            control={
+                            <Checkbox
+                                checked={colors.includes(item)}
+                                onChange={handleColorChange}
+                                value={item}
+                            />
+                            }
+                            label={item}
+                        />
+                        ))}
+                    </FormGroup>
+                </div>
+
         {/* *********************** DESCRIPTION ****************************** */}
                 <div className={cx('form-control', 'editor')}>
                     <p>Description <span>*</span> </p>
                     <Editor content={getDescription} />
                 </div>
-            </Box>
+
+        {/* *********************** SUBMIT ****************************** */}
+                <div className={cx('btn-action')}>
+                    <Button 
+                        onClick={e => handleSubmit(e)}
+                        content="SUBMIT"
+                    />
+                    <Button 
+                        content="CANCEL"
+                    />
+                </div>
+            </form>
         </Wrapper>
     );
 }
