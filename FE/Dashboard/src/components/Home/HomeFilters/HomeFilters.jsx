@@ -1,7 +1,7 @@
 import { Product } from "components/Product";
 import { styled } from "styled-components";
-import model from "assets/images/product/model6.svg";
 import { Button } from "components/Button";
+import { useSelector } from "react-redux";
 
 const HFStyled = styled.div`
   margin-top: 48px;
@@ -45,6 +45,8 @@ const HFStyled = styled.div`
 `;
 
 export const HomeFilters = () => {
+  // const dispatch = useDispatch();
+  const productsStore = useSelector((state) => state.products);
   return (
     <HFStyled>
       <div className="left">
@@ -66,67 +68,17 @@ export const HomeFilters = () => {
       </div>
       <div className="right">
         <div className="products">
-          <Product
-            bgImage={model}
-            category={"top women"}
-            name={"Angels malu zip jeans slim black used"}
-            price={"139,00 $"}
-            oldprice={"119,00 EUR"}
-            tag={"-30%"}
-          />
-          <Product
-            bgImage={model}
-            category={"top women"}
-            name={"Angels malu zip jeans slim black used"}
-            price={"139,00 $"}
-            tag={"-30%"}
-          />
-          <Product
-            bgImage={model}
-            category={"top women"}
-            name={"Angels malu zip jeans slim black used"}
-            price={"139,00 $"}
-            oldprice={"119,00 EUR"}
-          />
-          <Product
-            bgImage={model}
-            category={"top women"}
-            name={"Angels malu zip jeans slim black used"}
-            price={"139,00 $"}
-            oldprice={"119,00 EUR"}
-          />
-          <Product
-            bgImage={model}
-            category={"top women"}
-            name={"Angels malu zip jeans slim black used"}
-            price={"139,00 $"}
-            oldprice={"119,00 EUR"}
-            tag={"-30%"}
-          />
-          <Product
-            bgImage={model}
-            category={"top women"}
-            name={"Angels malu zip jeans slim black used"}
-            price={"139,00 $"}
-            oldprice={"119,00 EUR"}
-            tag={"-30%"}
-          />
-          <Product
-            bgImage={model}
-            category={"top women"}
-            name={"Angels malu zip jeans slim black used"}
-            price={"139,00 $"}
-            oldprice={"119,00 EUR"}
-            tag={"-30%"}
-          />
-          <Product
-            bgImage={model}
-            category={"top women"}
-            name={"Angels malu zip jeans slim black used"}
-            price={"139,00 $"}
-            oldprice={"119,00 EUR"}
-            tag={"-30%"}
-          />
+          {productsStore.listProduct.map((card, index) => (
+            <Product
+              key={index}
+              name={card.name}
+              bgImage={card.bgImage}
+              tag={card.tag}
+              category={card.category}
+              price={card.price}
+              oldprice={card.oldprice}
+            />
+          ))}
         </div>
         <Button
           width={"140px"}

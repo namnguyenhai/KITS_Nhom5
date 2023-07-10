@@ -1,57 +1,7 @@
-import pd from "assets/images/product/model6.svg";
 import { Product } from "components/Product";
 import Carousel from "react-multi-carousel";
+import { useSelector } from "react-redux";
 import { styled } from "styled-components";
-
-const productData = [
-  {
-    name: "Angels malu zip jeans slim black used",
-    bgImage: pd,
-    category: "top women",
-    price: 236,
-    tag: "-30%",
-  },
-  {
-    name: "Angels malu zip jeans slim black used",
-    bgImage: pd,
-    category: "top women",
-    oldprice: "115, 00 EURO",
-    price: "85, 00 EURO",
-    tag: "-30%",
-  },
-  {
-    name: "Angels malu zip jeans slim black used",
-    bgImage: pd,
-    category: "top women",
-    oldprice: "115, 00 EURO",
-    price: "85, 00 EURO",
-    tag: "-30%",
-  },
-  {
-    name: "Angels malu zip jeans slim black used",
-    bgImage: pd,
-    category: "top women",
-    oldprice: "115, 00 EURO",
-    price: "85, 00 EURO",
-    tag: "-30%",
-  },
-  {
-    name: "Angels malu zip jeans slim black used",
-    bgImage: pd,
-    category: "top women",
-    oldprice: "115, 00 EURO",
-    price: "85, 00 EURO",
-    tag: "-30%",
-  },
-  {
-    name: "Angels malu zip jeans slim black used",
-    bgImage: pd,
-    category: "top women",
-    oldprice: "115, 00 EURO",
-    price: "85, 00 EURO",
-    tag: "-30%",
-  },
-];
 
 const responsive = {
   largeDesktop: {
@@ -96,6 +46,8 @@ const CarouselStyled = styled.div`
 `;
 
 export const ProductCarousel = () => {
+  // const dispatch = useDispatch();
+  const productsStore = useSelector((state) => state.products);
   return (
     <CarouselStyled>
       <Carousel
@@ -104,7 +56,7 @@ export const ProductCarousel = () => {
         keyBoardControl={true}
         removeArrowOnDeviceType={["tablet", "mobile"]}
       >
-        {productData.map((card, index) => (
+        {productsStore.listProduct.map((card, index) => (
           <Product
             key={index}
             name={card.name}
