@@ -1,7 +1,7 @@
-import { styled } from "styled-components";
 import pd from "assets/images/product/model6.svg";
 import { Product } from "components/Product";
-import Carousel from "react-grid-carousel";
+import Carousel from "react-multi-carousel";
+import { styled } from "styled-components";
 
 const productData = [
   {
@@ -53,25 +53,69 @@ const productData = [
   },
 ];
 
-const CarouselStyled = styled.div``;
+const responsive = {
+  largeDesktop: {
+    breakpoint: { max: 4000, min: 1800 },
+    items: 5,
+  },
+  desktop: {
+    breakpoint: { max: 1800, min: 1600 },
+    items: 4,
+  },
+  laptop: {
+    breakpoint: { max: 1600, min: 1024 },
+    items: 3,
+  },
+  tablet: {
+    breakpoint: { max: 1024, min: 464 },
+    items: 2,
+  },
+  mobile: {
+    breakpoint: { max: 464, min: 0 },
+    items: 1,
+  },
+};
+
+const CarouselStyled = styled.div`
+  .react-multiple-carousel__arrow {
+    background: none;
+  }
+  .react-multiple-carousel__arrow::before {
+    font-size: 32px;
+    font-weight: 900;
+    color: rgba(30, 40, 50, 0.25);
+  }
+  .react-multiple-carousel__arrow--left {
+    top: 40%;
+    left: calc(0% + 1px);
+  }
+  .react-multiple-carousel__arrow--right {
+    top: 40%;
+    right: calc(2% + 1px);
+  }
+`;
 
 export const ProductCarousel = () => {
   return (
-    <>
-      <Carousel cols={5} rows={1} gap={26} scrollSnap={true} loop>
+    <CarouselStyled>
+      <Carousel
+        responsive={responsive}
+        autoPlaySpeed={1000}
+        keyBoardControl={true}
+        removeArrowOnDeviceType={["tablet", "mobile"]}
+      >
         {productData.map((card, index) => (
-          <Carousel.Item key={index}>
-            <Product
-              name={card.name}
-              bgImage={card.bgImage}
-              tag={card.tag}
-              category={card.category}
-              price={card.price}
-              oldprice={card.oldprice}
-            />
-          </Carousel.Item>
+          <Product
+            key={index}
+            name={card.name}
+            bgImage={card.bgImage}
+            tag={card.tag}
+            category={card.category}
+            price={card.price}
+            oldprice={card.oldprice}
+          />
         ))}
       </Carousel>
-    </>
+    </CarouselStyled>
   );
 };

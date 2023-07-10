@@ -12,7 +12,13 @@ const StyledButton = styled.button`
   text-transform: uppercase;
   font-weight: 600;
   letter-spacing: 0.5px;
+  transition: 0.3s;
   cursor: pointer;
+
+  &:hover {
+    color: #fff;
+    background: #000;
+  }
 `;
 
 export const Button = ({
