@@ -1,9 +1,11 @@
 import { Layout } from 'components/Layout';
 import './App.css';
+import 'react-multi-carousel/lib/styles.css';
 import { Route, Routes } from "react-router-dom";
 import Homepage from 'containers/Homepage';
 import Shop from 'containers/Shop';
 import Blog from 'containers/Blog';
+import Products from 'containers/Products';
 
 function App() {
   return (
@@ -12,6 +14,7 @@ function App() {
         <Route index element={<Homepage />} />
         <Route path="shop" element={<Shop />} />
         <Route path="blog" element={<Blog />} />
+        <Route path="products" element={<Products />} />
       </Route>
     </Routes>
   );
