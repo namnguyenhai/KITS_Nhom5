@@ -8,6 +8,10 @@
         font-weight: 400;
     }
 
+    form {
+        padding: 2rem 0;
+    }
+
     .form-control {
         display: flex;
         align-items: center;
@@ -29,6 +33,9 @@
     }
     .category {
         padding: 10px 0;
+        visibility: visible;
+        opacity: 1;
+        transition: all .3s ease;
 
         p {
             width: 13.2%;
@@ -36,13 +43,35 @@
 
         .category__container {
             display: flex;
+            align-items: center;
             gap: 1rem;
 
-            .input {
+            .category__btn {
                 
+            }
+            .hidden {
+                visibility: hidden;
+                opacity: 0;
+                transition: all .3s ease;
+                display: flex;
+                align-items: center;
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+            .input {
+                visibility: visible;
+                opacity: 1;
+                transition: all .3s ease;
+            }
+
+            .other {
+                opacity: 0;
+                transition: all .3s ease;
+                visibility: hidden;
             }
         }
     }
+
     .image {
         align-items: flex-start;
         margin: 1rem 0;
@@ -88,7 +117,7 @@
         display: flex;
         gap: 2rem;
     }
-    .btn-action button, .category button {
+    .btn-action button, .category button, .btn-action .cancel {
         background-color: var(--text-color-red);
         color: var(--text-color-white);
         font-size: var(--text-size-14);
@@ -146,5 +175,21 @@
             transform: scale(0.9);
         }
     }
+    .cancel {
+        background-color: var(--color-primary-500) !important;
 
+        &::before {
+            background-color: var(--color-primary-100) !important;
+        }
+
+        &:hover, &:focus {
+            box-shadow: 0 2px 2px var(--color-primary-500), 0 2px 2px var(--color-primary-500) !important;
+
+            span {
+                transition: all .3s ease-out;
+                color: var(--color-primary-500) !important;
+                cursor: pointer;
+            }
+        }
+    }
 }
