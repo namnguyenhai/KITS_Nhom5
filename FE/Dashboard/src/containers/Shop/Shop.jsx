@@ -3,7 +3,11 @@ import { styled } from "styled-components";
 import { Button } from "components/Button";
 import banner from "assets/images/shop/banner.svg";
 import vector from "assets/images/home/vector.svg";
+import vectorm from "assets/images/shop/vector.svg";
 import { PriceRangeSlider } from "components/PriceRangeSlider";
+import { useSelector } from "react-redux";
+import { Product } from "components/Product";
+import model from "assets/images/shop/model.svg";
 
 const ShopStyled = styled.div`
   margin: 20px;
@@ -64,6 +68,7 @@ const QueryProducts = styled.div`
   }
   .right {
     width: 80%;
+    margin-left: 30px;
   }
   .filter-title {
     color: #000;
@@ -125,9 +130,80 @@ const QueryProducts = styled.div`
     margin-top: 25px;
     margin-right: 40px;
   }
+  .sort {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 20px;
+  }
+  .select {
+    height: 46px;
+    border: 1px solid #c4c4c4;
+    background: #fff;
+    color: #000;
+    font-size: 14px;
+    font-weight: 400;
+    text-transform: uppercase;
+    text-indent: 10px;
+  }
+  .type {
+    width: 255px;
+  }
+  .num {
+    width: 69px;
+  }
+  .products {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 25px;
+  }
+  .mid-banner {
+    width: 100%;
+    height: 430px;
+    background: linear-gradient(
+      90deg,
+      #000 0%,
+      #000 69.37%,
+      #000 89.11%,
+      rgba(0, 0, 0, 0) 100%
+    );
+    display: flex;
+    justify-content: flex-end;
+    position: relative;
+    margin-top: 45px;
+    margin-bottom: 25px;
+  }
+  .info-mid {
+    left: 10%;
+    position: absolute;
+  }
+  .title-mid {
+    color: #fff;
+    font-size: 56px;
+    font-weight: 500;
+    text-transform: uppercase;
+    margin-bottom: 0;
+  }
+  .des-mid {
+    color: #fff;
+    font-size: 25px;
+    font-weight: 400;
+    letter-spacing: 0.25px;
+    max-width: 640px;
+  }
+  .data {
+    position: relative;
+  }
+  .vector {
+    stroke: #fff;
+    position: absolute;
+    right: 0;
+    top: -5%;
+  }
 `;
 
 const Shop = () => {
+  const productsStore = useSelector((state) => state.products);
   return (
     <HelmetProvider>
       <Helmet>
@@ -266,8 +342,60 @@ const Shop = () => {
             </div>
           </div>
           <div className="right">
-            <div className="filter">
-              
+            <div className="sort">
+              <select class="select type">
+                <option value="0">price (high to low)</option>
+                <option value="1">price (low to high)</option>
+              </select>
+              <select class="select num">
+                <option value="0">48</option>
+                <option value="1">24</option>
+              </select>
+            </div>
+            <div className="products">
+              {productsStore.listProduct.map((card, index) => (
+                <Product
+                  key={index}
+                  name={card.name}
+                  bgImage={card.bgImage}
+                  tag={card.tag}
+                  category={card.category}
+                  price={card.price}
+                  oldprice={card.oldprice}
+                  color={card.color}
+                />
+              ))}
+            </div>
+            <div className="mid-banner">
+              <div className="info-mid">
+                <div className="data">
+                  <img className="vector" src={vectorm} alt="vector line" />
+                  <p className="title-mid">shoping without limits.</p>
+                  <p className="des-mid">
+                    You can choose the best option for you, and it does not
+                    matter whether you are in Prague or San Francisco. We will
+                    deliver your purchase anywhere!
+                  </p>
+                  <Button borderColor={"#fff"} textColor={"#fff"}>
+                    show now
+                  </Button>
+                </div>
+              </div>
+              <img className="model" src={model} alt="model" />
+            </div>
+            <div className="products">
+              {productsStore.listProduct.map((card, index) => (
+                <Product
+                  key={index}
+                  name={card.name}
+                  bgImage={card.bgImage}
+                  tag={card.tag}
+                  category={card.category}
+                  price={card.price}
+                  oldprice={card.oldprice}
+                  color={card.color}
+                />
+              ))}
             </div>
           </div>
         </QueryProducts>
