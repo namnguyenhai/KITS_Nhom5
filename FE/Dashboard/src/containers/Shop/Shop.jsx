@@ -135,6 +135,7 @@ const QueryProducts = styled.div`
     justify-content: flex-end;
     align-items: center;
     gap: 20px;
+    margin-bottom: 20px;
   }
   .select {
     height: 46px;
