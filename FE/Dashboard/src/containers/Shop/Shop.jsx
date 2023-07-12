@@ -3,6 +3,7 @@ import { styled } from "styled-components";
 import { Button } from "components/Button";
 import banner from "assets/images/shop/banner.svg";
 import vector from "assets/images/home/vector.svg";
+import { PriceRangeSlider } from "components/PriceRangeSlider";
 
 const ShopStyled = styled.div`
   margin: 20px;
@@ -107,6 +108,7 @@ const QueryProducts = styled.div`
     text-transform: uppercase;
   }
   .allcolor {
+    margin-right: 40px;
     display: flex;
     gap: 10px;
     flex-wrap: wrap;
@@ -115,6 +117,13 @@ const QueryProducts = styled.div`
     width: 25px;
     height: 25px;
     border: none;
+  }
+  .button-range {
+    display: flex;
+    justify-content: flex-end;
+    gap: 30px;
+    margin-top: 25px;
+    margin-right: 40px;
   }
 `;
 
@@ -231,10 +240,36 @@ const Shop = () => {
                 <p>Price Range</p>
                 <div className="minus" />
               </div>
-              <div></div>
+              <PriceRangeSlider />
+              <div className="button-range">
+                <Button
+                  bgColor={"#C4C4C4"}
+                  textColor={"#828282"}
+                  fontSize={14}
+                  borderColor={"#828282"}
+                  width={"114px"}
+                  height={"40px"}
+                >
+                  apply
+                </Button>
+                <Button
+                  bgColor={"#C4C4C4"}
+                  textColor={"#828282"}
+                  fontSize={14}
+                  borderColor={"#828282"}
+                  width={"114px"}
+                  height={"40px"}
+                >
+                  reset
+                </Button>
+              </div>
             </div>
           </div>
-          <div className="right"></div>
+          <div className="right">
+            <div className="filter">
+              
+            </div>
+          </div>
         </QueryProducts>
       </ShopStyled>
     </HelmetProvider>
