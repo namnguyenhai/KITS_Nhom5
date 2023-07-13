@@ -1,6 +1,5 @@
 import { Product } from "components/Product";
 import Carousel from "react-multi-carousel";
-import { useSelector } from "react-redux";
 import { styled } from "styled-components";
 
 const responsive = {
@@ -45,9 +44,8 @@ const CarouselStyled = styled.div`
   }
 `;
 
-export const ProductCarousel = () => {
+export const ProductCarousel = ({productList}) => {
   // const dispatch = useDispatch();
-  const productsStore = useSelector((state) => state.products);
   return (
     <CarouselStyled>
       <Carousel
@@ -56,7 +54,7 @@ export const ProductCarousel = () => {
         keyBoardControl={true}
         removeArrowOnDeviceType={["tablet", "mobile"]}
       >
-        {productsStore.listProduct.map((card, index) => (
+        { productList?.map((card, index) => (
           <Product
             key={index}
             name={card.name}

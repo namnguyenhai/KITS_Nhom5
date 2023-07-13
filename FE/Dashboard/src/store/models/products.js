@@ -109,6 +109,7 @@ const data = [
 export const products = {
     state: {
         listProduct: data,
+        product: ''
     }, // initial state
     reducers: {
         // handle state changes with pure functions
@@ -118,6 +119,15 @@ export const products = {
                 listProduct,
             };
         },
+
+
+        setProductById(state, product) {
+            return {
+                ...state,
+                product
+            }
+        },
+
         setCount(state, count) {
             return {
                 ...state,

@@ -25,7 +25,7 @@ function Button({ className, comp, srcLeft, alt, content, srcRight, ...prop }) {
 
             { <Image src={srcLeft} alt={alt} comp={srcLeft} /> }
 
-            <span> {content} </span>
+            { comp !== 'link' ? <span> {content} </span> : content }
 
             {/* Trong phần dashboard thì thấy icon right có có dùng file .png và .jpg nên truyền thẳng vào là comp */}
             {/* Nếu muốn dùng file .png hoặc .jpg thì phải sửa lại prop alt của srcLeft và Right */}
