@@ -1,3 +1,4 @@
+import { Helmet, HelmetProvider } from "react-helmet-async";
 import { NavLink, Outlet } from "react-router-dom";
 import { styled } from "styled-components";
 
@@ -62,61 +63,63 @@ const AccountStyled = styled.div`
 
 const AccountPage = () => {
   return (
-    <AccountStyled>
-      <p className="redirect">Home/</p>
-      <p className="title">My Dashboard</p>
-      <div className="frame">
-        <div className="sidebar">
-          <NavLink
-            to="/account/dashboard"
-            className="side-item"
-            exact="true"
-            activeclassname="active"
-          >
-            Account Dashboard
-          </NavLink>
-          <NavLink
-            to="/account/information"
-            className="side-item"
-            activeclassname="active"
-          >
-            Account Information
-          </NavLink>
-          <NavLink
-            to="/account/address"
-            className="side-item"
-            activeclassname="active"
-          >
-            Address Book
-          </NavLink>
-          <NavLink
-            to="/account/orders"
-            className="side-item"
-            activeclassname="active"
-          >
-            My Orders
-          </NavLink>
-          <NavLink
-            to="/account/wishlist"
-            className="side-item"
-            activeclassname="active"
-          >
-            My Wishlist
-          </NavLink>
-          <NavLink
-            to="/account/subscriptions"
-            className="side-item"
-            activeclassname="active"
-          >
-            
-            
-          </NavLink>
+    <HelmetProvider>
+      <Helmet>
+        <title>Account</title>
+      </Helmet>
+      <AccountStyled>
+        <p className="redirect">Home/</p>
+        <p className="title">My Dashboard</p>
+        <div className="frame">
+          <div className="sidebar">
+            <NavLink
+              to="/account/dashboard"
+              className="side-item"
+              exact="true"
+              activeclassname="active"
+            >
+              Account Dashboard
+            </NavLink>
+            <NavLink
+              to="/account/information"
+              className="side-item"
+              activeclassname="active"
+            >
+              Account Information
+            </NavLink>
+            <NavLink
+              to="/account/address"
+              className="side-item"
+              activeclassname="active"
+            >
+              Address Book
+            </NavLink>
+            <NavLink
+              to="/account/orders"
+              className="side-item"
+              activeclassname="active"
+            >
+              My Orders
+            </NavLink>
+            <NavLink
+              to="/account/wishlist"
+              className="side-item"
+              activeclassname="active"
+            >
+              My Wishlist
+            </NavLink>
+            <NavLink
+              to="/account/subscriptions"
+              className="side-item"
+              activeclassname="active"
+            ></NavLink>
+          </div>
+          <div className="content">
+            <Outlet />
+          </div>
         </div>
-        <div className="content">
-          <Outlet />
-        </div>
-      </div>
-    </AccountStyled>
+      </AccountStyled>
+    </HelmetProvider>
   );
 };
 
