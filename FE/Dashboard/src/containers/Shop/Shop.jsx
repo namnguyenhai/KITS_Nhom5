@@ -344,11 +344,11 @@ const Shop = () => {
           </div>
           <div className="right">
             <div className="sort">
-              <select class="select type">
+              <select className="select type">
                 <option value="0">price (high to low)</option>
                 <option value="1">price (low to high)</option>
               </select>
-              <select class="select num">
+              <select className="select num">
                 <option value="0">48</option>
                 <option value="1">24</option>
               </select>
