@@ -80,7 +80,6 @@ export const Product = ({
   category,
   price,
   oldprice,
-=======
   color,
   ...rest
 }) => {
