@@ -1,8 +1,10 @@
+
+import { Button } from "components/Button";
 import { styled } from "styled-components";
 
 const ProductStyled = styled.div`
   width: 344px;
-  height: 560px;
+  height: auto;
   position: relative;
   .image {
     width: 344px;
@@ -63,6 +65,12 @@ const ProductStyled = styled.div`
     text-transform: uppercase;
     text-decoration-line: line-through;
   }
+  .colors {
+    display: flex;
+    width: 101px;
+    height: 27px;
+    gap: 10px;
+  }
 `;
 
 export const Product = ({
@@ -72,6 +80,8 @@ export const Product = ({
   category,
   price,
   oldprice,
+=======
+  color,
   ...rest
 }) => {
   return (
@@ -88,6 +98,19 @@ export const Product = ({
       ) : (
         <p className="price">{price}</p>
       )}
+      {color ? (
+        <div className="colors">
+          {color.map((colorOption, index) => (
+            <Button
+              key={index}
+              width={"25px"}
+              height={"25px"}
+              borderColor={null}
+              bgColor={colorOption}
+            />
+          ))}
+        </div>
+      ) : null}
     </ProductStyled>
   );
 };

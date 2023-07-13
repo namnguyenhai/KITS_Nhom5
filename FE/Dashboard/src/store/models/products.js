@@ -7,6 +7,11 @@ const data = [
         category: "top women",
         price: "236, 00 $",
         tag: "-30%",
+        color: [
+            "blue",
+            "red",
+            "green"
+        ]
     },
     {
         name: "Angels malu zip jeans slim black used",
@@ -15,6 +20,11 @@ const data = [
         oldprice: "115, 00 EURO",
         price: "85, 00 EURO",
         tag: "-30%",
+        color: [
+            "blue",
+            "red",
+            "green"
+        ]
     },
     {
         name: "Angels malu zip jeans slim black used",
@@ -23,6 +33,11 @@ const data = [
         oldprice: "115, 00 EURO",
         price: "85, 00 EURO",
         tag: "-30%",
+        color: [
+            "blue",
+            "red",
+            "green"
+        ]
     },
     {
         name: "Angels malu zip jeans slim black used",
@@ -31,6 +46,11 @@ const data = [
         oldprice: "115, 00 EURO",
         price: "85, 00 EURO",
         tag: "-30%",
+        color: [
+            "blue",
+            "red",
+            "green"
+        ]
     },
     {
         name: "Angels malu zip jeans slim black used",
@@ -39,6 +59,11 @@ const data = [
         oldprice: "115, 00 EURO",
         price: "85, 00 EURO",
         tag: "-30%",
+        color: [
+            "blue",
+            "red",
+            "green"
+        ]
     },
     {
         name: "Angels malu zip jeans slim black used",
@@ -47,6 +72,11 @@ const data = [
         oldprice: "115, 00 EURO",
         price: "85, 00 EURO",
         tag: "-30%",
+        color: [
+            "blue",
+            "red",
+            "green"
+        ]
     },
     {
         name: "Angels malu zip jeans slim black used",
@@ -55,6 +85,11 @@ const data = [
         oldprice: "115, 00 EURO",
         price: "85, 00 EURO",
         tag: "-30%",
+        color: [
+            "blue",
+            "red",
+            "green"
+        ]
     },
     {
         name: "Angels malu zip jeans slim black used",
@@ -63,6 +98,11 @@ const data = [
         oldprice: "115, 00 EURO",
         price: "85, 00 EURO",
         tag: "-30%",
+        color: [
+            "blue",
+            "red",
+            "green"
+        ]
     },
 ];
 
@@ -79,6 +119,7 @@ export const products = {
                 listProduct,
             };
         },
+
 
         setProductById(state, product) {
             return {

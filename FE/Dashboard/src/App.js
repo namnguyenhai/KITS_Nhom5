@@ -6,6 +6,7 @@ import Homepage from 'containers/Homepage';
 import Shop from 'containers/Shop';
 import Blog from 'containers/Blog';
 import Products from 'containers/Products';
+import Account from 'containers/AccountPage';
 
 function App() {
   return (
@@ -15,6 +16,8 @@ function App() {
         <Route path="shop" element={<Shop />} />
         <Route path="blog" element={<Blog />} />
         <Route path="products" element={<Products />} />
+        <Route path="account" element={<Account />}>
+        </Route>
       </Route>
     </Routes>
   );
