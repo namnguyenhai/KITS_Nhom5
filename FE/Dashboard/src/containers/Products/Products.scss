@@ -92,10 +92,10 @@
             flex: 1;
 
             .products-attributes-brand p {
-                font-size: var(--text-size-16);
-                line-height: var(--text-height-16);
+                font-size: 16px;
+                line-height: 20px;
                 font-weight: 600;
-                color: var(--text-color-black);
+                color: #000;
                 letter-spacing: 1px;
             }
             .products-attributes-name p {
