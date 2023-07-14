@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import { NavLink, Outlet } from "react-router-dom";
 import { styled } from "styled-components";
@@ -40,6 +41,7 @@ const AccountStyled = styled.div`
       width: 275px;
       height: 44px;
       color: #828282;
+      background: #fff;
       font-size: 18px;
       font-weight: 400;
       line-height: 23px;
@@ -62,57 +64,63 @@ const AccountStyled = styled.div`
 `;
 
 const AccountPage = () => {
+  const [pageTitle, setPageTitle] = useState("My Dashboard");
   return (
     <HelmetProvider>
       <Helmet>
         <title>Account</title>
       </Helmet>
       <AccountStyled>
-        <p className="redirect">Home/</p>
-        <p className="title">My Dashboard</p>
+        <p className="redirect">Home/ {pageTitle}</p>
+        <p className="title">{pageTitle}</p>
         <div className="frame">
           <div className="sidebar">
             <NavLink
-              to="/account/dashboard"
+              to="./"
               className="side-item"
               exact="true"
               activeclassname="active"
+              onClick={() => setPageTitle("My Dashboard")}
             >
               Account Dashboard
             </NavLink>
             <NavLink
-              to="/account/information"
+              to="./information"
               className="side-item"
               activeclassname="active"
+              onClick={() => setPageTitle("Edit Account Information")}
             >
               Account Information
             </NavLink>
             <NavLink
-              to="/account/address"
+              to="./address"
               className="side-item"
               activeclassname="active"
+              onClick={() => setPageTitle("Add New Address")}
             >
               Address Book
             </NavLink>
-            <NavLink
-              to="/account/orders"
+            {/* <NavLink
+              to="./orders"
               className="side-item"
               activeclassname="active"
             >
               My Orders
             </NavLink>
             <NavLink
-              to="/account/wishlist"
+              to="./wishlist"
               className="side-item"
               activeclassname="active"
             >
               My Wishlist
             </NavLink>
             <NavLink
-              to="/account/subscriptions"
+              to="./subscriptions"
               className="side-item"
               activeclassname="active"
-            ></NavLink>
+            >
+              Newsletter Subscriptions
+            </NavLink> */}
           </div>
           <div className="content">
             <Outlet />

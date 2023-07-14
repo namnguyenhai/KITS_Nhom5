@@ -7,7 +7,7 @@ import Shop from 'containers/Shop';
 import Blog from 'containers/Blog';
 import Products from 'containers/Products';
 import Account from 'containers/AccountPage';
-import { DashAcc } from 'components/Account';
+import { Address, DashAcc, Information } from 'components/Account';
 
 function App() {
   return (
@@ -19,6 +19,8 @@ function App() {
         <Route path="products" element={<Products />} />
         <Route path="account" element={<Account />}>
           <Route index element={<DashAcc />} />
+          <Route path="information" element={<Information />} />
+          <Route path="address" element={<Address />} />
         </Route>
       </Route>
     </Routes>

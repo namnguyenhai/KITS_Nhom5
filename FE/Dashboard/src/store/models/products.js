@@ -5,8 +5,7 @@ const data = [
         name: "Angels malu zip jeans slim black used",
         bgImage: pd,
         category: "top women",
-        price: "236, 00 $",
-        tag: "-30%",
+        price: 236,
         color: [
             "blue",
             "red",
@@ -18,7 +17,19 @@ const data = [
         bgImage: pd,
         category: "top women",
         oldprice: "115, 00 EURO",
-        price: "85, 00 EURO",
+        price: 85,
+        color: [
+            "blue",
+            "red",
+            "green"
+        ]
+    },
+    {
+        name: "Angels malu zip jeans slim black used",
+        bgImage: pd,
+        category: "top women",
+        oldprice: 115,
+        price: 85,
         tag: "-30%",
         color: [
             "blue",
@@ -30,8 +41,8 @@ const data = [
         name: "Angels malu zip jeans slim black used",
         bgImage: pd,
         category: "top women",
-        oldprice: "115, 00 EURO",
-        price: "85, 00 EURO",
+        oldprice: 115,
+        price: 85,
         tag: "-30%",
         color: [
             "blue",
@@ -43,8 +54,8 @@ const data = [
         name: "Angels malu zip jeans slim black used",
         bgImage: pd,
         category: "top women",
-        oldprice: "115, 00 EURO",
-        price: "85, 00 EURO",
+        oldprice: 115,
+        price: 85,
         tag: "-30%",
         color: [
             "blue",
@@ -56,8 +67,8 @@ const data = [
         name: "Angels malu zip jeans slim black used",
         bgImage: pd,
         category: "top women",
-        oldprice: "115, 00 EURO",
-        price: "85, 00 EURO",
+        oldprice: 115,
+        price: 85,
         tag: "-30%",
         color: [
             "blue",
@@ -69,8 +80,8 @@ const data = [
         name: "Angels malu zip jeans slim black used",
         bgImage: pd,
         category: "top women",
-        oldprice: "115, 00 EURO",
-        price: "85, 00 EURO",
+        oldprice: 115,
+        price: 85,
         tag: "-30%",
         color: [
             "blue",
@@ -82,22 +93,7 @@ const data = [
         name: "Angels malu zip jeans slim black used",
         bgImage: pd,
         category: "top women",
-        oldprice: "115, 00 EURO",
-        price: "85, 00 EURO",
-        tag: "-30%",
-        color: [
-            "blue",
-            "red",
-            "green"
-        ]
-    },
-    {
-        name: "Angels malu zip jeans slim black used",
-        bgImage: pd,
-        category: "top women",
-        oldprice: "115, 00 EURO",
-        price: "85, 00 EURO",
-        tag: "-30%",
+        price: 90,
         color: [
             "blue",
             "red",

@@ -1,6 +1,7 @@
 import { Button } from "components/Button";
 import { styled } from "styled-components";
 import pen from "assets/images/account/pen.svg";
+import { useNavigate } from "react-router-dom";
 
 const DashStyled = styled.div`
   .addbook {
@@ -8,17 +9,20 @@ const DashStyled = styled.div`
     align-items: center;
     gap: 10px;
   }
+  .top {
+    margin-bottom: 60px;
+  }
   .top,
   .bottom {
     display: flex;
-    gap: 30px;
+    gap: 130px;
   }
   .cate {
     color: #000;
     font-size: 24px;
     font-style: normal;
     font-weight: 400;
-    line-height: 68px;
+    margin: 0;
   }
   .title-dash {
     color: #3f3f3f;
@@ -41,6 +45,7 @@ const DashStyled = styled.div`
 `;
 
 export const DashAcc = () => {
+  const navigate = useNavigate();
   return (
     <DashStyled>
       <div className="info">
@@ -59,6 +64,7 @@ export const DashAcc = () => {
                 height={"24px"}
                 fontSize={14}
                 bgColor={"#E6F1FA"}
+                onClick={() => navigate("/account/information")}
               >
                 Edit
               </Button>
@@ -68,6 +74,7 @@ export const DashAcc = () => {
                 height={"24px"}
                 fontSize={14}
                 bgColor={"#E6F1FA"}
+                onClick={() => navigate("/account/information")}
               >
                 Change Password
               </Button>
@@ -104,6 +111,7 @@ export const DashAcc = () => {
                 height={"24px"}
                 fontSize={14}
                 bgColor={"#E6F1FA"}
+                onClick={() => navigate("/account/address")}
               >
                 Edit Address
               </Button>
@@ -121,6 +129,7 @@ export const DashAcc = () => {
                 height={"24px"}
                 fontSize={14}
                 bgColor={"#E6F1FA"}
+                onClick={() => navigate("/account/address")}
               >
                 Edit Address
               </Button>
