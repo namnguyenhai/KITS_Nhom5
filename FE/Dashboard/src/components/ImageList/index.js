@@ -15,6 +15,8 @@ import bannerBlog from 'assets/images/blog/banner.png';
 import advertisement1 from 'assets/images/blog/advertisement-1.png';
 import advertisement2 from 'assets/images/blog/advertisement-2.png';
 import blogImage from 'assets/images/blog/blog-image.png';
+import cartPd1 from 'assets/images/cart/product-1.png';
+import cartPd2 from 'assets/images/cart/product-2.png';
 
 export {
     product1,
@@ -34,4 +36,6 @@ export {
     advertisement1,
     advertisement2,
     blogImage,
+    cartPd1,
+    cartPd2,
 }

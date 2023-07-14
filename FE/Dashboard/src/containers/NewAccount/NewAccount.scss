@@ -26,8 +26,13 @@
             }
 
             .input-control {
+
                 .input-group {
                     margin-top: 1rem;
+                }
+
+                .input-error {
+                    box-shadow: 0 0 0.2vw red;
                 }
 
                 .input > p {

@@ -1,8 +1,9 @@
+import { Button } from "components/Button";
 import { styled } from "styled-components";
 
 const ProductStyled = styled.div`
   width: 344px;
-  height: 560px;
+  height: auto;
   position: relative;
   .image {
     width: 344px;
@@ -63,7 +64,19 @@ const ProductStyled = styled.div`
     text-transform: uppercase;
     text-decoration-line: line-through;
   }
+  .colors {
+    display: flex;
+    width: 101px;
+    height: 27px;
+    gap: 10px;
+  }
 `;
+
+// format price
+const USDollar = new Intl.NumberFormat("de-US", {
+  style: "currency",
+  currency: "USD",
+});
 
 export const Product = ({
   name,
@@ -72,22 +85,37 @@ export const Product = ({
   category,
   price,
   oldprice,
+  color,
   ...rest
 }) => {
+  const hasDiscount = oldprice > price;
   return (
     <ProductStyled {...rest}>
       <img className="image" src={bgImage} alt={name} />
       {tag ? <div className="tag">{tag}</div> : null}
       <p className="cate">{category}</p>
       <p className="name">{name}</p>
-      {oldprice ? (
+      {hasDiscount ? (
         <div className="discount">
-          <p className="new">{price}</p>
-          <p className="old">{oldprice}</p>
+          <p className="new">{USDollar.format(price)}</p>
+          <p className="old">{USDollar.format(oldprice)}</p>
         </div>
       ) : (
-        <p className="price">{price}</p>
+        <p className="price">{USDollar.format(price)}</p>
       )}
+      {color ? (
+        <div className="colors">
+          {color.map((colorOption, index) => (
+            <Button
+              key={index}
+              width={"25px"}
+              height={"25px"}
+              borderColor={null}
+              bgColor={colorOption}
+            />
+          ))}
+        </div>
+      ) : null}
     </ProductStyled>
   );
 };

@@ -126,6 +126,7 @@ function NewAccount() {
                                 <div key={item.id} className="input">
                                     <InputGroup
                                         id={item.id}
+                                        className={`${renderError(item.id, item.label) !== null ? 'input-error' : ""}`}
                                         label={item.label}
                                         placeholder={item.label}
                                         value={form[item.id]}

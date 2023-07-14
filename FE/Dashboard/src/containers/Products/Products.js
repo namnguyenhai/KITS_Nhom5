@@ -2,15 +2,16 @@ import { Helmet, HelmetProvider } from "react-helmet-async";
 import './Products.scss';
 import Tab from "components/Tab";
 import { 
-    product1, product2, product3, Increase, Decrease, Heart, 
+    product1, product2, product3, Heart, 
     Checked, Zoom, Facebook, Twitter, Pinterest, Instagram, 
-    HideDetail
+    HideDetail, Increase
 } from 'components/ImageList';
 import { Button } from "components/Button";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { ProductCarousel } from "components/ProductCarousel";
 import { useSelector } from "react-redux";
+import ButtonQuantity from "components/ButtonQuantity";
 
 const Products = () => {
     const page = "Products";
@@ -58,7 +59,7 @@ const Products = () => {
 
     const productsStore = useSelector((state) => state.products);
 
-    const iconShare = [ <Facebook />, <Twitter />, <Pinterest />, <Instagram /> ];
+    const iconShare = [ Facebook , Twitter, Pinterest, Instagram ];
     const [quantity, setQuantity] = useState(1);
     const [imgShow, setImgShow] = useState(product?.image[0]);
 
@@ -74,15 +75,9 @@ const Products = () => {
         currency: 'USD',
     });
 
-    const increaseQuantity = () => {
-        setQuantity(Number(quantity) + 1);
-    };
-    
-    const decreaseQuantity = () => {
-        if (quantity > 0) {
-          setQuantity(Number(quantity) - 1);
-        }
-    };
+    const handleGetQuantity = (qty) => {
+        setQuantity(qty)
+    }
 
     const imageSelected = (img) => {
         setActive({ ...active, image: img })
@@ -120,7 +115,7 @@ const Products = () => {
                         <div className="products-image-share">
                             <p>SHARE:</p>
                             <div className="image-icon-list">
-                                { iconShare.map(icon => icon) }
+                                { iconShare.map((Icon, index) => <Icon key={index} />) }
                             </div>
                         </div>
                     </div>
@@ -145,14 +140,15 @@ const Products = () => {
                             <p>SELECT COLOR</p>
                             <div className="attributes-select">
                                 { product?.color.map(color => (
-                                    <Button 
-                                        key={color}
-                                        width="25px"
-                                        height="25px"
-                                        className={`btn-color ${active.color === color && 'active'}`}
-                                        bgColor={color}
-                                        onClick={() => setActive({ ...active, color })}
-                                    />
+                                    <div key={color} className={`wrapper-btn ${active.color === color && 'active'}`}>
+                                        <Button 
+                                            width="20px"
+                                            height="20px"
+                                            className={`btn-color`}
+                                            bgColor={color}
+                                            onClick={() => setActive({ ...active, color })}
+                                        />
+                                    </div>
                                 )) }
                             </div>
                         </div>
@@ -178,16 +174,7 @@ const Products = () => {
                         <div className="products-attributes-group">
                             <div className="attributes-row">
                                 <p>QUANTITY</p>
-                                <div className="attributes-quantity">
-                                    <input 
-                                        type="number" 
-                                        min={0}
-                                        value={quantity} 
-                                        onChange={(e) => setQuantity(e.target.value)}
-                                    />
-                                    <div onClick={decreaseQuantity} className="quantity-decrease"> {<Decrease />} </div>
-                                    <div onClick={increaseQuantity} className="quantity-increase"> {<Increase />} </div>
-                                </div>
+                                <ButtonQuantity handleGetQuantity={handleGetQuantity} />
                             </div>
 
                             <div className="attributes-row">
