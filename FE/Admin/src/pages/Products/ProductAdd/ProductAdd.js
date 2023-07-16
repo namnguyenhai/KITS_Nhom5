@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import classNames from 'classnames/bind';
 import Wrapper from "components/Wrapper";
@@ -26,20 +26,23 @@ function ProductAdd() {
     const [quantity, setQuantity] = useState('');
 
     // Category
+    const [categoryList, setCategoryList] = useState([]);
     const [category, setCategory] = useState('');
     const [newCategory, setNewCategory] = useState('');
 
     // Size
+    const [sizeList, setSizeList] = useState([]);
     const [size, setSize] = useState('');
     const [newSize, setNewSize] = useState('');
 
     // Color
+    const [colorList, setColorList] = useState([]);
     const [color, setColor] = useState('');
     const [newColor, setNewColor] = useState('');
 
     // Brand, description and images
     const [brand, setBrand] = useState('');
-    const [description, setDescription] = useState('');
+    const [description, setDescription] = useState();
     const [images, setImages] = useState([]);
 
     // Set state btn add
@@ -48,6 +51,26 @@ function ProductAdd() {
         size: false,
         color: false,
     });
+
+    //  Get data from API
+    useEffect(() => {
+        async function callAPI(){
+            const categoryList = "http://localhost:8080/category/getallcategory";
+            const SizeList = "http://localhost:8080/sizes/getallsize";
+            const ColorList = "http://localhost:8080/colors/getallcolor";
+            
+            // make the API call
+            await Promise.all([axios.get(categoryList), axios.get(SizeList), axios.get(ColorList)])
+                .then(([categories, sizes, colors]) => {
+                    setCategoryList(categories.data);
+                    setSizeList(sizes.data);
+                    setColorList(colors.data);
+                })
+                .catch((error) => console.log(error));
+        } 
+        callAPI();
+    }, []);
+
 
 // Get category
     const getCategory = (event) => {
@@ -61,18 +84,23 @@ function ProductAdd() {
 
 //  Get images
     const getImages = (images) => {
-        setImages(images);
+        let imageData = [];
+
+        images.map(img => imageData.push( {
+            urlImage : img,
+            product: {}
+        }))
+
+        setImages(imageData);
     };
 
 //  Get size
-    const sizeItem = ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL'];
     const getSize = (event) => {
         setSize(event.target.value);
     };
 
 
 // Get color
-    const colorItem = ['White', 'Black', 'Yellow', 'Red', 'Blue'];
     const getColor = (event) => {
         setColor(event.target.value);
     };
@@ -80,50 +108,64 @@ function ProductAdd() {
     // Handle add new Category
     const btnAddNewCategory = (e) => {
         e.preventDefault();
-        axios.post("http://localhost:8080/product_images/addProductImage_NewProduct", { 
-            category: newCategory
-        });
-        setBtnAdd({ ...btnAdd, category: !btnAdd.category });
+        axios.post("http://localhost:8080/category/add", { 
+                categoryName: newCategory
+            }
+            .then(res => {
+                setBtnAdd({ ...btnAdd, category: !btnAdd.category });
+            })
+            .catch(err => {})
+        );
     }
 
     // Handle add new Size
     const btnAddNewSize = (e) => {
         e.preventDefault();
-        axios.post("http://localhost:8080/product_images/addProductImage_NewProduct", { 
-            size: newSize
-        });
-        setBtnAdd({ ...btnAdd, size: !btnAdd.size });
+        axios.post("http://localhost:8080/sizes/add", { 
+                sizeName: newSize
+            }
+            .then(res => {
+                setBtnAdd({ ...btnAdd, size: !btnAdd.size });
+            })
+            .catch(err => {})
+        );
     }
 
     // Handle add new Color
     const btnAddNewColor = (e) => {
         e.preventDefault();
-        axios.post("http://localhost:8080/product_images/addProductImage_NewProduct", { 
-            color: newColor
-        });
-        setBtnAdd({ ...btnAdd, color: !btnAdd.color });
+        axios.post("http://localhost:8080/colors/add", { 
+                colorName: newColor
+            }
+            .then(res => {
+                setBtnAdd({ ...btnAdd, color: !btnAdd.color });
+            })
+            .catch(err => {})
+        );
     }
 
     // Handle submit form to add product
     const handleSubmit = e => { 
         e.preventDefault();
-        // axios.post("http://localhost:8080/stock/addProductImage_NewProduct", { 
-        //     product: {
-        //         name,
-        //         brand: price,
-        //         description,
-        //         category: {
-        //             categoryId: category,
-        //         },
-        //     },
-        //     urlImage: images,
-        //     size: {
-        //         name: size
-        //     },
-        //     color: {
-        //         name: color
-        //     },
-        // });
+        axios.post("http://localhost:8080/stocks/add_stock_new_product", {
+            quantityStock: quantity,
+            priceStock: price,
+            product:{
+                productName: name,
+                brand: brand,
+                description,
+                category: {
+                    categoryName: category
+                },
+                productImages: images
+            },
+            color:{
+                colorName: color
+            },
+            size:{
+                sizeName: size
+            }
+        });
     }
 
     const goBack = () => {
@@ -169,9 +211,13 @@ function ProductAdd() {
                             <MenuItem value="">
                                 <em>None</em>
                             </MenuItem>
-                            <MenuItem value={1}>Ten</MenuItem>
-                            <MenuItem value={2}>Twenty</MenuItem>
-                            <MenuItem value={3}>Thirty</MenuItem>
+                            {categoryList?.map(category => 
+                                <MenuItem 
+                                    key={category.categoryName} 
+                                    value={category.categoryName}
+                                >
+                                    {category.categoryName}
+                                </MenuItem>) }
                         </Select>
 
                         <div className={cx('btn-other', btnAdd.category && 'other')}>
@@ -227,14 +273,13 @@ function ProductAdd() {
                             <MenuItem value="">
                                 <em>None</em>
                             </MenuItem>
-                            {sizeItem.map((name, index) => (
-                                <MenuItem
-                                    key={index}
-                                    value={name}
+                            {sizeList?.map(size => 
+                                <MenuItem 
+                                    key={size.sizeName} 
+                                    value={size.sizeName}
                                 >
-                                {name}
-                                </MenuItem>
-                            ))}
+                                    {size.sizeName}
+                                </MenuItem>) }
                         </Select>
                         <div className={cx('btn-other', btnAdd.size && 'other')}>
                             <Button 
@@ -247,7 +292,7 @@ function ProductAdd() {
                                 className={cx('form-control')}
                                 classNameIp={cx('form-control-ip')}
                                 label="Size name"
-                                onChange={(e) => setSize(e.target.value)}
+                                onChange={(e) => setNewSize(e.target.value)}
                             />
                             <Button 
                                 content="Add"
@@ -276,14 +321,13 @@ function ProductAdd() {
                             <MenuItem value="">
                                 <em>None</em>
                             </MenuItem>
-                            {colorItem.map((name, index) => (
+                            {colorList?.map(color => 
                                 <MenuItem 
-                                    key={index}
-                                    value={name}
+                                    key={color.colorName} 
+                                    value={color.colorName}
                                 >
-                                {name}
-                                </MenuItem>
-                            ))}
+                                    {color.colorName}
+                                </MenuItem>) }
                         </Select>
                         <div className={cx('btn-other', btnAdd.color && 'other')}>
                             <Button 
@@ -296,7 +340,7 @@ function ProductAdd() {
                                 className={cx('form-control')}
                                 classNameIp={cx('form-control-ip')}
                                 label="Color name"
-                                onChange={(e) => setColor(e.target.value)}
+                                onChange={(e) => setNewColor(e.target.value)}
                             />
                             <Button 
                                 content="Add"
