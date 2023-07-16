@@ -17,7 +17,9 @@
     .justify-between {
         justify-content: space-between;
     }
-
+    .align-center {
+        align-items: center;
+    }
     .cart-tab {
         justify-content: center;
     }
@@ -32,10 +34,12 @@
     .cart-container {
         background: #FFF;
         display: flex;
+        justify-content: center;
         flex-wrap: wrap;
-        gap: 2rem;
+        gap: 3rem;
 
         .product-list {
+
             table {
                 border-collapse: collapse;
 
@@ -142,12 +146,188 @@
                 }
 
                 
-                tbody tr:last-child {
+                tbody tr:nth-last-child(2) {
                     border-bottom: 1px solid #C4C4C4;
                 }
             }
         }
         .checkout {
+            display: flex;
+            flex-wrap: wrap;
+            flex-direction: column;
+            gap: 1rem;
+
+            .shipping-tax, .order-total {
+                background-color: #F0F2F2;
+                min-width: 400px;
+                padding: 1rem 2rem;
+            }
+            .shipping-tax {
+
+                p {
+                    font-size: 24px;
+                    font-weight: 400;
+                    line-height: 68px;
+                    margin: 0;
+                }
+            }
+            .order-total {
+                > .tax {
+                    color: #828282;
+                }
+                > .total {
+                    p {
+                        font-size: 24px;
+                        font-weight: 400;
+                        line-height: 68px;
+                        margin: 0;
+                    }
+                }
+                p {
+                    margin: 10px 0;
+                }
+                .checkout-btn {
+                    font-family: 'Oswald', sans-serif;
+                    flex: 1;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    background-color: #000000;
+                    color: #ffffff;
+                    border: 1px solid #C4C4C4;
+                    position: relative;
+                    font-family: 'Oswald', sans-serif;
+                    transition: all .3s ease-in-out;
+                    width: 100%;
+                    margin-top: 1rem;
+                    
+                    &:hover {
+                        background-color: #EB5757;
+                        border: none;
+                        
+                        p {
+                            color: #FFF;
+                            margin-right: 20%;
+                            transition: all .3s ease-in-out;
+                        }
+                    }
+                    &:hover::after {
+                        content: "";
+                        position: absolute;
+                        width: 20%;
+                        background-color: #000;
+                        right: 0;
+                        top: 0;
+                        bottom: 0;
+                        transition: all .3s ease-in-out;
+                    }
+                }
+            }
+
+            .shipping-tax-input {
+                position: relative;
+                display: flex;
+                align-items: center;
+
+                > input {
+                    font-size: 16px;
+                    line-height: 20px;
+                    font-weight: 300;
+                    padding: 10px;
+                    color: #828282;
+                    width: 100%;
+                    border: none;
+                    background-color: transparent;
+                    font-family: 'Oswald', sans-serif;
+
+                    &:focus {
+                        background-color: #ffffff;
+                        outline: none;
+                        border: 1px solid #C4C4C4;
+                    }
+                }
+                > span {
+                    font-size: 14px;
+                    font-weight: 500;
+                    line-height: 20px;
+                    letter-spacing: 0.5px;
+                    position: absolute;
+                    right: 1rem;
+                    text-transform: uppercase;
+                    cursor: pointer;
+                    z-index: 10;
+                }
+
+            }
+            .shipping-tax-estimate {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                cursor: pointer;
+            }
+            .shipping-tax-container {
+                margin-top: 0;
+                opacity: 1;
+                transition: all .3s ease-in;
+            }
+            .visibility {
+                visibility: hidden;
+                margin-top: -100%;
+                opacity: 0;
+                transition: all .3s ease-in-out;
+            }
+            .shipping-tax-input-group {
+                display: flex;
+                flex-wrap: wrap;
+                align-items: center;
+                margin: 1rem 0;
+
+                label {
+                    font-size: 16px;
+                    font-weight: 400;
+                    line-height: 20px;
+                    color: #3F3F3F;
+
+                    i {
+                        color: red;
+                    }
+                    min-width: 130px;
+                }
+                input, select {
+                    flex: 1;
+                    font-family: 'Oswald', sans-serif;
+                    padding: 8px;
+                    border: 1px solid #C4C4C4;
+                    color: #3F3F3F;
+                }
+            }
+            .shipping-tax-radio-group {
+                p {
+                    font-size: 18px;
+                    font-weight: 500;
+                    line-height: 24px;
+                }
+                label {
+                    display: flex;
+                    cursor: pointer;
+                    font-weight: 500;
+                    margin: 1.2rem 0;
+                    color: #828282;
+
+                    span {
+                        margin-left: 0.5rem;
+                        font-size: 14px;
+                        font-weight: 400;
+                        line-height: 20px;
+                    }
+                }
+                .checked {
+                    
+                    span {
+                        color: #000000;
+                    }
+                }
+            }
 
         }
     }

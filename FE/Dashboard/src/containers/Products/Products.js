@@ -4,7 +4,7 @@ import Tab from "components/Tab";
 import { 
     product1, product2, product3, Heart, 
     Checked, Zoom, Facebook, Twitter, Pinterest, Instagram, 
-    HideDetail, Increase
+    HideDetail, ShowDetail, Increase
 } from 'components/ImageList';
 import { Button } from "components/Button";
 import { Link } from "react-router-dom";
@@ -204,7 +204,7 @@ const Products = () => {
                 <div className="products-detail">
                     <div className="products-detail-title" onClick={() => setStateDesc(!stateDesc)}>
                         <p>Details</p>
-                        { !stateDesc ? <HideDetail /> : <Increase /> }
+                        { !stateDesc ? <HideDetail /> : <ShowDetail /> }
                     </div>
                     <div className={`products-desc ${stateDesc && 'hide-desc'}`}>
                         { product.desciption }

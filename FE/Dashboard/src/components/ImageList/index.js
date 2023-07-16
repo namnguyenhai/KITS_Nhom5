@@ -11,6 +11,7 @@ import { ReactComponent as Twitter } from 'assets/images/products/twitter.svg'
 import { ReactComponent as Pinterest } from 'assets/images/products/pinterest.svg'
 import { ReactComponent as Instagram } from 'assets/images/products/instagram.svg'
 import { ReactComponent as HideDetail } from 'assets/images/products/hide.svg'
+import { ReactComponent as ShowDetail } from 'assets/images/products/show.svg'
 import bannerBlog from 'assets/images/blog/banner.png';
 import advertisement1 from 'assets/images/blog/advertisement-1.png';
 import advertisement2 from 'assets/images/blog/advertisement-2.png';
@@ -34,6 +35,7 @@ export {
     Pinterest,
     Instagram,
     HideDetail,
+    ShowDetail,
     bannerBlog,
     advertisement1,
     advertisement2,

@@ -4,13 +4,17 @@ import Tab from 'components/Tab';
 import { Button } from "components/Button";
 import ButtonQuantity from "components/ButtonQuantity";
 import { useSelector, useDispatch } from 'react-redux';
-import { Save, Close } from 'components/ImageList';
+import { Save, Close, HideDetail, ShowDetail } from 'components/ImageList';
+import { useEffect, useState } from "react";
 
 const Cart = () => {
     const page = "Shopping Cart";
-    
+
     const dispatch = useDispatch();
     const cart = useSelector((state) => state.cart);
+    const [visibility, setVisibility] = useState("visible");
+
+    const [selectedOption, setSelectedOption] = useState('');
 
     const handleGetQuantity = (qty, productId) => {
         const updatedCart = cart.products.map((product) => {
@@ -22,6 +26,10 @@ const Cart = () => {
         dispatch.cart.setCart(updatedCart);
     };
 
+    const handleOptionChange = (event) => {
+        setSelectedOption(event.target.value);
+    };
+
     const USDDollar = (total) => {
         return new Intl.NumberFormat('de-DE', { 
             style: 'currency', 
@@ -29,6 +37,14 @@ const Cart = () => {
             currencyDisplay: 'code'
         }).format(total);
     }
+
+    const calculateSubtotal = () => {
+        let subtotal = 0;
+        cart.products.forEach((product) => {
+          subtotal += product.price * product.quantity;
+        });
+        return subtotal;
+    };
 
     return (
         <HelmetProvider>
@@ -92,10 +108,10 @@ const Cart = () => {
                                     <td colSpan={6}>
                                         <div className="d-flex justify-between">
                                             <Button type="submit" className="cart-btn">
-                                            <p>Continue shopping</p>
+                                                <p>Continue shopping</p>
                                             </Button>
                                             <Button type="button" className="cart-btn">
-                                            <p>Clear shopping cart</p>
+                                                <p>Clear shopping cart</p>
                                             </Button>
                                         </div>
                                     </td>
@@ -104,8 +120,96 @@ const Cart = () => {
                         </table>
                     </div>
                     <div className="checkout">
-                        <div className="checkout">
-                                            
+                        <div className="shipping-tax">
+                            <p>Apply Discount Code</p>
+                            <div className="shipping-tax-input">
+                                <input 
+                                    type="text" 
+                                    placeholder="Enter discount code" 
+                                />
+                                <span>Apply Discount</span>
+                            </div>
+                            <div 
+                                className="shipping-tax-estimate" 
+                                onClick={() => visibility === "visible" ?
+                                    setVisibility("hidden") : setVisibility("visible")
+                                }
+                            >
+                                <p>Estimate Shipping and Tax</p>
+                                {visibility === "visible" ? <HideDetail /> : <ShowDetail />}
+                            </div>
+                            <div className={`shipping-tax-container${visibility === "visible" ? "" : " visibility"}`}>
+                                <div className="shipping-tax-input">
+                                    <input 
+                                        type="text" 
+                                        placeholder="Enter your destination to get a shipping estimate." 
+                                    />
+                                </div>
+                                <div className="shipping-tax-input-group">
+                                    <label>Country <i>*</i> </label>
+                                    <select  onChange={() => {}}>
+                                        <option >Gender</option>
+                                        <option >Gender</option>
+                                    </select>
+                                </div>
+                                <div className="shipping-tax-input-group">
+                                    <label>State/Province <i>*</i> </label>
+                                    <select  onChange={() => {}}>
+                                        <option >Gender</option>
+                                        <option >Gender</option>
+                                    </select>
+                                </div>
+                                <div className="shipping-tax-input-group">
+                                    <label>Zip/Postal Code</label>
+                                    <input 
+                                        type="text" 
+                                        placeholder=""
+                                    />
+                                </div>
+                                <div className="shipping-tax-radio-group">
+                                    <p>Flat Rate</p>
+                                    <label htmlFor="flat-rate" className={selectedOption === "flat-rate" ? "checked" : ""}>
+                                        <input 
+                                            id="flat-rate" 
+                                            type="radio" 
+                                            value="flat-rate"
+                                            name="shipping" 
+                                            onChange={handleOptionChange}
+                                        />
+                                        <span>Fixed 5.00 EUR</span>
+                                    </label>
+                                </div>
+                                <div className="shipping-tax-radio-group">
+                                    <p>Best Way</p>
+                                    <label htmlFor="best-way" className={selectedOption === "best-way" ? "checked" : ""}>
+                                        <input 
+                                            id="best-way" 
+                                            type="radio" 
+                                            value="best-way"
+                                            name="shipping" 
+                                            onChange={handleOptionChange} 
+                                        />
+                                        <span>Table Rate 10.00 EUR</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>   
+                        <div className="order-total">
+                            <div className="d-flex justify-between">
+                                <p>Subtotal</p>
+                                <p> {USDDollar(calculateSubtotal())} </p>
+                            </div>
+                            <div className="d-flex justify-between tax">
+                                <p>Tax</p>
+                                <p> {USDDollar(0)} </p>
+                            </div>
+                            <div className="d-flex justify-between total">
+                                <p>Order Total</p>
+                                <p> {USDDollar(calculateSubtotal())} </p>
+                            </div>
+                            <Button type="button" className="checkout-btn">
+                                <p>Proceed to checkout</p>
+                            </Button>
                         </div>                        
                     </div>
                 </div>
