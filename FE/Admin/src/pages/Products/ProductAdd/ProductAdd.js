@@ -85,7 +85,7 @@ function ProductAdd() {
 //  Get images
     const getImages = (images) => {
         let imageData = [];
-
+        
         images.map(img => imageData.push( {
             urlImage : img,
             product: {}
@@ -110,12 +110,12 @@ function ProductAdd() {
         e.preventDefault();
         axios.post("http://localhost:8080/category/add", { 
                 categoryName: newCategory
-            }
+            })
             .then(res => {
+                // setCategoryList(res.data.category);
                 setBtnAdd({ ...btnAdd, category: !btnAdd.category });
             })
             .catch(err => {})
-        );
     }
 
     // Handle add new Size
@@ -123,12 +123,12 @@ function ProductAdd() {
         e.preventDefault();
         axios.post("http://localhost:8080/sizes/add", { 
                 sizeName: newSize
-            }
+            })
             .then(res => {
+                // setSizeList(res.data.size);
                 setBtnAdd({ ...btnAdd, size: !btnAdd.size });
             })
             .catch(err => {})
-        );
     }
 
     // Handle add new Color
@@ -136,12 +136,12 @@ function ProductAdd() {
         e.preventDefault();
         axios.post("http://localhost:8080/colors/add", { 
                 colorName: newColor
-            }
+            })
             .then(res => {
+                // setColorList(res.data.color);
                 setBtnAdd({ ...btnAdd, color: !btnAdd.color });
             })
             .catch(err => {})
-        );
     }
 
     // Handle submit form to add product
@@ -157,7 +157,9 @@ function ProductAdd() {
                 category: {
                     categoryName: category
                 },
-                productImages: images
+                productImages: images.map(img => {
+                    return JSON.stringify();
+                })
             },
             color:{
                 colorName: color
