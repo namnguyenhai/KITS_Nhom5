@@ -31,6 +31,13 @@
             width: 90%;
         }
     }
+    .quantity {
+        margin-top: 1rem;
+
+        input {
+            width: 200px;
+        }
+    }
     .category {
         padding: 10px 0;
         visibility: visible;
@@ -46,9 +53,6 @@
             align-items: center;
             gap: 1rem;
 
-            .category__btn {
-                
-            }
             .hidden {
                 visibility: hidden;
                 opacity: 0;
@@ -81,7 +85,7 @@
         }        
     }
     .editor {
-        margin: 1rem 8px;
+        margin: 1rem 0;
         align-items: flex-start;
 
         p {

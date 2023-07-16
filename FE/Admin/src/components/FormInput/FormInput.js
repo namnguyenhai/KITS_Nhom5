@@ -4,12 +4,12 @@ import Input, { inputClasses } from '@mui/base/Input';
 import { styled } from '@mui/system';
 import clsx from 'clsx';
 
-export default function BasicFormControl({ className, classNameIp, label, ...props }) {
+export default function BasicFormControl({ className, type, classNameIp, label, ...props }) {
   return (
-    <FormControl {...props} defaultValue="" required>
+    <FormControl defaultValue="" required>
       <div className={className}>
         <Label> {label} </Label>
-        <StyledInput className={classNameIp} />
+        <StyledInput {...props} type={!type ? "text" : type} className={classNameIp} />
       </div>
       <HelperText />
     </FormControl>

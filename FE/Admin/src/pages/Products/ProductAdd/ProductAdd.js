@@ -20,18 +20,34 @@ const cx = classNames.bind(styles);
 function ProductAdd() {
     const navigate = useNavigate();
 
+    // Name, price and quantity
     const [name, setName] = useState('');
     const [price, setPrice] = useState('');
+    const [quantity, setQuantity] = useState('');
 
+    // Category
     const [category, setCategory] = useState('');
     const [newCategory, setNewCategory] = useState('');
 
+    // Size
+    const [size, setSize] = useState('');
+    const [newSize, setNewSize] = useState('');
+
+    // Color
+    const [color, setColor] = useState('');
+    const [newColor, setNewColor] = useState('');
+
+    // Brand, description and images
     const [brand, setBrand] = useState('');
-    const [btnAdd, setBtnAdd] = useState(false);
     const [description, setDescription] = useState('');
     const [images, setImages] = useState([]);
-    const [size, setSize] = useState('');
-    const [color, setColor] = useState('');
+
+    // Set state btn add
+    const [btnAdd, setBtnAdd] = useState({
+        category: false,
+        size: false,
+        color: false,
+    });
 
 // Get category
     const getCategory = (event) => {
@@ -61,33 +77,53 @@ function ProductAdd() {
         setColor(event.target.value);
     };
     
-    console.log(newCategory)
+    // Handle add new Category
     const btnAddNewCategory = (e) => {
         e.preventDefault();
         axios.post("http://localhost:8080/product_images/addProductImage_NewProduct", { 
             category: newCategory
         });
+        setBtnAdd({ ...btnAdd, category: !btnAdd.category });
     }
 
-    const handleSubmit = e => { 
+    // Handle add new Size
+    const btnAddNewSize = (e) => {
         e.preventDefault();
         axios.post("http://localhost:8080/product_images/addProductImage_NewProduct", { 
-            product: {
-                name,
-                brand: price,
-                description,
-                category: {
-                    categoryId: category,
-                },
-            },
-            urlImage: images,
-            size: {
-                name: size
-            },
-            color: {
-                name: color
-            },
+            size: newSize
         });
+        setBtnAdd({ ...btnAdd, size: !btnAdd.size });
+    }
+
+    // Handle add new Color
+    const btnAddNewColor = (e) => {
+        e.preventDefault();
+        axios.post("http://localhost:8080/product_images/addProductImage_NewProduct", { 
+            color: newColor
+        });
+        setBtnAdd({ ...btnAdd, color: !btnAdd.color });
+    }
+
+    // Handle submit form to add product
+    const handleSubmit = e => { 
+        e.preventDefault();
+        // axios.post("http://localhost:8080/stock/addProductImage_NewProduct", { 
+        //     product: {
+        //         name,
+        //         brand: price,
+        //         description,
+        //         category: {
+        //             categoryId: category,
+        //         },
+        //     },
+        //     urlImage: images,
+        //     size: {
+        //         name: size
+        //     },
+        //     color: {
+        //         name: color
+        //     },
+        // });
     }
 
     const goBack = () => {
@@ -107,6 +143,15 @@ function ProductAdd() {
                     classNameIp={cx('form-control-ip')}
                     label="Name"
                     onChange={(e) => setName(e.target.value)}
+                />
+        
+        {/* *********************** Quantity ****************************** */}
+                <FormInput
+                    className={cx('form-control', 'quantity')}
+                    classNameIp={cx('form-control-ip')}
+                    type="number"
+                    label="Quantity"
+                    onChange={(e) => setQuantity(e.target.value)}
                 />
 
         {/* *********************** CATEGORY ****************************** */}
@@ -129,13 +174,13 @@ function ProductAdd() {
                             <MenuItem value={3}>Thirty</MenuItem>
                         </Select>
 
-                        <div className={cx('category__btn', btnAdd && 'other')}>
+                        <div className={cx('btn-other', btnAdd.category && 'other')}>
                             <Button 
                                 content="Add new"
-                                onClick={() => setBtnAdd(!btnAdd)}
+                                onClick={() => setBtnAdd({ ...btnAdd, category: !btnAdd.category})}
                             />
                         </div>
-                        <div className={cx('category__btn', 'hidden', btnAdd && 'input')}>
+                        <div className={cx('btn-other', 'hidden', btnAdd.category && 'input')}>
                             <FormInput
                                 className={cx('form-control')}
                                 classNameIp={cx('form-control-ip')}
@@ -145,7 +190,7 @@ function ProductAdd() {
                             <Button 
                                 content="Add"
                                 onClick={(e) => {
-                                    setBtnAdd(!btnAdd)
+                                    setBtnAdd({ ...btnAdd, category: !btnAdd.category})
                                     btnAddNewCategory(e)
                                 }}
                             />
@@ -172,12 +217,16 @@ function ProductAdd() {
                     <p>Size <span>*</span> </p>
                     <div className={cx('category__container')}>
                         <Select
+                            displayEmpty
                             value={size}
                             onChange={getSize}
                             inputProps={{ 'aria-label': 'Without label' }}
                             size="small"
                             style={{ width: 200 }}
                         >
+                            <MenuItem value="">
+                                <em>None</em>
+                            </MenuItem>
                             {sizeItem.map((name, index) => (
                                 <MenuItem
                                     key={index}
@@ -187,6 +236,27 @@ function ProductAdd() {
                                 </MenuItem>
                             ))}
                         </Select>
+                        <div className={cx('btn-other', btnAdd.size && 'other')}>
+                            <Button 
+                                content="Add new"
+                                onClick={() => setBtnAdd({ ...btnAdd, size: !btnAdd.size})}
+                            />
+                        </div>
+                        <div className={cx('btn-other', 'hidden', btnAdd.size && 'input')}>
+                            <FormInput
+                                className={cx('form-control')}
+                                classNameIp={cx('form-control-ip')}
+                                label="Size name"
+                                onChange={(e) => setSize(e.target.value)}
+                            />
+                            <Button 
+                                content="Add"
+                                onClick={(e) => {
+                                    setBtnAdd({ ...btnAdd, size: !btnAdd.size})
+                                    btnAddNewSize(e)
+                                }}
+                            />
+                        </div>
 
                     </div>
                 </div>
@@ -196,12 +266,16 @@ function ProductAdd() {
                     <p>Color <span>*</span> </p>
                     <div className={cx('category__container')}>
                         <Select
+                            displayEmpty
                             value={color}
                             onChange={getColor}
                             inputProps={{ 'aria-label': 'Without label' }}
                             size="small"
                             style={{ width: 200 }}
                         >
+                            <MenuItem value="">
+                                <em>None</em>
+                            </MenuItem>
                             {colorItem.map((name, index) => (
                                 <MenuItem 
                                     key={index}
@@ -211,6 +285,27 @@ function ProductAdd() {
                                 </MenuItem>
                             ))}
                         </Select>
+                        <div className={cx('btn-other', btnAdd.color && 'other')}>
+                            <Button 
+                                content="Add new"
+                                onClick={() => setBtnAdd({ ...btnAdd, color: !btnAdd.color})}
+                            />
+                        </div>
+                        <div className={cx('btn-other', 'hidden', btnAdd.color && 'input')}>
+                            <FormInput
+                                className={cx('form-control')}
+                                classNameIp={cx('form-control-ip')}
+                                label="Color name"
+                                onChange={(e) => setColor(e.target.value)}
+                            />
+                            <Button 
+                                content="Add"
+                                onClick={(e) => {
+                                    setBtnAdd({ ...btnAdd, color: !btnAdd.color})
+                                    btnAddNewColor(e)
+                                }}
+                            />
+                        </div>
 
                     </div>
                 </div>
