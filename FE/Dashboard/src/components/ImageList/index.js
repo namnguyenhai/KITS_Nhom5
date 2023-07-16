@@ -17,6 +17,8 @@ import advertisement2 from 'assets/images/blog/advertisement-2.png';
 import blogImage from 'assets/images/blog/blog-image.png';
 import cartPd1 from 'assets/images/cart/product-1.png';
 import cartPd2 from 'assets/images/cart/product-2.png';
+import { ReactComponent as Save } from 'assets/images/cart/save.svg';
+import { ReactComponent as Close } from 'assets/images/cart/close.svg';
 
 export {
     product1,
@@ -38,4 +40,6 @@ export {
     blogImage,
     cartPd1,
     cartPd2,
+    Save,
+    Close,
 }

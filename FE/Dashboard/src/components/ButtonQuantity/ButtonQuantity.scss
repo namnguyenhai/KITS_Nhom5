@@ -36,8 +36,10 @@
     }
     .quantity-decrease {
         left: 10%;
+        user-select: none;
     }
     .quantity-increase {
         right: 10%;
+        user-select: none;
     }
 }

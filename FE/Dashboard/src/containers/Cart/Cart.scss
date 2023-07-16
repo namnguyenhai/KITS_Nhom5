@@ -14,6 +14,9 @@
     .justify-center {
         justify-content: center;
     }
+    .justify-between {
+        justify-content: space-between;
+    }
 
     .cart-tab {
         justify-content: center;
@@ -78,6 +81,69 @@
                             border: 1px solid #C4C4C4;
                         }
                     }
+                    .cart-btn-action {
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        border: none;
+                        background-color: #E6F1FA;
+                        width: 24px;
+                        height: 24px;
+    
+                        &:first-child {
+                            svg path {
+                                stroke: #000;
+                            }
+                        }
+                        &:hover {
+                            background-color: #e6f1fabb;
+                            svg path {
+                                fill: red;
+                                stroke: red;
+                            }
+                        }
+                    }
+
+                    .cart-btn{
+                        font-family: 'Oswald', sans-serif;
+                        flex: 1;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        background-color: #ffffff;
+                        color: #000000;
+                        border: 1px solid #C4C4C4;
+                        position: relative;
+                        font-family: 'Oswald', sans-serif;
+                        transition: all .3s ease-in-out;
+                        max-width: 220px;
+                        
+                        &:hover {
+                            background-color: #EB5757;
+                            border: none;
+                            
+                            p {
+                                color: #FFF;
+                                margin-right: 10%;
+                                transition: all .3s ease-in-out;
+                            }
+                        }
+                        &:hover::after {
+                            content: "";
+                            position: absolute;
+                            width: 10%;
+                            background-color: #000;
+                            right: 0;
+                            top: 0;
+                            bottom: 0;
+                            transition: all .3s ease-in-out;
+                        }
+                    }
+                }
+
+                
+                tbody tr:last-child {
+                    border-bottom: 1px solid #C4C4C4;
                 }
             }
         }

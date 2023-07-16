@@ -1,48 +1,34 @@
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import './Cart.scss';
 import Tab from 'components/Tab';
-import { cartPd1, cartPd2 } from "components/ImageList";
 import { Button } from "components/Button";
 import ButtonQuantity from "components/ButtonQuantity";
-import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from 'react-redux';
+import { Save, Close } from 'components/ImageList';
+
 const Cart = () => {
     const page = "Shopping Cart";
-    const products = [
-        {
-            id: 1,
-            name: "Angels malu zip jeans slim black used",
-            image: cartPd1,
-            price: 120,
-            size: "W32",
-            color: "blue",
-            quantity: 2,
-        },
-        {
-            id: 2,
-            name: "Angels malu zip jeans slim black used",
-            image: cartPd2,
-            price: 120,
-            size: "W32",
-            color: "pink",
-            quantity: 1,
-        },
-    ];
+    
+    const dispatch = useDispatch();
+    const cart = useSelector((state) => state.cart);
 
-    const [quantity, setQuantity] = useState(1);
+    const handleGetQuantity = (qty, productId) => {
+        const updatedCart = cart.products.map((product) => {
+            if (product.id === productId) {
+                return { ...product, quantity: qty };
+            }
+            return product;
+        });
+        dispatch.cart.setCart(updatedCart);
+    };
 
-    const handleGetQuantity = (qty) => {
-        setQuantity(qty)
-    }
-
-    const USDDollar = price => {
+    const USDDollar = (total) => {
         return new Intl.NumberFormat('de-DE', { 
             style: 'currency', 
             currency: 'USD',
             currencyDisplay: 'code'
-        }).format(price);
+        }).format(total);
     }
-
-    const calculateTotal = (total) => <td> {USDDollar(total)} </td>
 
     return (
         <HelmetProvider>
@@ -65,7 +51,7 @@ const Cart = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                { products?.map(pd => (
+                                { cart.products?.map(pd => (
                                     <tr key={pd.id}>
                                         <td className="d-flex"> 
                                             <img src={pd.image} alt="" />
@@ -85,17 +71,42 @@ const Cart = () => {
                                         <td> 
                                             <ButtonQuantity
                                                 initial={pd.quantity}
+                                                productId={pd.id}
                                                 handleGetQuantity={handleGetQuantity} 
                                             /> 
                                         </td>
-                                        {calculateTotal(pd.price * pd.quantity)} 
+                                        <td> {USDDollar(pd.price * pd.quantity)} </td>
+                                        <td>
+                                            <div className="d-flex">
+                                                <Button className="cart-btn-action">
+                                                    <Save />
+                                                </Button>
+                                                <Button className="cart-btn-action">
+                                                    <Close />
+                                                </Button>
+                                            </div>
+                                        </td>
                                     </tr>
                                 )) }
+                                <tr>
+                                    <td colSpan={6}>
+                                        <div className="d-flex justify-between">
+                                            <Button type="submit" className="cart-btn">
+                                            <p>Continue shopping</p>
+                                            </Button>
+                                            <Button type="button" className="cart-btn">
+                                            <p>Clear shopping cart</p>
+                                            </Button>
+                                        </div>
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
                     <div className="checkout">
-
+                        <div className="checkout">
+                                            
+                        </div>                        
                     </div>
                 </div>
             </div>    

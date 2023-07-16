@@ -1,2 +1,3 @@
 import { products } from "./products";
-export { products };
+import { cart } from "./cart";
+export { products, cart };
