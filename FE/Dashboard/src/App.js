@@ -5,6 +5,7 @@ import { Route, Routes } from "react-router-dom";
 import Homepage from 'containers/Homepage';
 import Shop from 'containers/Shop';
 import Blog from 'containers/Blog';
+import Login from 'containers/Login';
 import Products from 'containers/Products';
 import Account from 'containers/AccountPage';
 import { Address, DashAcc, Information } from 'components/Account';
@@ -23,6 +24,7 @@ function App() {
           <Route path="address" element={<Address />} />
         </Route>
       </Route>
+      <Route path="/login" element={<Login></Login>}></Route>
     </Routes>
   );
 }
