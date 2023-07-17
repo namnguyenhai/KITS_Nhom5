@@ -1,8 +1,8 @@
-import Wrapper from '../../components/Wrapper';
+import Wrapper from 'components/Wrapper';
 import classNames from 'classnames/bind';
 import styles from './Login.module.scss';
-import Button from '../../components/Button';
-import { DashBoardIcon, ArrowRightIcon, avatar } from '../../components/ImageList';
+import Button from 'components/Button';
+import { DashBoardIcon, ArrowBottomIcon, avatar } from 'components/ImageList';
 
 const cx = classNames.bind(styles);
 
@@ -15,18 +15,18 @@ function Login() {
                 srcLeft={avatar} 
                 alt="Avatar-error" 
                 content="luanvuong" 
-                srcRight={<ArrowRightIcon />}
+                srcRight={<ArrowBottomIcon />}
             />
             <Button 
                 srcLeft={<DashBoardIcon />}
                 content="Dashboards" 
                 comp="div"
-                srcRight={<ArrowRightIcon />}
+                srcRight={<ArrowBottomIcon />}
             />
             <Button 
                 type="button" 
                 content="Login" 
-                srcRight={<ArrowRightIcon />}
+                srcRight={<ArrowBottomIcon />}
             />
 
         </Wrapper>

@@ -1,7 +1,7 @@
 import Wrapper from "components/Wrapper";
 import classNames from 'classnames/bind';
 import styles from './Sidebar.module.scss';
-import { DashBoardIcon, ResourcesIcon, ArrowRightIcon } from "components/ImageList";
+import { DashBoardIcon, ResourcesIcon, ArrowBottomIcon } from "components/ImageList";
 import Button from "components/Button";
 import { useState } from "react";
 
@@ -28,7 +28,7 @@ function Sidebar() {
         {
             name: 'Resources',
             icon: <ResourcesIcon />,
-            children: ['Addresses', 'Products', 'Blogs', 'Purchases', 'Ship', 'Categories', 'Admin'],
+            children: ['Addresses', 'Products', 'Orders', 'Blogs', 'Purchases', 'Ship', 'Categories', 'Admin'],
         },
     ];
 
@@ -42,14 +42,15 @@ function Sidebar() {
             className={cx('menu-item')}
             srcLeft={menu.icon}
             content={menu.name}
-            srcRight={<ArrowRightIcon />}
+            srcRight={<ArrowBottomIcon />}
             onClick={() => handleClick(menu.name)}
           />
             <div className={cx('subMenu')}>
                 { menu.children.map(subMenu => (
                     <Button 
                         key={subMenu} 
-                        comp="div"
+                        comp="link"
+                        to={`/${subMenu.toLowerCase()}`}
                         className={cx('subMenu__item', isActive === subMenu && 'active')}
                         srcLeft={menu.icon}
                         content={subMenu} 

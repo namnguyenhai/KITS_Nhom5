@@ -1,6 +1,7 @@
 import classNames from 'classnames/bind';
 import styles from './Button.module.scss';
 import Image from "../Image";
+import { Link } from 'react-router-dom';
 const cx = classNames.bind(styles);
 
 function Button({ className, comp, srcLeft, alt, content, srcRight, ...prop }) {
@@ -9,7 +10,9 @@ function Button({ className, comp, srcLeft, alt, content, srcRight, ...prop }) {
 //  Nếu muốn dùng thẻ div thay cho button thì truyền prop type là div
     if (comp === 'div') {
         Type = 'div';
-    } 
+    } else if (comp === 'link') {
+        Type = Link
+    }
 
     return ( 
 
@@ -22,7 +25,7 @@ function Button({ className, comp, srcLeft, alt, content, srcRight, ...prop }) {
 
             { <Image src={srcLeft} alt={alt} comp={srcLeft} /> }
 
-            <span> {content} </span>
+            { comp !== 'link' ? <span> {content} </span> : content }
 
             {/* Trong phần dashboard thì thấy icon right có có dùng file .png và .jpg nên truyền thẳng vào là comp */}
             {/* Nếu muốn dùng file .png hoặc .jpg thì phải sửa lại prop alt của srcLeft và Right */}
