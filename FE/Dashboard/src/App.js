@@ -8,6 +8,7 @@ import Blog from 'containers/Blog';
 import Products from 'containers/Products';
 import NewAccount from 'containers/NewAccount';
 import Cart from 'containers/Cart';
+import Payment from 'containers/Payment';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path="products" element={<Products />} />
         <Route path="accounts/new" element={<NewAccount />} />
         <Route path="cart" element={<Cart />} />
+        <Route path="payment" element={<Payment />} />
       </Route>
     </Routes>
   );

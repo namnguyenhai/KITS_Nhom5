@@ -1,27 +1,11 @@
 .shopping-cart {
     padding: 0 10% 6rem 10%;
 
-    .text-left {
-        text-align: left;
-    }
-    .d-flex {
-        display: flex;
-        gap: 1rem;
-    }
-    .flex-column {
-        flex-direction: column;
-    }
-    .justify-center {
-        justify-content: center;
-    }
-    .justify-between {
-        justify-content: space-between;
-    }
-    .align-center {
-        align-items: center;
-    }
     .cart-tab {
         justify-content: center;
+    }
+    .w-350 {
+        max-width: 350px;
     }
 
     h1 {
@@ -299,6 +283,11 @@
                     padding: 8px;
                     border: 1px solid #C4C4C4;
                     color: #3F3F3F;
+                }
+
+                input:focus {
+                    outline: none;
+                    border: 1px solid #2d9efa;
                 }
             }
             .shipping-tax-radio-group {

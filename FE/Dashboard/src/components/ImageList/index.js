@@ -20,6 +20,7 @@ import cartPd1 from 'assets/images/cart/product-1.png';
 import cartPd2 from 'assets/images/cart/product-2.png';
 import { ReactComponent as Save } from 'assets/images/cart/save.svg';
 import { ReactComponent as Close } from 'assets/images/cart/close.svg';
+import { ReactComponent as ArrowUp } from 'assets/images/payment/arrow-up.svg';
 
 export {
     product1,
@@ -44,4 +45,5 @@ export {
     cartPd2,
     Save,
     Close,
+    ArrowUp,
 }

@@ -12,7 +12,7 @@ const Cart = () => {
 
     const dispatch = useDispatch();
     const cart = useSelector((state) => state.cart);
-    const [visibility, setVisibility] = useState("visible");
+    const [visibility, setVisibility] = useState("hidden");
 
     const [selectedOption, setSelectedOption] = useState('');
 
@@ -52,7 +52,7 @@ const Cart = () => {
                 <title> {page} </title>
             </Helmet>
             <div className="shopping-cart">
-                <Tab className="cart-tab" page={page} category="Womens Dress" product="Angels malu" />
+                <Tab className="cart-tab" page={page} />
                 <h1>Shopping Cart</h1>
                 <div className="cart-container">
                     <div className="product-list">
@@ -69,7 +69,7 @@ const Cart = () => {
                             <tbody>
                                 { cart.products?.map(pd => (
                                     <tr key={pd.id}>
-                                        <td className="d-flex"> 
+                                        <td className="d-flex w-350"> 
                                             <img src={pd.image} alt="" />
                                             <div className="d-flex flex-column justify-center">
                                                 <p> {pd.name} </p>
