@@ -69,11 +69,11 @@ const HeaderStyled = styled.div`
       display: flex;
       flex-direction: column;
     }
-    .item {
+    .cart-item {
       font-size: 12px;
       text-transform: none;
     }
-    .price {
+    .cart-price {
       font-size: 14px;
     }
   }
@@ -123,8 +123,8 @@ export const Header = () => {
         <NavLink to="/cart" className="nav-item shop">
           <img className="cart" src={cart} alt="cart icon" />
           <div className="cart-info">
-            <span className="item">Shopping Cart</span>
-            <span className="price">0, 00 EUR</span>
+            <span className="cart-item">Shopping Cart</span>
+            <span className="cart-price">0, 00 EUR</span>
           </div>
         </NavLink>
       </div>

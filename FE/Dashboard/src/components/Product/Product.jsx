@@ -1,5 +1,5 @@
-
 import { Button } from "components/Button";
+import { useState } from "react";
 import { styled } from "styled-components";
 
 const ProductStyled = styled.div`
@@ -71,7 +71,17 @@ const ProductStyled = styled.div`
     height: 27px;
     gap: 10px;
   }
+  .color.selected  {
+    border: 2px solid #fff;
+    outline: 2px solid #000;
+  }
 `;
+
+// format price
+const USDollar = new Intl.NumberFormat("de-US", {
+  style: "currency",
+  currency: "USD",
+});
 
 export const Product = ({
   name,
@@ -83,19 +93,25 @@ export const Product = ({
   color,
   ...rest
 }) => {
+  const hasDiscount = oldprice > price;
+  const [selectedColor, setSelectedColor] = useState(null);
+
+  const handleColorSelect = (colorOption) => {
+    setSelectedColor(colorOption);
+  };
   return (
     <ProductStyled {...rest}>
       <img className="image" src={bgImage} alt={name} />
       {tag ? <div className="tag">{tag}</div> : null}
       <p className="cate">{category}</p>
       <p className="name">{name}</p>
-      {oldprice ? (
+      {hasDiscount ? (
         <div className="discount">
-          <p className="new">{price}</p>
-          <p className="old">{oldprice}</p>
+          <p className="new">{USDollar.format(price)}</p>
+          <p className="old">{USDollar.format(oldprice)}</p>
         </div>
       ) : (
-        <p className="price">{price}</p>
+        <p className="price">{USDollar.format(price)}</p>
       )}
       {color ? (
         <div className="colors">
@@ -106,6 +122,10 @@ export const Product = ({
               height={"25px"}
               borderColor={null}
               bgColor={colorOption}
+              className={`color ${
+                selectedColor === colorOption ? "selected" : ""
+              }`}
+              onClick={() => handleColorSelect(colorOption)}
             />
           ))}
         </div>
