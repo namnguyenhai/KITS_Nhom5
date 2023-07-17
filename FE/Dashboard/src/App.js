@@ -5,9 +5,10 @@ import { Route, Routes } from "react-router-dom";
 import Homepage from 'containers/Homepage';
 import Shop from 'containers/Shop';
 import Blog from 'containers/Blog';
+
+import Login from 'containers/Login';
 import Products from 'containers/Products';
 import Account from 'containers/AccountPage';
-
 function App() {
   return (
     <Routes>
@@ -19,6 +20,7 @@ function App() {
         <Route path="account" element={<Account />}>
         </Route>
       </Route>
+      <Route path="/login" element={<Login></Login>}></Route>
     </Routes>
   );
 }
