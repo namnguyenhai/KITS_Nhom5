@@ -12,6 +12,7 @@ const Cart = () => {
 
     const dispatch = useDispatch();
     const cart = useSelector((state) => state.cart);
+
     const [visibility, setVisibility] = useState("hidden");
 
     const [selectedOption, setSelectedOption] = useState('');
@@ -46,6 +47,8 @@ const Cart = () => {
         return subtotal;
     };
 
+    console.log(cart.products)
+
     return (
         <HelmetProvider>
             <Helmet>
@@ -67,7 +70,7 @@ const Cart = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                { cart.products?.map(pd => (
+                                { cart.products.length !== 0 ? cart.products.map(pd => (
                                     <tr key={pd.id}>
                                         <td className="d-flex w-350"> 
                                             <img src={pd.image} alt="" />
@@ -103,7 +106,7 @@ const Cart = () => {
                                             </div>
                                         </td>
                                     </tr>
-                                )) }
+                                ))  :   (<tr> <td colSpan={6} className="text-center" >Không có sản phẩm trong giỏ hàng</td> </tr>) }
                                 <tr>
                                     <td colSpan={6}>
                                         <div className="d-flex justify-between">
