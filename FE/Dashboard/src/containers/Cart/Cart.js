@@ -106,7 +106,7 @@ const Cart = () => {
                                             </div>
                                         </td>
                                     </tr>
-                                ))  :   (<tr> <td colSpan={6} className="text-center" >Không có sản phẩm trong giỏ hàng</td> </tr>) }
+                                )) : (<tr key="product-invalid"><td colSpan={6} className="text-center" >Không có sản phẩm trong giỏ hàng</td></tr>) }
                                 <tr>
                                     <td colSpan={6}>
                                         <div className="d-flex justify-between">

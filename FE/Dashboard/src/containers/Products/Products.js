@@ -8,13 +8,16 @@ import {
 } from 'components/ImageList';
 import { Button } from "components/Button";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ProductCarousel } from "components/ProductCarousel";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import ButtonQuantity from "components/ButtonQuantity";
+import { GET_CART, ADD_TO_CART } from "api";
+import axios from "axios";
 
 const Products = () => {
     const page = "Products";
+
     const product = {
         id: 1,
         name: "Women Black Checked Fit and Flare Dress",
@@ -57,7 +60,9 @@ const Products = () => {
         )
     };
 
+    const dispatch = useDispatch();
     const productsStore = useSelector((state) => state.products);
+    const cart = useSelector((state) => state.cart.products);
 
     const iconShare = [ Facebook , Twitter, Pinterest, Instagram ];
     const [quantity, setQuantity] = useState(1);
@@ -82,8 +87,26 @@ const Products = () => {
     const imageSelected = (img) => {
         setActive({ ...active, image: img })
         setImgShow(img)
-        console.log(img)
     }
+
+    const handleAddToCart = async () => {
+        const data = {
+            productId: product.id,
+            unitPrice: product.price,
+            quantity,
+            colorName: active.color,
+            sizeName: active.size
+        };
+
+        dispatch.cart.addToCart(data);
+        // console.log(data);
+    }
+
+    useEffect(() => {
+        dispatch.cart.fetchCart("0B844D156A3CEE4BEAC1F0B1F4F6E8F7");
+        console.log("cart: ", cart)
+    }, [dispatch])
+    
 
     return (
       <HelmetProvider>
@@ -105,6 +128,8 @@ const Products = () => {
                                 </div>
                             )) }
                         </div>
+                        
+                        <h1>{cart} </h1>
 
                         <div className="products-image-index">
                             <img src={imgShow} alt="product-error" />
@@ -188,6 +213,7 @@ const Products = () => {
                                 textColor="#FFF" 
                                 className="btn-add-to-bag"
                                 width="200px"
+                                onClick={handleAddToCart}
                             ><p>ADD TO BAG</p></Button>
                             <Button width="200px" className="btn-save"> <Heart /> SAVE</Button>
                         </div>

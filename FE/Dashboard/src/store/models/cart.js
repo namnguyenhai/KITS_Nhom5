@@ -39,14 +39,15 @@ export const cart = {
     effects: (dispatch) => ({
     //   handle state changes with impure functions.
     //   use async/await for async actions
-        async fetchCart(payload, rootState) {
+        async fetchCart() {
             await axios.get(GET_CART)
                 .then(res => this.setCart(res.data))
                 .catch(err => console.log(err))
         },
-        async addToCart(payload, rootState) {
-            await axios.get(ADD_TO_CART)
-                .then(res => this.setCart(res.data))
+        
+        async addToCart(product) {
+            await axios.post(ADD_TO_CART, product)
+                .then(res => console.log("Add to cart successfully"))
                 .catch(err => console.log(err))
         },
 
