@@ -1,13 +1,15 @@
+import axios from "axios";
+
 export const products = {
     state: {
-        productsList: [],
+        productList: [],
     }, // initial state
     reducers: {
       // handle state changes with pure functions
-      setProductsList(state, productsList) {
+      setProducts(state, productList) {
         return {
             ...state,
-            productsList
+            productList
         }
       },
 
@@ -15,10 +17,11 @@ export const products = {
     effects: (dispatch) => ({
       // handle state changes with impure functions.
       // use async/await for async actions
-      async fetchProducts(payload, rootState) {
-        const data = await fetch('https://dummyjson.com/products')
-            .then(res => res.json())
-            this.setProductsList(data.products);
+      fetchProducts(payload, rootState) {
+        const products = "http://localhost:8080/products/getAllProducts";
+        axios.get(products)
+            .then(res => this.setProducts(res.data.product))
+            .catch(err => console.log(err))
       },
     }),
     selectors: (slice, createSelector) => ({

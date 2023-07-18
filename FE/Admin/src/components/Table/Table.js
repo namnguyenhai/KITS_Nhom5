@@ -179,6 +179,7 @@ export default function EnhancedTable(props) {
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [visibleRows, setVisibleRows] = React.useState([]);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -234,15 +235,27 @@ export default function EnhancedTable(props) {
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
-  const visibleRows = React.useMemo(
-    () =>
-      stableSort(rows, getComparator(order, orderBy)).slice(
-        page * rowsPerPage,
-        page * rowsPerPage + rowsPerPage,
-      ),
-    [order, orderBy, page, rowsPerPage],
-  );
+  // const visibleRows = React.useMemo(
+  //   () =>
+  //     stableSort(rows, getComparator(order, orderBy)).slice(
+  //       page * rowsPerPage,
+  //       page * rowsPerPage + rowsPerPage,
+  //     ),
+  //   [order, orderBy, page, rowsPerPage],
+  // );
 
+  React.useEffect(() => {
+    // Hàm này sẽ được thực thi mỗi khi props.rows thay đổi
+    // Cập nhật state visibleRows với dữ liệu mới từ props.rows
+    const comparator = getComparator(order, orderBy);
+    const sortedRows = stableSort(props.rows, comparator);
+    const startIndex = page * rowsPerPage;
+    const endIndex = startIndex + rowsPerPage;
+    const rowsToDisplay = sortedRows.slice(startIndex, endIndex);
+    setVisibleRows(rowsToDisplay);
+  }, [props.rows, order, orderBy, page, rowsPerPage]);
+
+  
 // get ID and handleDelete
   const handleDelete = (id) => {
     deleteById(id);
@@ -312,11 +325,13 @@ export default function EnhancedTable(props) {
                       {row.id}
                     </TableCell>
 
-                    { rowKeys?.map(key => (
+                    { rowKeys?.map(key => key !== "detail" ? (
                       <TableCell key={key} align="center">{row[key]}</TableCell>
-                    )) }
+                    ) : ( <TableCell key={key} align="center" width={50}>
+                          <div className={cx('btnAction')}>{row[key]}</div>
+                       </TableCell> )) }
 
-                    <TableCell align="center"> 
+                    <TableCell align="center" width={100}>  
                       <div className={cx('btnAction')}>
                         <Edit onClick={() => handleEdit(row.id)} /> 
                         <Trash onClick={() => handleDelete(row.id)} /> 

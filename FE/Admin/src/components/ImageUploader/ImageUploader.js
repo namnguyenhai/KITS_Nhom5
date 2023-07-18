@@ -76,7 +76,7 @@ const ImageUploader = (props) => {
     useEffect(() => { 
         images(imagesUrl); 
         console.log(imagesUrl);
-    }, [imagesUrl, images]);
+    }, [imagesUrl]);
 
     return (
         <div className={cx('image-uploader')}>

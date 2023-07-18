@@ -23,12 +23,12 @@ function Sidebar() {
         {
             name: 'Dashborads',
             icon: <DashBoardIcon />,
-            children: ['Main', 'User', 'Insights'],
+            children: ['Main', 'User'],
         },
         {
             name: 'Resources',
             icon: <ResourcesIcon />,
-            children: ['Addresses', 'Products', 'Orders', 'Blogs', 'Purchases', 'Ship', 'Categories', 'Admin'],
+            children: ['Products', 'Orders', 'Admin'],
         },
     ];
 

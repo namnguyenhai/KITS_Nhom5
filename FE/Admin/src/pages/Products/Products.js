@@ -1,16 +1,30 @@
 import Wrapper from "components/Wrapper";
 import classNames from 'classnames/bind';
 import styles from './Products.module.scss';
-import { BagIcon, SearchIcon } from 'components/ImageList'
+import { BagIcon, SearchIcon, Eye } from 'components/ImageList'
 import Card from "components/Card";
 import PieeChart from "components/PieeChart";
 import Input from "components/Input";
 import Button from "components/Button";
 import Table from 'components/Table';
+import { useSelector, useDispatch } from 'react-redux';
+import { useEffect, useState } from "react";
+import Modal from "components/Modal";
 
 const cx = classNames.bind(styles);
 
 function Products() {
+    const dispatch = useDispatch();
+    const products = useSelector(state => state.products.productList);
+    const stock = useSelector(state => state.stock.stockList);
+
+    const [selectedProduct, setSelectedProduct] = useState({ modal: false, product: '' });
+
+    useEffect(() => {
+        dispatch.products.fetchProducts();
+    }, [dispatch])
+
+    // Value card
     const card = {
         label: 'Total Products',
         icon: <BagIcon />,
@@ -19,6 +33,7 @@ function Products() {
         unit: false,
     };
 
+    // data pieChart
     const dataPieChart = [
         { label: 'Digital', percent: 42, color: '#EF4444' },
         { label: 'Dress', percent: 21, color: '#22C55E' },
@@ -27,6 +42,7 @@ function Products() {
         { label: 'Accesories', percent: 10, color:'#FCA5A5'},
     ];
     
+    // content chart
     const chart = (
         <>
             <div className={cx('tooltip')}>
@@ -41,89 +57,172 @@ function Products() {
         </>
     )
 
+    //Handle open/close modal
+    const handleOpenModal = (product) => {
+        setSelectedProduct({ modal: !selectedProduct.modal, product });
+        dispatch.stock.fetchStockByIdProduct(product.productId);
+    }
+
     // Create head cell
     const headCells = [
         {
-          id: 'id',
-          numeric: 'center',
-          disablePadding: true,
-          label: 'ID',
+            id: 'id',
+            numeric: 'center',
+            disablePadding: true,
+            label: 'ID',
         },
         {
-          id: 'name',
-          numeric: 'center',
-          disablePadding: true,
-          label: 'Dessert (100g serving)',
+            id: 'name',
+            numeric: 'center',
+            disablePadding: true,
+            label: 'Name',
         },
         {
-          id: 'calories',
-          numeric: 'center',
-          disablePadding: false,
-          label: 'Calories',
+            id: 'brand',
+            numeric: 'center',
+            disablePadding: false,
+            label: 'Brand',
         },
         {
-          id: 'fat',
-          numeric: 'center',
-          disablePadding: false,
-          label: 'Fat (g)',
+            id: 'category',
+            numeric: 'center',
+            disablePadding: false,
+            label: 'Category',
         },
         {
-          id: 'carbs',
-          numeric: 'center',
-          disablePadding: false,
-          label: 'Carbs (g)',
+            id: 'detail',
+            numeric: 'center',
+            disablePadding: false,
         },
         {
-          id: 'protein',
-          numeric: 'center',
-          disablePadding: false,
-          label: 'Protein (g)',
-        },
-        {
-          id: 'action',
-          numeric: 'center',
-          disablePadding: false,
-          label: 'Action',
+            id: 'action',
+            numeric: 'center',
+            disablePadding: false,
+            label: 'Action',
         },
     ];
 
     // Create keys data
-    function createData(id, name, calories, fat, carbs, protein) {
+    function createData(id, name, brand, category, detail) {
         return {
             id,
             name,
-            calories,
-            fat,
-            carbs,
-            protein,
+            brand,
+            category,
+            detail
         };
     }
     // Create values data
-    const rows = [
-        createData(1,'Cupcake', 305, 3.7, 67, 4.3),
-        createData(2,'Donut', 452, 25.0, 51, 4.9),
-        createData(3,'Eclair', 262, 16.0, 24, 6.0),
-        createData(4,'Frozen yoghurt', 159, 6.0, 24, 4.0),
-        createData(5,'Gingerbread', 356, 16.0, 49, 3.9),
-        createData(6,'Honeycomb', 408, 3.2, 87, 6.5),
-        createData(7,'Ice cream sandwich', 237, 9.0, 37, 4.3),
-        createData(8,'Jelly Bean', 375, 0.0, 94, 0.0),
-        createData(9,'KitKat', 518, 26.0, 65, 7.0),
-        createData(10,'Lollipop', 392, 0.2, 98, 0.0),
-        createData(11,'Marshmallow', 318, 0, 81, 2.0),
-        createData(12,'Nougat', 360, 19.0, 9, 37.0),
-        createData(13,'Oreo', 437, 18.0, 63, 4.0),
-    ];
+    const rows = products?.map(pd => 
+        createData(pd.productId, pd.productName, pd.brand, pd.categoryName, <Eye onClick={() => handleOpenModal(pd)}/>)
+    );
 
+    // products?.map(pd => {
+    //     const images =  pd.urlImage.split(",");
+    //     console.log(images);
+
+    // })
+
+    // Handle edit product
     const handleEdit = (id) => {
         console.log(id)
     }
+
+    // Handle delete product
     const handleDelete = (id) => {
         console.log(id)
     }
+
+    // Handle selectedAll product
     const handleSelectedAll = (arr) => {
         console.log(arr)
     }
+
+    // Title modal add product detail
+    const TitleProductModal = (
+        <div className="modal-title-detail">
+            <h3>Product Detail</h3>
+            <Button 
+                className='modal-btn-add'
+                content="Add Product Detail" 
+            />
+        </div>
+    );
+
+    // Title modal content product detail
+    const headCellsPdDetail = [
+        {
+            id: 'id',
+            numeric: 'center',
+            disablePadding: true,
+            label: 'ID',
+        },
+        {
+            id: 'name',
+            numeric: 'center',
+            disablePadding: true,
+            label: 'Name',
+        },
+        {
+            id: 'quantity',
+            numeric: 'center',
+            disablePadding: false,
+            label: 'Quantity',
+        },
+        {
+            id: 'price',
+            numeric: 'center',
+            disablePadding: false,
+            label: 'Price',
+        },
+        {
+            id: 'size',
+            numeric: 'center',
+            disablePadding: false,
+            label: 'Size',
+        },
+        {
+            id: 'color',
+            numeric: 'center',
+            disablePadding: false,
+            label: 'Color',
+        },
+        {
+            id: 'action',
+            numeric: 'center',
+            disablePadding: false,
+            label: 'Action',
+        },
+    ];
+
+    // Create keys data
+    function createDataDetail(id, name, quantity, price, size, color) {
+        return {
+            id,
+            name, 
+            quantity, 
+            price,
+            size, 
+            color, 
+        };
+    }
+    // Create values data
+    const rowsPdDetail = stock?.map(stock => {
+        return createDataDetail(stock.stockId, stock.productName, stock.quantityStock, stock.priceStock, stock.sizeId, stock.colorId)
+    }
+        
+    );
+    const TablePdDetail = (
+        <Table 
+            key={2}
+            headCells={headCellsPdDetail}
+            rows={rowsPdDetail}
+            deleteById={handleDelete} 
+            EditById={handleEdit} 
+            selectedAll={handleSelectedAll}
+        />
+    )
+
     return (
         <Wrapper className={cx('products')}>
             <div className={cx('statistics')}>
@@ -158,6 +257,7 @@ function Products() {
                 </div>
                 <div className={cx('content__table')}>
                     <Table 
+                        key={1}
                         headCells={headCells}
                         rows={rows}
                         deleteById={handleDelete} 
@@ -166,6 +266,7 @@ function Products() {
                     />
                 </div>
             </div>
+            <Modal title={TitleProductModal} content={TablePdDetail} selectedProduct={selectedProduct} />
         </Wrapper>
     )
 }

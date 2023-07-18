@@ -62,9 +62,9 @@ function ProductAdd() {
             // make the API call
             await Promise.all([axios.get(categoryList), axios.get(SizeList), axios.get(ColorList)])
                 .then(([categories, sizes, colors]) => {
-                    setCategoryList(categories.data);
-                    setSizeList(sizes.data);
-                    setColorList(colors.data);
+                    setCategoryList(categories.data.category);
+                    setSizeList(sizes.data.size);
+                    setColorList(colors.data.color);
                 })
                 .catch((error) => console.log(error));
         } 
@@ -85,7 +85,7 @@ function ProductAdd() {
 //  Get images
     const getImages = (images) => {
         let imageData = [];
-        
+
         images.map(img => imageData.push( {
             urlImage : img,
             product: {}
@@ -93,6 +93,7 @@ function ProductAdd() {
 
         setImages(imageData);
     };
+
 
 //  Get size
     const getSize = (event) => {
@@ -112,7 +113,7 @@ function ProductAdd() {
                 categoryName: newCategory
             })
             .then(res => {
-                // setCategoryList(res.data.category);
+                setCategoryList(res.data.category);
                 setBtnAdd({ ...btnAdd, category: !btnAdd.category });
             })
             .catch(err => {})
@@ -125,7 +126,7 @@ function ProductAdd() {
                 sizeName: newSize
             })
             .then(res => {
-                // setSizeList(res.data.size);
+                setSizeList(res.data.size);
                 setBtnAdd({ ...btnAdd, size: !btnAdd.size });
             })
             .catch(err => {})
@@ -138,7 +139,7 @@ function ProductAdd() {
                 colorName: newColor
             })
             .then(res => {
-                // setColorList(res.data.color);
+                setColorList(res.data.color);
                 setBtnAdd({ ...btnAdd, color: !btnAdd.color });
             })
             .catch(err => {})
@@ -157,9 +158,7 @@ function ProductAdd() {
                 category: {
                     categoryName: category
                 },
-                productImages: images.map(img => {
-                    return JSON.stringify();
-                })
+                productImages: images
             },
             color:{
                 colorName: color
@@ -167,7 +166,19 @@ function ProductAdd() {
             size:{
                 sizeName: size
             }
-        });
+        })
+            .then(res => {
+                setName("");
+                setPrice("");
+                setQuantity("");
+                setCategory("");
+                setSize("");
+                setColor("");
+                setBrand("");
+                setDescription("");
+                setImages("");
+            })
+            .catch(err => console.log(err))
     }
 
     const goBack = () => {
@@ -197,7 +208,13 @@ function ProductAdd() {
                     label="Quantity"
                     onChange={(e) => setQuantity(e.target.value)}
                 />
-
+        {/* *********************** Brand ****************************** */}
+                <FormInput
+                    className={cx('form-control', 'quantity')}
+                    classNameIp={cx('form-control-ip')}
+                    label="Brand"
+                    onChange={(e) => setBrand(e.target.value)}
+                />
         {/* *********************** CATEGORY ****************************** */}
                 <div className={cx('form-control', 'category')}>
                     <p>Category <span>*</span> </p>
