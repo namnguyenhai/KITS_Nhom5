@@ -1,4 +1,5 @@
 import { Button } from "components/Button";
+import { useState } from "react";
 import { styled } from "styled-components";
 
 const ProductStyled = styled.div`
@@ -70,6 +71,10 @@ const ProductStyled = styled.div`
     height: 27px;
     gap: 10px;
   }
+  .color.selected  {
+    border: 2px solid #fff;
+    outline: 2px solid #000;
+  }
 `;
 
 // format price
@@ -89,6 +94,11 @@ export const Product = ({
   ...rest
 }) => {
   const hasDiscount = oldprice > price;
+  const [selectedColor, setSelectedColor] = useState(null);
+
+  const handleColorSelect = (colorOption) => {
+    setSelectedColor(colorOption);
+  };
   return (
     <ProductStyled {...rest}>
       <img className="image" src={bgImage} alt={name} />
@@ -112,6 +122,10 @@ export const Product = ({
               height={"25px"}
               borderColor={null}
               bgColor={colorOption}
+              className={`color ${
+                selectedColor === colorOption ? "selected" : ""
+              }`}
+              onClick={() => handleColorSelect(colorOption)}
             />
           ))}
         </div>
