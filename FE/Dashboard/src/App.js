@@ -5,10 +5,13 @@ import { Route, Routes } from "react-router-dom";
 import Homepage from 'containers/Homepage';
 import Shop from 'containers/Shop';
 import Blog from 'containers/Blog';
+import Login from 'containers/Login';
 import Products from 'containers/Products';
 import NewAccount from 'containers/NewAccount';
 import Cart from 'containers/Cart';
 import Payment from 'containers/Payment';
+import Account from 'containers/AccountPage';
+import { Address, DashAcc, Information } from 'components/Account';
 
 function App() {
   return (
@@ -21,7 +24,13 @@ function App() {
         <Route path="accounts/new" element={<NewAccount />} />
         <Route path="cart" element={<Cart />} />
         <Route path="payment" element={<Payment />} />
+        <Route path="account" element={<Account />}>
+          <Route index element={<DashAcc />} />
+          <Route path="information" element={<Information />} />
+          <Route path="address" element={<Address />} />
+        </Route>
       </Route>
+      <Route path="/login" element={<Login></Login>}></Route>
     </Routes>
   );
 }

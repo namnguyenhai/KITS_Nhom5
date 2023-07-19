@@ -1,3 +1,5 @@
+import { useState } from "react";
+import { Helmet, HelmetProvider } from "react-helmet-async";
 import { NavLink, Outlet } from "react-router-dom";
 import { styled } from "styled-components";
 
@@ -39,6 +41,7 @@ const AccountStyled = styled.div`
       width: 275px;
       height: 44px;
       color: #828282;
+      background: #fff;
       font-size: 18px;
       font-weight: 400;
       line-height: 23px;
@@ -61,62 +64,70 @@ const AccountStyled = styled.div`
 `;
 
 const AccountPage = () => {
+  const [pageTitle, setPageTitle] = useState("My Dashboard");
   return (
-    <AccountStyled>
-      <p className="redirect">Home/</p>
-      <p className="title">My Dashboard</p>
-      <div className="frame">
-        <div className="sidebar">
-          <NavLink
-            to="/account/dashboard"
-            className="side-item"
-            exact="true"
-            activeclassname="active"
-          >
-            Account Dashboard
-          </NavLink>
-          <NavLink
-            to="/account/information"
-            className="side-item"
-            activeclassname="active"
-          >
-            Account Information
-          </NavLink>
-          <NavLink
-            to="/account/address"
-            className="side-item"
-            activeclassname="active"
-          >
-            Address Book
-          </NavLink>
-          <NavLink
-            to="/account/orders"
-            className="side-item"
-            activeclassname="active"
-          >
-            My Orders
-          </NavLink>
-          <NavLink
-            to="/account/wishlist"
-            className="side-item"
-            activeclassname="active"
-          >
-            My Wishlist
-          </NavLink>
-          <NavLink
-            to="/account/subscriptions"
-            className="side-item"
-            activeclassname="active"
-          >
-            
-            
-          </NavLink>
+    <HelmetProvider>
+      <Helmet>
+        <title>Account</title>
+      </Helmet>
+      <AccountStyled>
+        <p className="redirect">Home/ {pageTitle}</p>
+        <p className="title">{pageTitle}</p>
+        <div className="frame">
+          <div className="sidebar">
+            <NavLink
+              to="./"
+              className="side-item"
+              exact="true"
+              activeclassname="active"
+              onClick={() => setPageTitle("My Dashboard")}
+            >
+              Account Dashboard
+            </NavLink>
+            <NavLink
+              to="./information"
+              className="side-item"
+              activeclassname="active"
+              onClick={() => setPageTitle("Edit Account Information")}
+            >
+              Account Information
+            </NavLink>
+            <NavLink
+              to="./address"
+              className="side-item"
+              activeclassname="active"
+              onClick={() => setPageTitle("Add New Address")}
+            >
+              Address Book
+            </NavLink>
+            {/* <NavLink
+              to="./orders"
+              className="side-item"
+              activeclassname="active"
+            >
+              My Orders
+            </NavLink>
+            <NavLink
+              to="./wishlist"
+              className="side-item"
+              activeclassname="active"
+            >
+              My Wishlist
+            </NavLink>
+            <NavLink
+              to="./subscriptions"
+              className="side-item"
+              activeclassname="active"
+            >
+              Newsletter Subscriptions
+            </NavLink> */}
+          </div>
+          <div className="content">
+            <Outlet />
+          </div>
         </div>
-        <div className="content">
-          <Outlet />
-        </div>
-      </div>
-    </AccountStyled>
+      </AccountStyled>
+    </HelmetProvider>
   );
 };
 
