@@ -7,6 +7,9 @@ import Shop from 'containers/Shop';
 import Blog from 'containers/Blog';
 import Login from 'containers/Login';
 import Products from 'containers/Products';
+import NewAccount from 'containers/NewAccount';
+import Cart from 'containers/Cart';
+import Payment from 'containers/Payment';
 import Account from 'containers/AccountPage';
 import { Address, DashAcc, Information } from 'components/Account';
 
@@ -18,6 +21,9 @@ function App() {
         <Route path="shop" element={<Shop />} />
         <Route path="blog" element={<Blog />} />
         <Route path="products" element={<Products />} />
+        <Route path="accounts/new" element={<NewAccount />} />
+        <Route path="cart" element={<Cart />} />
+        <Route path="payment" element={<Payment />} />
         <Route path="account" element={<Account />}>
           <Route index element={<DashAcc />} />
           <Route path="information" element={<Information />} />

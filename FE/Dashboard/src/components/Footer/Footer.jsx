@@ -47,7 +47,6 @@ const FooterStyled = styled.div`
     font-size: 13px;
     color: #828282;
     font-weight: 400;
-    line-height: 30px;
     text-transform: uppercase;
     text-decoration: none;
   }
@@ -64,9 +63,6 @@ const FooterStyled = styled.div`
     color: #828282;
     font-weight: 400;
     margin-top: 0;
-  }
-  .contact-item {
-    line-height: 26px;
   }
   .social {
     padding-bottom: 25px;

@@ -1,3 +1,29 @@
 body {
   font-family: 'Oswald', sans-serif;
 }
+
+.text-left {
+  text-align: left;
+}
+.text-center {
+  text-align: center;
+}
+.d-flex {
+  display: flex;
+  gap: 1rem;
+}
+.flex-column {
+  flex-direction: column;
+}
+.justify-center {
+  justify-content: center;
+}
+.justify-between {
+  justify-content: space-between;
+}
+.align-start {
+  align-items: flex-start;
+}
+.align-center {
+  align-items: center;
+}
