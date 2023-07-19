@@ -1,7 +1,7 @@
 export const DOMAIN = "http://localhost:8080";
 
 export const LOGIN_USER = `${DOMAIN}/api/login`;
-export const ALL_PRODUCTS = `${DOMAIN}`
+export const ALL_PRODUCTS = `${DOMAIN}/products/getAllProducts`
 export const ADD_TO_CART = `${DOMAIN}/add-cart`;
 export const GET_CART = `${DOMAIN}/cart`;
 export const REMOVE_CART_BY_ID_SIZE_COLOR = `${DOMAIN}/remove-cart`;

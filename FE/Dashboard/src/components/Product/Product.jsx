@@ -6,6 +6,7 @@ const ProductStyled = styled.div`
   width: 344px;
   height: auto;
   position: relative;
+  cursor: pointer;
   .image {
     width: 344px;
     height: 450px;
@@ -38,6 +39,7 @@ const ProductStyled = styled.div`
     font-size: 18px;
     font-weight: 300;
     margin: 0;
+    text-transform: uppercase;
   }
   .price {
     color: #000;
@@ -71,7 +73,7 @@ const ProductStyled = styled.div`
     height: 27px;
     gap: 10px;
   }
-  .color.selected  {
+  .color.selected {
     border: 2px solid #fff;
     outline: 2px solid #000;
   }
@@ -93,16 +95,24 @@ export const Product = ({
   color,
   ...rest
 }) => {
-  const hasDiscount = oldprice > price;
   const [selectedColor, setSelectedColor] = useState(null);
 
   const handleColorSelect = (colorOption) => {
     setSelectedColor(colorOption);
   };
+  const hasDiscount = oldprice > price;
+
+  // Split the color and image URLs into arrays
+  const colorOptions = color ? color.split(",") : [];
+  const imageUrls = bgImage ? bgImage.split(",") : [];
+  const firstImageUrl = imageUrls.length > 0 ? imageUrls[0].trim() : null;
+
   return (
     <ProductStyled {...rest}>
-      <img className="image" src={bgImage} alt={name} />
-      {tag ? <div className="tag">{tag}</div> : null}
+      {firstImageUrl && (
+        <img className="image" src={firstImageUrl} alt={name} />
+      )}
+      {/* {tag ? <div className="tag">{tag}</div> : null} */}
       <p className="cate">{category}</p>
       <p className="name">{name}</p>
       {hasDiscount ? (
@@ -113,15 +123,15 @@ export const Product = ({
       ) : (
         <p className="price">{USDollar.format(price)}</p>
       )}
-      {color ? (
+      {colorOptions.length > 0 ? (
         <div className="colors">
-          {color.map((colorOption, index) => (
+          {colorOptions.map((colorOption, index) => (
             <Button
               key={index}
               width={"25px"}
               height={"25px"}
               borderColor={null}
-              bgColor={colorOption}
+              bgColor={colorOption.trim()} // Trim the color value to remove any leading/trailing spaces
               className={`color ${
                 selectedColor === colorOption ? "selected" : ""
               }`}

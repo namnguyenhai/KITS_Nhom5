@@ -211,7 +211,7 @@ const Shop = () => {
   useEffect(() => {
     // Fetch products when the component mounts
     dispatch.products.fetchProducts();
-  }, []);
+  }, [dispatch.products]);
 
   return (
     <HelmetProvider>
@@ -367,11 +367,9 @@ const Shop = () => {
                   key={card.productId}
                   name={card.productName}
                   bgImage={card.urlImage}
-                  tag={card.tag}
-                  category={card.category}
-                  price={card.price}
-                  oldprice={card.oldprice}
-                  // color={card.colorName}
+                  category={card.categoryName}
+                  price={card.priceStock}
+                  color={card.colorName}
                 />
               ))}
             </div>
@@ -393,16 +391,14 @@ const Shop = () => {
               <img className="model" src={model} alt="model" />
             </div>
             <div className="products">
-              {productsStore.listProduct.map((card, index) => (
+              {productsStore.listProduct.map((card) => (
                 <Product
-                  key={index}
-                  name={card.name}
-                  bgImage={card.bgImage}
-                  tag={card.tag}
-                  category={card.category}
-                  price={card.price}
-                  oldprice={card.oldprice}
-                  color={card.color}
+                  key={card.productId}
+                  name={card.productName}
+                  bgImage={card.urlImage}
+                  category={card.categoryName}
+                  price={card.priceStock}
+                  color={card.colorName}
                 />
               ))}
             </div>

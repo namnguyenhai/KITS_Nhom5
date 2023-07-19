@@ -1,4 +1,5 @@
 // import pd from "assets/images/product/model6.svg";
+import { ALL_PRODUCTS } from "api";
 import axios from "axios";
 
 // const data = [
@@ -114,19 +115,13 @@ export const products = {
   effects: (dispatch) => ({
     async fetchProducts() {
       try {
-        const response = await axios.get('http://localhost:8080/products/getAllProducts');
+        const response = await axios.get(ALL_PRODUCTS);
         const data = response.data.product;
-  console.log(data)
         // Log the fetched data and its type to the console
         console.log('Fetched data:', data);
         console.log('Type of data:', typeof data);
-  
-        // Verify if data is an array before setting it to the state
-        if (Array.isArray(data)) {
-          dispatch.products.setListProduct(data);
-        } else {
-          console.error('Fetched data is not an array:', data);
-        }
+        // call data
+        dispatch.products.setListProduct(data);
       } catch (error) {
         console.error('Error fetching products:', error);
       }

@@ -68,15 +68,13 @@ export const HomeFilters = () => {
       </div>
       <div className="right">
         <div className="products">
-          {productsStore.listProduct.map((card, index) => (
+          {productsStore.listProduct.map((card) => (
             <Product
-              key={index}
-              name={card.name}
-              bgImage={card.bgImage}
-              tag={card.tag}
-              category={card.category}
-              price={card.price}
-              oldprice={card.oldprice}
+              key={card.productId}
+              name={card.productName}
+              bgImage={card.urlImage}
+              category={card.categoryName}
+              price={card.priceStock}
             />
           ))}
         </div>
