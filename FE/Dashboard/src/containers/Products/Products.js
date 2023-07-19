@@ -2,25 +2,27 @@ import { Helmet, HelmetProvider } from "react-helmet-async";
 import './Products.scss';
 import Tab from "components/Tab";
 import { 
-    product1, product2, product3, Increase, Decrease, Heart, 
+    product1, product2, product3, Heart, 
     Checked, Zoom, Facebook, Twitter, Pinterest, Instagram, 
-    HideDetail
+    HideDetail, ShowDetail, Increase
 } from 'components/ImageList';
 import { Button } from "components/Button";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ProductCarousel } from "components/ProductCarousel";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import ButtonQuantity from "components/ButtonQuantity";
 
 const Products = () => {
     const page = "Products";
+
     const product = {
         id: 1,
         name: "Women Black Checked Fit and Flare Dress",
         price: 90,
         category: "Woment Dress",
         brand: "FENDI",
-        color: ["#000000", "#24426A", "#666689", "#FFFFFF"],
+        color: ["black", "blue", "red", "white"],
         size: ["XS", "S", "M", "L", "XL", "XXL", "XXXL"],
         image: [product1, product2, product3],
         desciption: (
@@ -56,9 +58,11 @@ const Products = () => {
         )
     };
 
+    const dispatch = useDispatch();
     const productsStore = useSelector((state) => state.products);
+    const cart = useSelector((state) => state.cart.products);
 
-    const iconShare = [ <Facebook />, <Twitter />, <Pinterest />, <Instagram /> ];
+    const iconShare = [ Facebook , Twitter, Pinterest, Instagram ];
     const [quantity, setQuantity] = useState(1);
     const [imgShow, setImgShow] = useState(product?.image[0]);
 
@@ -74,22 +78,31 @@ const Products = () => {
         currency: 'USD',
     });
 
-    const increaseQuantity = () => {
-        setQuantity(Number(quantity) + 1);
-    };
-    
-    const decreaseQuantity = () => {
-        if (quantity > 0) {
-          setQuantity(Number(quantity) - 1);
-        }
-    };
+    const handleGetQuantity = (qty) => {
+        setQuantity(qty)
+    }
 
     const imageSelected = (img) => {
         setActive({ ...active, image: img })
         setImgShow(img)
-        console.log(img)
     }
 
+    const handleAddToCart = async () => {
+        const data = {
+            productId: product.id,
+            unitPrice: product.price,
+            quantity,
+            colorName: active.color,
+            sizeName: active.size
+        };
+
+        dispatch.cart.addToCart(data);
+    }
+
+    useEffect(() => {
+        dispatch.cart.fetchCart();
+    }, [dispatch, cart])
+    
     return (
       <HelmetProvider>
         <Helmet>
@@ -110,7 +123,7 @@ const Products = () => {
                                 </div>
                             )) }
                         </div>
-
+                        
                         <div className="products-image-index">
                             <img src={imgShow} alt="product-error" />
                             <div className="products-image-zoom">
@@ -120,7 +133,7 @@ const Products = () => {
                         <div className="products-image-share">
                             <p>SHARE:</p>
                             <div className="image-icon-list">
-                                { iconShare.map(icon => icon) }
+                                { iconShare.map((Icon, index) => <Icon key={index} />) }
                             </div>
                         </div>
                     </div>
@@ -145,14 +158,15 @@ const Products = () => {
                             <p>SELECT COLOR</p>
                             <div className="attributes-select">
                                 { product?.color.map(color => (
-                                    <Button 
-                                        key={color}
-                                        width="25px"
-                                        height="25px"
-                                        className={`btn-color ${active.color === color && 'active'}`}
-                                        bgColor={color}
-                                        onClick={() => setActive({ ...active, color })}
-                                    />
+                                    <div key={color} className={`wrapper-btn ${active.color === color && 'active'}`}>
+                                        <Button 
+                                            width="20px"
+                                            height="20px"
+                                            className={`btn-color`}
+                                            bgColor={color}
+                                            onClick={() => setActive({ ...active, color })}
+                                        />
+                                    </div>
                                 )) }
                             </div>
                         </div>
@@ -178,16 +192,7 @@ const Products = () => {
                         <div className="products-attributes-group">
                             <div className="attributes-row">
                                 <p>QUANTITY</p>
-                                <div className="attributes-quantity">
-                                    <input 
-                                        type="number" 
-                                        min={0}
-                                        value={quantity} 
-                                        onChange={(e) => setQuantity(e.target.value)}
-                                    />
-                                    <div onClick={decreaseQuantity} className="quantity-decrease"> {<Decrease />} </div>
-                                    <div onClick={increaseQuantity} className="quantity-increase"> {<Increase />} </div>
-                                </div>
+                                <ButtonQuantity handleGetQuantity={handleGetQuantity} />
                             </div>
 
                             <div className="attributes-row">
@@ -201,6 +206,7 @@ const Products = () => {
                                 textColor="#FFF" 
                                 className="btn-add-to-bag"
                                 width="200px"
+                                onClick={handleAddToCart}
                             ><p>ADD TO BAG</p></Button>
                             <Button width="200px" className="btn-save"> <Heart /> SAVE</Button>
                         </div>
@@ -217,7 +223,7 @@ const Products = () => {
                 <div className="products-detail">
                     <div className="products-detail-title" onClick={() => setStateDesc(!stateDesc)}>
                         <p>Details</p>
-                        { !stateDesc ? <HideDetail /> : <Increase /> }
+                        { !stateDesc ? <HideDetail /> : <ShowDetail /> }
                     </div>
                     <div className={`products-desc ${stateDesc && 'hide-desc'}`}>
                         { product.desciption }

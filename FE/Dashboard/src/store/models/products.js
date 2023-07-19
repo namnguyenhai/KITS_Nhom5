@@ -6,6 +6,7 @@ const data = [
         bgImage: pd,
         category: "top women",
         price: 236,
+        tag: "-30%",
         color: [
             "blue",
             "red",
@@ -16,6 +17,9 @@ const data = [
         name: "Angels malu zip jeans slim black used",
         bgImage: pd,
         category: "top women",
+        oldprice: 115,
+        price: 85,
+        tag: "-30%",
         oldprice: "115, 00 EURO",
         price: 85,
         color: [
@@ -31,11 +35,6 @@ const data = [
         oldprice: 115,
         price: 85,
         tag: "-30%",
-        color: [
-            "blue",
-            "red",
-            "green"
-        ]
     },
     {
         name: "Angels malu zip jeans slim black used",
@@ -44,11 +43,6 @@ const data = [
         oldprice: 115,
         price: 85,
         tag: "-30%",
-        color: [
-            "blue",
-            "red",
-            "green"
-        ]
     },
     {
         name: "Angels malu zip jeans slim black used",
@@ -57,11 +51,6 @@ const data = [
         oldprice: 115,
         price: 85,
         tag: "-30%",
-        color: [
-            "blue",
-            "red",
-            "green"
-        ]
     },
     {
         name: "Angels malu zip jeans slim black used",
@@ -70,11 +59,6 @@ const data = [
         oldprice: 115,
         price: 85,
         tag: "-30%",
-        color: [
-            "blue",
-            "red",
-            "green"
-        ]
     },
     {
         name: "Angels malu zip jeans slim black used",
@@ -83,16 +67,14 @@ const data = [
         oldprice: 115,
         price: 85,
         tag: "-30%",
-        color: [
-            "blue",
-            "red",
-            "green"
-        ]
     },
     {
         name: "Angels malu zip jeans slim black used",
         bgImage: pd,
         category: "top women",
+        oldprice: 115,
+        price: 85,
+        tag: "-30%",
         price: 90,
         color: [
             "blue",
@@ -115,7 +97,6 @@ export const products = {
                 listProduct,
             };
         },
-
 
         setProductById(state, product) {
             return {
