@@ -88,8 +88,8 @@ const Payment = () => {
                             <ArrowUp />
                         </div>
                         <div className={`order-list${visibility === "visible" ? "" : " visibility"}`}>
-                            { cart?.products.map(pd => (
-                                <div className="order-item">
+                            { cart?.products.map((pd, index) => (
+                                <div key={index} className="order-item">
                                     <div className="d-flex">
                                         <img src={pd.image} alt="" />
                                         <div className="d-flex gap-1 flex-column">
