@@ -1,6 +1,6 @@
 import axios from "axios";
-import { GET_CART, ADD_TO_CART } from "api";
-import { cartPd1, cartPd2 } from "components/ImageList";
+import { GET_CART, ADD_TO_CART, REMOVE_CART_BY_ID_SIZE_COLOR, CLEAR_CART } from "api";
+// import { cartPd1, cartPd2 } from "components/ImageList";
 // const productsCart = [
 //     {
 //         id: 1,
@@ -21,6 +21,7 @@ import { cartPd1, cartPd2 } from "components/ImageList";
 //         quantity: 1,
 //     },
 // ];
+import { toast } from 'react-toastify';
 
 export const cart = {
     state: {
@@ -47,8 +48,34 @@ export const cart = {
         
         async addToCart(product) {
             await axios.post(ADD_TO_CART, product)
-                .then(res => console.log("Add to cart successfully"))
-                .catch(err => console.log(err))
+                .then(res => {
+                    this.setCart(res.data);
+
+                    return toast.success("THÊM SẢN PHẨM VÀO GIỎ HÀNG THÀNH CÔNG", {
+                        position: toast.POSITION.TOP_CENTER,
+                    })
+                })
+                .catch(err => toast.error("THÊM SẢN PHẨM VÀO GIỎ HÀNG KHÔNG THÀNH CÔNG", {
+                    position: toast.POSITION.TOP_CENTER,
+                }))
+        },
+        async removeCart(productId, size, color) {
+            await axios.post(`${REMOVE_CART_BY_ID_SIZE_COLOR}/${productId}/${size}/${color}`)
+                .then(res => toast.success("XÓA GIỎ HÀNG THÀNH CÔNG", {
+                    position: toast.POSITION.TOP_CENTER,
+                }))
+                .catch(err => toast.error("XÓA GIỎ HÀNG KHÔNG THÀNH CÔNG", {
+                    position: toast.POSITION.TOP_CENTER,
+                }))
+        },
+        async removeCart() {
+            await axios.post(`${CLEAR_CART}`)
+                .then(res => toast.success("XÓA TẤT CẢ SẢN PHẨM TRONG GIỎ HÀNG THÀNH CÔNG", {
+                    position: toast.POSITION.TOP_CENTER,
+                }))
+                .catch(err => toast.success("XÓA TẤT CẢ SẢN PHẨM TRONG GIỎ HÀNG KHÔNG THÀNH CÔNG", {
+                    position: toast.POSITION.TOP_CENTER,
+                }))
         },
 
     }),

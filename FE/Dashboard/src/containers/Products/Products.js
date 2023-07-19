@@ -12,8 +12,6 @@ import { useEffect, useState } from "react";
 import { ProductCarousel } from "components/ProductCarousel";
 import { useSelector, useDispatch } from "react-redux";
 import ButtonQuantity from "components/ButtonQuantity";
-import { GET_CART, ADD_TO_CART } from "api";
-import axios from "axios";
 
 const Products = () => {
     const page = "Products";
@@ -24,7 +22,7 @@ const Products = () => {
         price: 90,
         category: "Woment Dress",
         brand: "FENDI",
-        color: ["#000000", "#24426A", "#666689", "#FFFFFF"],
+        color: ["black", "blue", "red", "white"],
         size: ["XS", "S", "M", "L", "XL", "XXL", "XXXL"],
         image: [product1, product2, product3],
         desciption: (
@@ -99,15 +97,12 @@ const Products = () => {
         };
 
         dispatch.cart.addToCart(data);
-        // console.log(data);
     }
 
     useEffect(() => {
-        dispatch.cart.fetchCart("0B844D156A3CEE4BEAC1F0B1F4F6E8F7");
-        console.log("cart: ", cart)
-    }, [dispatch])
+        dispatch.cart.fetchCart();
+    }, [dispatch, cart])
     
-
     return (
       <HelmetProvider>
         <Helmet>
@@ -129,8 +124,6 @@ const Products = () => {
                             )) }
                         </div>
                         
-                        <h1>{cart} </h1>
-
                         <div className="products-image-index">
                             <img src={imgShow} alt="product-error" />
                             <div className="products-image-zoom">

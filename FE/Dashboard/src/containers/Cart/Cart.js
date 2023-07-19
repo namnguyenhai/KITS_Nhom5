@@ -47,8 +47,6 @@ const Cart = () => {
         return subtotal;
     };
 
-    console.log(cart.products)
-
     return (
         <HelmetProvider>
             <Helmet>
