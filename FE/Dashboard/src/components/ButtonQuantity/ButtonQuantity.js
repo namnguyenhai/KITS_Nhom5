@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Increase, Decrease } from 'components/ImageList';
 import './ButtonQuantity.scss';
 
@@ -15,9 +15,9 @@ const ButtonQuantity = ({ className, initial, productId, handleGetQuantity, ...p
         }
     };
 
-    useEffect(() => {
-        handleGetQuantity(quantity, productId);
-    }, [quantity]);
+    // useEffect(() => {
+    //     handleGetQuantity(quantity, productId);
+    // }, [quantity]);
 
     return (
         <div className="btn-quantity">

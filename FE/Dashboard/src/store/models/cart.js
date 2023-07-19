@@ -1,5 +1,5 @@
 import axios from "axios";
-import { GET_CART, ADD_TO_CART, REMOVE_CART_BY_ID_SIZE_COLOR, CLEAR_CART } from "api";
+import { GET_CART, ADD_TO_CART, REMOVE_CART_BY_ID_SIZE_COLOR } from "api";
 // import { cartPd1, cartPd2 } from "components/ImageList";
 // const productsCart = [
 //     {
@@ -68,15 +68,15 @@ export const cart = {
                     position: toast.POSITION.TOP_CENTER,
                 }))
         },
-        async removeCart() {
-            await axios.post(`${CLEAR_CART}`)
-                .then(res => toast.success("XÓA TẤT CẢ SẢN PHẨM TRONG GIỎ HÀNG THÀNH CÔNG", {
-                    position: toast.POSITION.TOP_CENTER,
-                }))
-                .catch(err => toast.success("XÓA TẤT CẢ SẢN PHẨM TRONG GIỎ HÀNG KHÔNG THÀNH CÔNG", {
-                    position: toast.POSITION.TOP_CENTER,
-                }))
-        },
+        // async removeCart() {
+        //     await axios.post(`${CLEAR_CART}`)
+        //         .then(res => toast.success("XÓA TẤT CẢ SẢN PHẨM TRONG GIỎ HÀNG THÀNH CÔNG", {
+        //             position: toast.POSITION.TOP_CENTER,
+        //         }))
+        //         .catch(err => toast.success("XÓA TẤT CẢ SẢN PHẨM TRONG GIỎ HÀNG KHÔNG THÀNH CÔNG", {
+        //             position: toast.POSITION.TOP_CENTER,
+        //         }))
+        // },
 
     }),
 

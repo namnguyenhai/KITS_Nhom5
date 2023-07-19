@@ -1,15 +1,15 @@
 import './Payment.scss';
-import { HideDetail, ShowDetail } from 'components/ImageList';
+// import { HideDetail, ShowDetail } from 'components/ImageList';
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import Tab from 'components/Tab';
 import { Button } from 'components/Button';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useState } from 'react';
 import { ArrowUp } from 'components/ImageList';
 const Payment = () => {
     const page = "Create Payment";
 
-    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
     const cart = useSelector((state) => state.cart);
 
     const [visibility, setVisibility] = useState("visible");

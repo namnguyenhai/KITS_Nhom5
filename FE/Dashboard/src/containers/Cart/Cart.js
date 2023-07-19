@@ -5,7 +5,7 @@ import { Button } from "components/Button";
 import ButtonQuantity from "components/ButtonQuantity";
 import { useSelector, useDispatch } from 'react-redux';
 import { Save, Close, HideDetail, ShowDetail } from 'components/ImageList';
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const Cart = () => {
     const page = "Shopping Cart";

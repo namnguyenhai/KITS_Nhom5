@@ -9,6 +9,8 @@ import { TextFormat } from "components/Text";
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { LOGIN_USER } from "api";
 const LoginStyled = styled.div`
   background-color: #ffffff;
   height: 100vh;
@@ -145,7 +147,7 @@ export const Login = () => {
     e.preventDefault();
     try {
       await axios
-        .post("http://localhost:8080/api/login", {
+        .post(LOGIN_USER, {
           username: username,
           password: password,
         })
@@ -156,7 +158,9 @@ export const Login = () => {
           navigate("/");
         });
     } catch (err) {
-      console.log(err);
+      toast.error("Wrong Username or Password!", {
+        position: toast.POSITION.TOP_LEFT,
+      });
     }
   };
 
