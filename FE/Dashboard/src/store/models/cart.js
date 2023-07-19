@@ -1,6 +1,6 @@
 import axios from "axios";
 import { toast } from 'react-toastify';
-import { GET_CART, ADD_TO_CART, REMOVE_CART_BY_ID_SIZE_COLOR, CLEAR_CART } from "api";
+import { GET_CART, ADD_TO_CART, UPDATE_CART, REMOVE_CART_BY_ID_SIZE_COLOR, CLEAR_CART } from "api";
 
 export const cart = {
     state: {
@@ -39,11 +39,16 @@ export const cart = {
                 }))
         },
 
-        async removeCart(productId, sizeName, color) {
-            console.log("size: ", sizeName)
-            console.log("color: ", color)
-            console.log("productId: ", productId)
-            await axios.delete(`${REMOVE_CART_BY_ID_SIZE_COLOR}/${productId}/${sizeName}/${color}`)
+        async updateCart(product) {
+            await axios.put(UPDATE_CART, product)
+                .then(res => {})
+                .catch(err => toast.error("UPDATE PRODUCTS TO CART FAILURE", {
+                    position: toast.POSITION.TOP_CENTER,
+                }))
+        },
+
+        async removeCart(product) {
+            await axios.delete(`${REMOVE_CART_BY_ID_SIZE_COLOR}/${product.productId}/${product.sizeName}/${product.colorName}`)
                 .then(res => toast.success("CART DELETE SUCCESSFULLY", {
                     position: toast.POSITION.TOP_CENTER,
                 }))

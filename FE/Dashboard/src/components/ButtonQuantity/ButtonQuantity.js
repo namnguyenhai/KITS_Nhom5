@@ -23,7 +23,7 @@ const ButtonQuantity = ({ className, initial, productId, sizeName, colorName, ha
         <div className="btn-quantity">
             <input 
                 type="number" 
-                min={0}
+                min={1}
                 value={quantity} 
                 onChange={(e) => setQuantity(Number(e.target.value))}
                 {...props}

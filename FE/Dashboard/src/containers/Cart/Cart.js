@@ -5,28 +5,22 @@ import { Button } from "components/Button";
 import ButtonQuantity from "components/ButtonQuantity";
 import { useSelector, useDispatch } from 'react-redux';
 import { Save, Close, HideDetail, ShowDetail } from 'components/ImageList';
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast } from 'react-toastify';
 
 const Cart = () => {
     const page = "Shopping Cart";
 
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const cart = useSelector((state) => state.cart.products);
+
+    const [isCartChanged, setCartChanged] = useState(false);
 
     const [visibility, setVisibility] = useState("hidden");
 
     const [selectedOption, setSelectedOption] = useState('');
-
-    const handleGetQuantity = (qty, productId, sizeName, colorName) => {
-        const updatedCart = cart?.map((product) => {
-            if (product.id === productId) {
-                return { ...product, quantity: qty };
-            }
-            return product;
-        });
-
-        dispatch.cart.setCart(updatedCart);
-    };
 
     const handleOptionChange = (event) => {
         setSelectedOption(event.target.value);
@@ -42,20 +36,44 @@ const Cart = () => {
 
     const calculateSubtotal = () => {
         let subtotal = 0;
-        cart?.forEach((product) => {
+        cart?.map((product) => {
           subtotal += product.unitPrice * product.quantity;
         });
         return subtotal;
     };
 
-    const handleRemoveProdToCart = (productId, size, color) => {
-        console.log(productId, size, color);
-        dispatch.cart.removeCart(productId, size, color);
+    const handleGetQuantity = useCallback((quantity, productId, sizeName, colorName) => {
+        const data = { productId, quantity, sizeName, colorName };
+        dispatch.cart.updateCart(data);
+        setCartChanged(true);
+    }, [dispatch.cart]);
+
+    const handleRemoveProdToCart = useCallback((productId, sizeName, colorName) => {
+        const data = { productId, sizeName, colorName };
+        dispatch.cart.removeCart(data);
+        setCartChanged(true);
+    }, [dispatch.cart]);
+
+    const handleRemoveAllProdToCart = useCallback(() => {
+        dispatch.cart.removeAllCart();
+        setCartChanged(true);
+    }, [dispatch.cart]);
+
+    const handleCheckout = () => {
+        navigate("/payment");
     }
 
     useEffect(() => {
+        // Fetch cart data only on the first render
         dispatch.cart.fetchCart();
-    }, [dispatch, cart])
+    }, [dispatch.cart]);
+
+    useEffect(() => {
+        if (isCartChanged) {
+            dispatch.cart.fetchCart();
+            setCartChanged(false);
+        }
+    }, [isCartChanged]);
 
     return (
         <HelmetProvider>
@@ -107,7 +125,10 @@ const Cart = () => {
                                         <td> {USDDollar(pd.unitPrice * pd.quantity)} </td>
                                         <td>
                                             <div className="d-flex">
-                                                <Button className="cart-btn-action">
+                                                <Button 
+                                                    className="cart-btn-action"
+                                                    onClick={() => navigate(-1)}
+                                                >
                                                     <Save />
                                                 </Button>
                                                 <Button 
@@ -126,7 +147,11 @@ const Cart = () => {
                                             <Button type="submit" className="cart-btn">
                                                 <p>Continue shopping</p>
                                             </Button>
-                                            <Button type="button" className="cart-btn">
+                                            <Button 
+                                                type="button" 
+                                                className="cart-btn"
+                                                onClick={handleRemoveAllProdToCart}
+                                            >
                                                 <p>Clear shopping cart</p>
                                             </Button>
                                         </div>
@@ -223,7 +248,7 @@ const Cart = () => {
                                 <p>Order Total</p>
                                 <p> {USDDollar(calculateSubtotal())} </p>
                             </div>
-                            <Button type="button" className="checkout-btn">
+                            <Button onClick={handleCheckout} type="button" className="checkout-btn">
                                 <p>Proceed to checkout</p>
                             </Button>
                         </div>                        

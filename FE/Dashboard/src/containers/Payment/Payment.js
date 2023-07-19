@@ -4,13 +4,13 @@ import { Helmet, HelmetProvider } from "react-helmet-async";
 import Tab from 'components/Tab';
 import { Button } from 'components/Button';
 import { useSelector, useDispatch } from 'react-redux';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ArrowUp } from 'components/ImageList';
 const Payment = () => {
     const page = "Create Payment";
 
     const dispatch = useDispatch();
-    const cart = useSelector((state) => state.cart);
+    const cart = useSelector((state) => state.cart.products);
 
     const [visibility, setVisibility] = useState("visible");
 
@@ -23,12 +23,18 @@ const Payment = () => {
 
     const calculateSubtotal = () => {
         let subtotal = 0;
-        cart.products.forEach((product) => {
-          subtotal += product.price * product.quantity;
+        cart?.forEach((product) => {
+          subtotal += product.unitPrice * product.quantity;
         });
         return subtotal;
     };
 
+    useEffect(() => {
+        // Fetch cart data only on the first render
+        dispatch.cart.fetchCart();
+    }, [dispatch.cart]);
+
+    console.log(cart)
 
     return (
         <HelmetProvider>
@@ -88,19 +94,19 @@ const Payment = () => {
                             <ArrowUp />
                         </div>
                         <div className={`order-list${visibility === "visible" ? "" : " visibility"}`}>
-                            { cart?.products.map((pd, index) => (
+                            { cart?.map((pd, index) => (
                                 <div key={index} className="order-item">
                                     <div className="d-flex">
-                                        <img src={pd.image} alt="" />
+                                        <img src={pd.urlImage} alt="" />
                                         <div className="d-flex gap-1 flex-column">
-                                            <p className="order-item-name"> {pd.name} </p>
+                                            <p className="order-item-name"> {pd.productName} </p>
                                             <div className="order-item-qty">
                                                 <span>QTY:</span>
                                                 <span> {pd.quantity} </span>
                                             </div>
                                         </div>
                                     </div>
-                                    <p>{USDDollar(pd.price * pd.quantity)}</p>
+                                    <p>{USDDollar(pd.unitPrice * pd.quantity)}</p>
                                 </div>
                             )) }
                         </div>
