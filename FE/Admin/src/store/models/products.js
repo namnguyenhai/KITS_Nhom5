@@ -1,4 +1,5 @@
 import axios from "axios";
+import { GET_PRODUCT, ADD_STOCK_PRODUCT } from "api";
 
 export const products = {
     state: {
@@ -18,11 +19,15 @@ export const products = {
       // handle state changes with impure functions.
       // use async/await for async actions
       fetchProducts(payload, rootState) {
-        const products = "http://localhost:8080/products/getAllProducts";
-        axios.get(products)
-            .then(res => this.setProducts(res.data.product))
-            .catch(err => console.log(err))
+        axios.get(GET_PRODUCT)
+          .then(res => this.setProducts(res.data.product))
+          .catch(err => console.log(err))
       },
+      addProduct(data) {
+        axios.post(ADD_STOCK_PRODUCT, data)
+          .then(res => this.setProducts(res.data.product))
+          .catch(err => console.log(err))
+      }
     }),
     selectors: (slice, createSelector) => ({
         selectProducts() {

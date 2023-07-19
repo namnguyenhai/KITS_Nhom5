@@ -10,6 +10,7 @@ import Table from 'components/Table';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useState } from "react";
 import Modal from "components/Modal";
+import ProductDetailAdd from "./ProductDetailAdd";
 
 const cx = classNames.bind(styles);
 
@@ -17,6 +18,8 @@ function Products() {
     const dispatch = useDispatch();
     const products = useSelector(state => state.products.productList);
     const stock = useSelector(state => state.stock.stockList);
+
+    const [formAddProdDetail, setFormAddProdDetail] = useState(false);
 
     const [selectedProduct, setSelectedProduct] = useState({ modal: false, product: '' });
 
@@ -138,17 +141,6 @@ function Products() {
         console.log(arr)
     }
 
-    // Title modal add product detail
-    const TitleProductModal = (
-        <div className="modal-title-detail">
-            <h3>Product Detail</h3>
-            <Button 
-                className='modal-btn-add'
-                content="Add Product Detail" 
-            />
-        </div>
-    );
-
     // Title modal content product detail
     const headCellsPdDetail = [
         {
@@ -209,10 +201,21 @@ function Products() {
     // Create values data
     const rowsPdDetail = stock?.map(stock => {
         return createDataDetail(stock.stockId, stock.productName, stock.quantityStock, stock.priceStock, stock.sizeId, stock.colorId)
-    }
-        
+    });
+
+    // Title modal add product detail
+    const TitleProductModal = (
+        <div className="modal-title-detail">
+            <h3>Product Detail</h3>
+            <Button 
+                className='modal-btn-add'
+                content="Add Product Detail" 
+                onClick={() => setFormAddProdDetail(true)}
+            />
+        </div>
     );
-    const TablePdDetail = (
+
+    const TablePdDetail = !formAddProdDetail ? (
         <Table 
             key={2}
             headCells={headCellsPdDetail}
@@ -221,7 +224,9 @@ function Products() {
             EditById={handleEdit} 
             selectedAll={handleSelectedAll}
         />
-    )
+    ) : <ProductDetailAdd product={rowsPdDetail}/>
+
+    console.log(rowsPdDetail)
 
     return (
         <Wrapper className={cx('products')}>

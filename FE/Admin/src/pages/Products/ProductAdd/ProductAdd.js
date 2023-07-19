@@ -12,6 +12,8 @@ import Button from "components/Button";
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 
+import { toast } from 'react-toastify';
+
 // Axios
 import axios from "axios";
 
@@ -115,6 +117,9 @@ function ProductAdd() {
             .then(res => {
                 setCategoryList(res.data.category);
                 setBtnAdd({ ...btnAdd, category: !btnAdd.category });
+                toast.success("ADD NEW CATEGORY SUCCESSFULY !", {
+                    position: toast.POSITION.TOP_CENTER
+                });
             })
             .catch(err => {})
     }
@@ -128,6 +133,9 @@ function ProductAdd() {
             .then(res => {
                 setSizeList(res.data.size);
                 setBtnAdd({ ...btnAdd, size: !btnAdd.size });
+                toast.success("ADD NEW SIZE SUCCESSFULY !", {
+                    position: toast.POSITION.TOP_CENTER
+                });
             })
             .catch(err => {})
     }
@@ -141,6 +149,9 @@ function ProductAdd() {
             .then(res => {
                 setColorList(res.data.color);
                 setBtnAdd({ ...btnAdd, color: !btnAdd.color });
+                toast.success("ADD NEW COLOR SUCCESSFULY !", {
+                    position: toast.POSITION.TOP_CENTER
+                });
             })
             .catch(err => {})
     }
@@ -148,10 +159,17 @@ function ProductAdd() {
     // Handle submit form to add product
     const handleSubmit = e => { 
         e.preventDefault();
+
+        if(!name || !quantity || !brand || !category || !images || !price || !size || !color ) {
+            return toast.warning("PLEASE COMPLETE INFORMATION !", {
+                position: toast.POSITION.TOP_CENTER
+            })
+        }
+
         axios.post("http://localhost:8080/stocks/add_stock_new_product", {
             quantityStock: quantity,
             priceStock: price,
-            product:{
+            product:{ 
                 productName: name,
                 brand: brand,
                 description,
@@ -177,8 +195,13 @@ function ProductAdd() {
                 setBrand("");
                 setDescription("");
                 setImages("");
+                toast.success("ADD NEW PRODUCT SUCCESSFULY !", {
+                    position: toast.POSITION.TOP_CENTER
+                });
             })
-            .catch(err => console.log(err))
+            .catch(err => toast.error("ADD NEW PRODUCT FAIL !", {
+                position: toast.POSITION.TOP_CENTER
+            }))
     }
 
     const goBack = () => {

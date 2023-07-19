@@ -2,33 +2,36 @@ import React, { useEffect, useState } from "react";
 import classNames from 'classnames/bind';
 import Wrapper from "components/Wrapper";
 import FormInput from 'components/FormInput'
-import ImageUploader from "components/ImageUploader";
 import styles from './ProductDetailAdd.module.scss';
 import Button from "components/Button";
+import { useNavigate } from "react-router-dom";
+
+import { useSelector, useDispatch } from 'react-redux';
 
 // Library UI
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 
-// Axios
-import axios from "axios";
+import { toast } from 'react-toastify';
 
 const cx = classNames.bind(styles);
 
 function ProductDetailAdd(props) {
     const { product } = props;
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     // Price and quantity
     const [price, setPrice] = useState('');
     const [quantity, setQuantity] = useState('');
 
     // Size
-    const [sizeList, setSizeList] = useState([]);
+    const sizeList = useSelector((state) => state.sizes.SizeList);
     const [size, setSize] = useState('');
     const [newSize, setNewSize] = useState('');
 
     // Color
-    const [colorList, setColorList] = useState([]);
+    const colorList = useSelector((state) => state.colors.colorList);
     const [color, setColor] = useState('');
     const [newColor, setNewColor] = useState('');
 
@@ -39,20 +42,9 @@ function ProductDetailAdd(props) {
     });
 
     useEffect(() => {
-        async function callAPI(){
-            const SizeList = "http://localhost:8080/sizes/getallsize";
-            const ColorList = "http://localhost:8080/colors/getallcolor";
-            
-            // make the API call
-            await Promise.all([axios.get(SizeList), axios.get(ColorList)])
-                .then(([sizes, colors]) => {
-                    setSizeList(sizes.data.size);
-                    setColorList(colors.data.color);
-                })
-                .catch((error) => console.log(error));
-        } 
-        callAPI();
-    }, []);
+        dispatch.sizes.fetchSizes();
+        dispatch.colors.fetchColors();
+    }, [dispatch.sizes, dispatch.colors]);
 
     //  Get size
     const getSize = (event) => {
@@ -68,11 +60,9 @@ function ProductDetailAdd(props) {
     // Handle add new Size
     const btnAddNewSize = (e) => {
         e.preventDefault();
-        axios.post("http://localhost:8080/sizes/add", { 
-                sizeName: newSize
-            })
+        dispatch.sizes.addSize({ sizeName: newSize})
             .then(res => {
-                setSizeList(res.data.size);
+                dispatch.sizes.setSizes(res.data.size)
                 setBtnAdd({ ...btnAdd, size: !btnAdd.size });
             })
             .catch(err => {})
@@ -81,11 +71,8 @@ function ProductDetailAdd(props) {
     // Handle add new Color
     const btnAddNewColor = (e) => {
         e.preventDefault();
-        axios.post("http://localhost:8080/colors/add", { 
-                colorName: newColor
-            })
+        dispatch.sizes.addSize({ colorName: newColor })
             .then(res => {
-                setColorList(res.data.color);
                 setBtnAdd({ ...btnAdd, color: !btnAdd.color });
             })
             .catch(err => {})
@@ -94,11 +81,11 @@ function ProductDetailAdd(props) {
     // Handle submit form to add product
     const handleSubmit = e => { 
         e.preventDefault();
-        axios.post("http://localhost:8080/stocks/add_stock_new_product", {
+        const data = {
             quantityStock: quantity,
             priceStock: price,
             product:{
-                productId: product.productId,
+                productId: product.id,
             },
             color:{
                 colorName: color
@@ -106,14 +93,27 @@ function ProductDetailAdd(props) {
             size:{
                 sizeName: size
             }
-        })
+        };
+
+        if(!quantity || !price || !size || !color ) {
+            return toast.warning("PLEASE COMPLETE INFORMATION !", {
+                position: toast.POSITION.TOP_CENTER
+            })
+        }
+
+        dispatch.products.addProduct(data)
             .then(res => {
                 setPrice("");
                 setQuantity("");
                 setSize("");
                 setColor("");
+                toast.success("ADD NEW PRODUCT SUCCESSFULY !", {
+                    position: toast.POSITION.TOP_CENTER
+                });
             })
-            .catch(err => console.log(err))
+            .catch(err => toast.error("ADD NEW PRODUCT FAIL !", {
+                position: toast.POSITION.TOP_CENTER
+            }))
     }
 
     const goBack = () => {
@@ -133,7 +133,7 @@ function ProductDetailAdd(props) {
                     className={cx('form-control')}
                     classNameIp={cx('form-control-ip')}
                     label="Name"
-                    value={product.productName}
+                    value={product.name}
                 />
         
         {/* *********************** Quantity ****************************** */}
@@ -144,12 +144,6 @@ function ProductDetailAdd(props) {
                     label="Quantity"
                     onChange={(e) => setQuantity(e.target.value)}
                 />
-
-        {/* *********************** IMAGE ****************************** */}
-                <div className={cx('form-control', 'image')}>
-                    <p>Image <span>*</span> </p>
-                    <ImageUploader images={getImages} />
-                </div>
 
                 {/* PRICE */}
                 <FormInput

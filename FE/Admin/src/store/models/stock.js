@@ -1,4 +1,5 @@
 import axios from "axios";
+import { GET_STOCK_PRODUCT, GET_STOCK_BY_ID_PRODUCT } from "api";
 
 export const stock = {
     state: {
@@ -18,14 +19,12 @@ export const stock = {
       // handle state changes with impure functions.
       // use async/await for async actions
         fetchProducts(payload, rootState) {
-            const stock = "http://localhost:8080/stock/getAllProducts";
-            axios.get(stock)
+            axios.get(GET_STOCK_PRODUCT)
                 .then(res => this.setStock(res.data.stock))
                 .catch(err => console.log(err))
         },
         fetchStockByIdProduct(productId) {
-            const stock = `http://localhost:8080/stocks/getstock/${productId}`;
-            axios.get(stock)
+            axios.get(`${GET_STOCK_BY_ID_PRODUCT}/${productId}`)
                 .then(res => this.setStock(res.data.stock))
                 .catch(err => console.log(err))
         }
