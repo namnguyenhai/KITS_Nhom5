@@ -25,7 +25,7 @@ root.render(
           pauseOnFocusLoss
           draggable
           pauseOnHover
-          theme="light"
+          theme="colored"
         />
       </React.StrictMode>
     </BrowserRouter>

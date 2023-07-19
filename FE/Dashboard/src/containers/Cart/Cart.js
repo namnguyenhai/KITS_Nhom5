@@ -11,19 +11,20 @@ const Cart = () => {
     const page = "Shopping Cart";
 
     const dispatch = useDispatch();
-    const cart = useSelector((state) => state.cart);
+    const cart = useSelector((state) => state.cart.products);
 
     const [visibility, setVisibility] = useState("hidden");
 
     const [selectedOption, setSelectedOption] = useState('');
 
-    const handleGetQuantity = (qty, productId) => {
-        const updatedCart = cart.products.map((product) => {
+    const handleGetQuantity = (qty, productId, sizeName, colorName) => {
+        const updatedCart = cart?.map((product) => {
             if (product.id === productId) {
                 return { ...product, quantity: qty };
             }
             return product;
         });
+
         dispatch.cart.setCart(updatedCart);
     };
 
@@ -41,11 +42,20 @@ const Cart = () => {
 
     const calculateSubtotal = () => {
         let subtotal = 0;
-        cart.products.forEach((product) => {
-          subtotal += product.price * product.quantity;
+        cart?.forEach((product) => {
+          subtotal += product.unitPrice * product.quantity;
         });
         return subtotal;
     };
+
+    const handleRemoveProdToCart = (productId, size, color) => {
+        console.log(productId, size, color);
+        dispatch.cart.removeCart(productId, size, color);
+    }
+
+    useEffect(() => {
+        dispatch.cart.fetchCart();
+    }, [dispatch, cart])
 
     return (
         <HelmetProvider>
@@ -68,37 +78,42 @@ const Cart = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                { cart.products.length !== 0 ? cart.products.map(pd => (
-                                    <tr key={pd.id}>
+                                { cart.length !== 0 ? cart.map((pd, index) => (
+                                    <tr key={index}>
                                         <td className="d-flex w-350"> 
-                                            <img src={pd.image} alt="" />
+                                            <img src={pd.urlImage} alt="" />
                                             <div className="d-flex flex-column justify-center">
-                                                <p> {pd.name} </p>
+                                                <p> {pd.productName} </p>
                                                 <div className="wrapper-btn">
                                                     <Button
-                                                        bgColor={pd.color}
+                                                        bgColor={pd.colorName}
                                                         width="20px"
                                                         height="20px"
                                                     />
                                                 </div>
                                             </div>
                                         </td>
-                                        <td> {USDDollar(pd.price)} </td>
-                                        <td> {pd.size} </td>
+                                        <td> {USDDollar(pd.unitPrice)} </td>
+                                        <td> {pd.sizeName} </td>
                                         <td> 
                                             <ButtonQuantity
                                                 initial={pd.quantity}
-                                                productId={pd.id}
+                                                productId={pd.productId}
+                                                sizeName={pd.sizeName}
+                                                colorName={pd.colorName}
                                                 handleGetQuantity={handleGetQuantity} 
                                             /> 
                                         </td>
-                                        <td> {USDDollar(pd.price * pd.quantity)} </td>
+                                        <td> {USDDollar(pd.unitPrice * pd.quantity)} </td>
                                         <td>
                                             <div className="d-flex">
                                                 <Button className="cart-btn-action">
                                                     <Save />
                                                 </Button>
-                                                <Button className="cart-btn-action">
+                                                <Button 
+                                                    className="cart-btn-action"
+                                                    onClick={() => handleRemoveProdToCart(pd.productId, pd.sizeName, pd.colorName)}
+                                                >
                                                     <Close />
                                                 </Button>
                                             </div>
