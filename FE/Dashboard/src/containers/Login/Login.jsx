@@ -131,6 +131,7 @@ const LoginStyled = styled.div`
   .buttonToSignInUp {
     border: none;
     background-color: transparent;
+    cursor: pointer;
   }
   .buttonForgot {
     border: none;
@@ -276,7 +277,10 @@ export const Login = () => {
               >
                 Don’t have an account?
               </TextFormat>
-              <button className="buttonToSignInUp">
+              <button
+                className="buttonToSignInUp"
+                onClick={() => navigate("/accounts/new")}
+              >
                 <TextFormat
                   color={"#0EA5E9"}
                   size={"16px"}

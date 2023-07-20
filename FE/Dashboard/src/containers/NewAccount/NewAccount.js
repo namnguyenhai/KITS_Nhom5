@@ -4,16 +4,21 @@ import Tab from 'components/Tab';
 import InputGroup from 'components/InputGroup';
 import { Button } from "components/Button";
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 function NewAccount() {
     // const register = useSelector((state) => state.register);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const page = "Accounts New";
     const [form, setForm] = useState({
         firstName: '',
         lastName: '',
+        username: '',
         email: '',
+        phoneNumber: '',
+        address: '',
         password: '',
         confirmPassword: '',
     });
@@ -21,7 +26,10 @@ function NewAccount() {
     const [formErrors, setFormErrors] = useState({
         firstName: false,
         lastName: false,
+        username: false,
         email: false,
+        phoneNumber: false,
+        address: false,
         password: false,
         confirmPassword: false,
     });
@@ -65,15 +73,18 @@ function NewAccount() {
             {
                 id: "password",
                 label: "Password",
+                type: "password",
             },
             {
                 id: "confirmPassword",
                 label: "Confirm Password",
+                type: "password",
             },
         ]
     };
 
     const handleOnChange = (e, input) => {
+
         const { value } = e.target;
         setForm(prevForm => ({
             ...prevForm,
@@ -91,6 +102,24 @@ function NewAccount() {
                 [input]: false
             }));
         }
+
+        if (input === 'email') {
+            // Simple email format validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            setFormErrors(prevErrors => ({
+                ...prevErrors,
+                email: !emailRegex.test(value)
+            }));
+        }
+
+        if (input === 'phoneNumber') {
+            // Simple phone number format validation (10 digits)
+            const phoneRegex = /^\d{10}$/;
+            setFormErrors(prevErrors => ({
+                ...prevErrors,
+                phoneNumber: !phoneRegex.test(value)
+            }));
+        }
     }
 
     const handleOnBlur = (input) => {
@@ -104,8 +133,14 @@ function NewAccount() {
         if (isFocused[input] && formErrors[input]) {
             return <p>{`${label} is required`}</p>;
         }
+
+        if ((input === 'email' || input === 'phoneNumber') && formErrors[input]) {
+            return <p>{`${label} is invalid`}</p>;
+        }
+
         return null;
-    }
+    };
+
 
     const handleFocus = (input) => {
         setIsFocused(prevIsFocused => ({
@@ -122,6 +157,15 @@ function NewAccount() {
             return;
         }
 
+        // Password matching check
+        if (form.password !== form.confirmPassword) {
+            setFormErrors(prevErrors => ({
+                ...prevErrors,
+                confirmPassword: true
+            }));
+            return;
+        }
+
         try {
             // Call API register
             await dispatch.register.registerUser({
@@ -134,15 +178,14 @@ function NewAccount() {
                 username: form.username,
                 password: form.password,
             });
-
-            console.log("Thành công")
+            navigator("/login");
         } catch (error) {
             console.error("Đã xảy ra lỗi khi đăng ký:", error);
             // Xử lý lỗi ở đây nếu cần thiết
         }
     }
 
-    
+
     return (
         <HelmetProvider>
             <Helmet>
@@ -171,10 +214,10 @@ function NewAccount() {
                                     {renderError(item.id, item.label)}
                                 </div>
                             ))}
-                            <div className="checkbox-sign-up">
+                            {/* <div className="checkbox-sign-up">
                                 <input id="sign-up-newsletter" type="checkbox" />
                                 <label htmlFor="sign-up-newsletter">Sign Up for Newsletter</label>
-                            </div>
+                            </div> */}
                         </div>
                         <div className="input-control">
                             <h3>Sign Up for Newsletter</h3>
@@ -182,6 +225,7 @@ function NewAccount() {
                                 <div key={item.id} className="input">
                                     <InputGroup
                                         id={item.id}
+                                        type={item.type}
                                         label={item.label}
                                         placeholder={item.label}
                                         value={form[item.id]}
@@ -205,6 +249,7 @@ function NewAccount() {
                             <Button
                                 type="button"
                                 className="btn-action-back"
+                                onClick={() => navigate("/login")}
                             >
                                 Back
                             </Button>
