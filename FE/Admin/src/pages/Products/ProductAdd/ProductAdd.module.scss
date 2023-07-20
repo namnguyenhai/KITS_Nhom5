@@ -132,6 +132,8 @@
         transition: 0.3s ease all;
         z-index: 1;
         position: relative;
+        width: 15%;
+        min-width: 100px;
         
         svg {
             position: absolute;

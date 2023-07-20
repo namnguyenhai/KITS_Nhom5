@@ -1,5 +1,5 @@
 import axios from "axios";
-import { GET_PRODUCT, ADD_STOCK_PRODUCT } from "api";
+import { GET_PRODUCT, ADD_PRODUCT } from "api";
 
 export const products = {
     state: {
@@ -24,7 +24,7 @@ export const products = {
           .catch(err => console.log(err))
       },
       addProduct(data) {
-        axios.post(ADD_STOCK_PRODUCT, data)
+        axios.post(ADD_PRODUCT, data)
           .then(res => this.setProducts(res.data.product))
           .catch(err => console.log(err))
       }

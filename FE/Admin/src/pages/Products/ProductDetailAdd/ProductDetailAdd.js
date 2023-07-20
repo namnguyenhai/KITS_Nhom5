@@ -4,8 +4,6 @@ import Wrapper from "components/Wrapper";
 import FormInput from 'components/FormInput'
 import styles from './ProductDetailAdd.module.scss';
 import Button from "components/Button";
-import { useNavigate } from "react-router-dom";
-
 import { useSelector, useDispatch } from 'react-redux';
 
 // Library UI
@@ -17,16 +15,15 @@ import { toast } from 'react-toastify';
 const cx = classNames.bind(styles);
 
 function ProductDetailAdd(props) {
-    const { product } = props;
+    const { formAddProdDetail, productId } = props;
     const dispatch = useDispatch();
-    const navigate = useNavigate();
 
     // Price and quantity
     const [price, setPrice] = useState('');
     const [quantity, setQuantity] = useState('');
 
     // Size
-    const sizeList = useSelector((state) => state.sizes.SizeList);
+    const sizeList = useSelector((state) => state.sizes.sizeList);
     const [size, setSize] = useState('');
     const [newSize, setNewSize] = useState('');
 
@@ -84,13 +81,13 @@ function ProductDetailAdd(props) {
         const data = {
             quantityStock: quantity,
             priceStock: price,
-            product:{
-                productId: product.id,
+            product: {
+                productId: productId,
             },
-            color:{
+            color: {
                 colorName: color
             },
-            size:{
+            size: {
                 sizeName: size
             }
         };
@@ -101,7 +98,7 @@ function ProductDetailAdd(props) {
             })
         }
 
-        dispatch.products.addProduct(data)
+        Promise.all([dispatch.stock.addStock(data)])
             .then(res => {
                 setPrice("");
                 setQuantity("");
@@ -117,7 +114,7 @@ function ProductDetailAdd(props) {
     }
 
     const goBack = () => {
-        navigate(-1);
+        formAddProdDetail(false)
     }
 
     return (
@@ -126,15 +123,6 @@ function ProductDetailAdd(props) {
             <form
                 onSubmit={e => handleSubmit(e)}
             >
-
-        {/* *********************** PRODUCT NAME ****************************** */}
-                <FormInput
-                    disable
-                    className={cx('form-control')}
-                    classNameIp={cx('form-control-ip')}
-                    label="Name"
-                    value={product.name}
-                />
         
         {/* *********************** Quantity ****************************** */}
                 <FormInput
@@ -145,9 +133,9 @@ function ProductDetailAdd(props) {
                     onChange={(e) => setQuantity(e.target.value)}
                 />
 
-                {/* PRICE */}
+        {/* *********************** Quantity ****************************** */}
                 <FormInput
-                    className={cx('form-control')}
+                    className={cx('form-control', 'price')}
                     classNameIp={cx('form-control-ip')}
                     label="Price"
                     onChange={(e) => setPrice(e.target.value)}

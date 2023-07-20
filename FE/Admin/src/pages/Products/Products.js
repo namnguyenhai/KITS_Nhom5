@@ -120,12 +120,6 @@ function Products() {
         createData(pd.productId, pd.productName, pd.brand, pd.categoryName, <Eye onClick={() => handleOpenModal(pd)}/>)
     );
 
-    // products?.map(pd => {
-    //     const images =  pd.urlImage.split(",");
-    //     console.log(images);
-
-    // })
-
     // Handle edit product
     const handleEdit = (id) => {
         console.log(id)
@@ -140,7 +134,7 @@ function Products() {
     const handleSelectedAll = (arr) => {
         console.log(arr)
     }
-
+    //* *************************  PRODUCT DETAIL ****************************************** *//
     // Title modal content product detail
     const headCellsPdDetail = [
         {
@@ -215,18 +209,32 @@ function Products() {
         </div>
     );
 
-    const TablePdDetail = !formAddProdDetail ? (
+    const handleFormAddProdDetail = (e) => setFormAddProdDetail(e);
+     // Handle edit product
+     const handleEditDetail = (id) => {
+        console.log(id)
+    }
+
+    // Handle delete product
+    const handleDeleteDetail = (id) => {
+        console.log(id)
+    }
+
+    // Handle selectedAll product
+    const handleSelectedAllDetail = (arr) => {
+        console.log(arr)
+    }
+    const TablePdDetail = formAddProdDetail ? (
+        <ProductDetailAdd formAddProdDetail={handleFormAddProdDetail} productId={stock[0].productId}/> ) : (
         <Table 
             key={2}
             headCells={headCellsPdDetail}
             rows={rowsPdDetail}
             deleteById={handleDelete} 
-            EditById={handleEdit} 
-            selectedAll={handleSelectedAll}
+            EditById={handleDeleteDetail} 
+            selectedAll={handleSelectedAllDetail}
         />
-    ) : <ProductDetailAdd product={rowsPdDetail}/>
-
-    console.log(rowsPdDetail)
+    )
 
     return (
         <Wrapper className={cx('products')}>
