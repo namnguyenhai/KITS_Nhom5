@@ -1,27 +1,6 @@
 import axios from "axios";
-import { GET_CART, ADD_TO_CART, REMOVE_CART_BY_ID_SIZE_COLOR, CLEAR_CART } from "api";
-// import { cartPd1, cartPd2 } from "components/ImageList";
-// const productsCart = [
-//     {
-//         id: 1,
-//         name: "Angels malu zip jeans slim black used",
-//         image: cartPd1,
-//         price: 120,
-//         size: "W32",
-//         color: "blue",
-//         quantity: 2,
-//     },
-//     {
-//         id: 2,
-//         name: "Angels malu zip jeans slim black used",
-//         image: cartPd2,
-//         price: 120,
-//         size: "W32",
-//         color: "pink",
-//         quantity: 1,
-//     },
-// ];
 import { toast } from 'react-toastify';
+import { GET_CART, ADD_TO_CART, UPDATE_CART, REMOVE_CART_BY_ID_SIZE_COLOR, CLEAR_CART } from "api";
 
 export const cart = {
     state: {
@@ -51,29 +30,38 @@ export const cart = {
                 .then(res => {
                     this.setCart(res.data);
 
-                    return toast.success("THÊM SẢN PHẨM VÀO GIỎ HÀNG THÀNH CÔNG", {
+                    return toast.success("ADDING PRODUCTS TO CART SUCCESSFULLY", {
                         position: toast.POSITION.TOP_CENTER,
                     })
                 })
-                .catch(err => toast.error("THÊM SẢN PHẨM VÀO GIỎ HÀNG KHÔNG THÀNH CÔNG", {
+                .catch(err => toast.error("ADDING PRODUCTS TO CART FAILURE", {
                     position: toast.POSITION.TOP_CENTER,
                 }))
         },
-        async removeCart(productId, size, color) {
-            await axios.post(`${REMOVE_CART_BY_ID_SIZE_COLOR}/${productId}/${size}/${color}`)
-                .then(res => toast.success("XÓA GIỎ HÀNG THÀNH CÔNG", {
-                    position: toast.POSITION.TOP_CENTER,
-                }))
-                .catch(err => toast.error("XÓA GIỎ HÀNG KHÔNG THÀNH CÔNG", {
+
+        async updateCart(product) {
+            await axios.put(UPDATE_CART, product)
+                .then(res => {})
+                .catch(err => toast.error("UPDATE PRODUCTS TO CART FAILURE", {
                     position: toast.POSITION.TOP_CENTER,
                 }))
         },
-        async removeCart() {
-            await axios.post(`${CLEAR_CART}`)
-                .then(res => toast.success("XÓA TẤT CẢ SẢN PHẨM TRONG GIỎ HÀNG THÀNH CÔNG", {
+
+        async removeCart(product) {
+            await axios.delete(`${REMOVE_CART_BY_ID_SIZE_COLOR}/${product.productId}/${product.sizeName}/${product.colorName}`)
+                .then(res => toast.success("CART DELETE SUCCESSFULLY", {
                     position: toast.POSITION.TOP_CENTER,
                 }))
-                .catch(err => toast.success("XÓA TẤT CẢ SẢN PHẨM TRONG GIỎ HÀNG KHÔNG THÀNH CÔNG", {
+                .catch(err => toast.error("CART DELETE FAILURE", {
+                    position: toast.POSITION.TOP_CENTER,
+                }))
+        },
+        async removeAllCart() {
+            await axios.delete(`${CLEAR_CART}`)
+                .then(res => toast.success("DELETE ALL PRODUCTS IN CART SUCCESSFULLY", {
+                    position: toast.POSITION.TOP_CENTER,
+                }))
+                .catch(err => toast.success("CLEARING ALL PRODUCTS IN CART FAILURE", {
                     position: toast.POSITION.TOP_CENTER,
                 }))
         },
