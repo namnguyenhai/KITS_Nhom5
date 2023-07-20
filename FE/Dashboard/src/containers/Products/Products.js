@@ -12,6 +12,7 @@ import { useEffect, useState } from "react";
 import { ProductCarousel } from "components/ProductCarousel";
 import { useSelector, useDispatch } from "react-redux";
 import ButtonQuantity from "components/ButtonQuantity";
+import { toast } from 'react-toastify';
 
 const Products = () => {
     const page = "Products";
@@ -87,21 +88,37 @@ const Products = () => {
         setImgShow(img)
     }
 
-    const handleAddToCart = async () => {
+    const handleAddToCart = () => {
         const data = {
             productId: product.id,
+            productName: product.name,
             unitPrice: product.price,
             quantity,
+            urlImage: imgShow,
             colorName: active.color,
             sizeName: active.size
         };
 
+        if(data.quantity < 1) {
+            return toast.warning("QUANTITY INVALID", {
+                position: toast.POSITION.TOP_CENTER,
+            })
+        } else if(!data.colorName) {
+            return toast.warning("PLEASE CHOOSE PRODUCT COLOR", {
+                position: toast.POSITION.TOP_CENTER,
+            })
+        } else if(!data.sizeName) {
+            return toast.warning("PLEASE CHOOSE PRODUCT SIZE", {
+                position: toast.POSITION.TOP_CENTER,
+            })
+        }
+        
         dispatch.cart.addToCart(data);
     }
 
     useEffect(() => {
         dispatch.cart.fetchCart();
-    }, [dispatch, cart])
+    }, [dispatch])
     
     return (
       <HelmetProvider>

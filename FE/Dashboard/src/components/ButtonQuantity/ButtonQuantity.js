@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Increase, Decrease } from 'components/ImageList';
 import './ButtonQuantity.scss';
 
-const ButtonQuantity = ({ className, initial, productId, handleGetQuantity, ...props }) => {
+const ButtonQuantity = ({ className, initial, productId, sizeName, colorName, handleGetQuantity, ...props }) => {
     const [quantity, setQuantity] = useState(!initial ? 1 : initial);
 
     const increaseQuantity = () => {
@@ -15,15 +15,16 @@ const ButtonQuantity = ({ className, initial, productId, handleGetQuantity, ...p
         }
     };
 
-    // useEffect(() => {
-    //     handleGetQuantity(quantity, productId);
-    // }, [quantity]);
+
+    useEffect(() => {
+        handleGetQuantity(quantity, productId, sizeName, colorName);
+    }, [quantity]);
 
     return (
         <div className="btn-quantity">
             <input 
                 type="number" 
-                min={0}
+                min={1}
                 value={quantity} 
                 onChange={(e) => setQuantity(Number(e.target.value))}
                 {...props}

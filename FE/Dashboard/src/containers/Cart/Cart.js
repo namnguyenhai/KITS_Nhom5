@@ -5,27 +5,22 @@ import { Button } from "components/Button";
 import ButtonQuantity from "components/ButtonQuantity";
 import { useSelector, useDispatch } from 'react-redux';
 import { Save, Close, HideDetail, ShowDetail } from 'components/ImageList';
-import { useState } from "react";
+import { useEffect, useState, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast } from 'react-toastify';
 
 const Cart = () => {
     const page = "Shopping Cart";
 
+    const navigate = useNavigate();
     const dispatch = useDispatch();
-    const cart = useSelector((state) => state.cart);
+    const cart = useSelector((state) => state.cart.products);
+
+    const [isCartChanged, setCartChanged] = useState(false);
 
     const [visibility, setVisibility] = useState("hidden");
 
     const [selectedOption, setSelectedOption] = useState('');
-
-    const handleGetQuantity = (qty, productId) => {
-        const updatedCart = cart.products.map((product) => {
-            if (product.id === productId) {
-                return { ...product, quantity: qty };
-            }
-            return product;
-        });
-        dispatch.cart.setCart(updatedCart);
-    };
 
     const handleOptionChange = (event) => {
         setSelectedOption(event.target.value);
@@ -41,11 +36,44 @@ const Cart = () => {
 
     const calculateSubtotal = () => {
         let subtotal = 0;
-        cart.products.forEach((product) => {
-          subtotal += product.price * product.quantity;
+        cart?.map((product) => {
+          subtotal += product.unitPrice * product.quantity;
         });
         return subtotal;
     };
+
+    const handleGetQuantity = useCallback((quantity, productId, sizeName, colorName) => {
+        const data = { productId, quantity, sizeName, colorName };
+        dispatch.cart.updateCart(data);
+        setCartChanged(true);
+    }, [dispatch.cart]);
+
+    const handleRemoveProdToCart = useCallback((productId, sizeName, colorName) => {
+        const data = { productId, sizeName, colorName };
+        dispatch.cart.removeCart(data);
+        setCartChanged(true);
+    }, [dispatch.cart]);
+
+    const handleRemoveAllProdToCart = useCallback(() => {
+        dispatch.cart.removeAllCart();
+        setCartChanged(true);
+    }, [dispatch.cart]);
+
+    const handleCheckout = () => {
+        navigate("/payment");
+    }
+
+    useEffect(() => {
+        // Fetch cart data only on the first render
+        dispatch.cart.fetchCart();
+    }, [dispatch.cart]);
+
+    useEffect(() => {
+        if (isCartChanged) {
+            dispatch.cart.fetchCart();
+            setCartChanged(false);
+        }
+    }, [isCartChanged]);
 
     return (
         <HelmetProvider>
@@ -68,37 +96,45 @@ const Cart = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                { cart.products.length !== 0 ? cart.products.map(pd => (
-                                    <tr key={pd.id}>
+                                { cart.length !== 0 ? cart.map((pd, index) => (
+                                    <tr key={index}>
                                         <td className="d-flex w-350"> 
-                                            <img src={pd.image} alt="" />
+                                            <img src={pd.urlImage} alt="" />
                                             <div className="d-flex flex-column justify-center">
-                                                <p> {pd.name} </p>
+                                                <p> {pd.productName} </p>
                                                 <div className="wrapper-btn">
                                                     <Button
-                                                        bgColor={pd.color}
+                                                        bgColor={pd.colorName}
                                                         width="20px"
                                                         height="20px"
                                                     />
                                                 </div>
                                             </div>
                                         </td>
-                                        <td> {USDDollar(pd.price)} </td>
-                                        <td> {pd.size} </td>
+                                        <td> {USDDollar(pd.unitPrice)} </td>
+                                        <td> {pd.sizeName} </td>
                                         <td> 
                                             <ButtonQuantity
                                                 initial={pd.quantity}
-                                                productId={pd.id}
+                                                productId={pd.productId}
+                                                sizeName={pd.sizeName}
+                                                colorName={pd.colorName}
                                                 handleGetQuantity={handleGetQuantity} 
                                             /> 
                                         </td>
-                                        <td> {USDDollar(pd.price * pd.quantity)} </td>
+                                        <td> {USDDollar(pd.unitPrice * pd.quantity)} </td>
                                         <td>
                                             <div className="d-flex">
-                                                <Button className="cart-btn-action">
+                                                <Button 
+                                                    className="cart-btn-action"
+                                                    onClick={() => navigate(-1)}
+                                                >
                                                     <Save />
                                                 </Button>
-                                                <Button className="cart-btn-action">
+                                                <Button 
+                                                    className="cart-btn-action"
+                                                    onClick={() => handleRemoveProdToCart(pd.productId, pd.sizeName, pd.colorName)}
+                                                >
                                                     <Close />
                                                 </Button>
                                             </div>
@@ -111,7 +147,11 @@ const Cart = () => {
                                             <Button type="submit" className="cart-btn">
                                                 <p>Continue shopping</p>
                                             </Button>
-                                            <Button type="button" className="cart-btn">
+                                            <Button 
+                                                type="button" 
+                                                className="cart-btn"
+                                                onClick={handleRemoveAllProdToCart}
+                                            >
                                                 <p>Clear shopping cart</p>
                                             </Button>
                                         </div>
@@ -208,7 +248,7 @@ const Cart = () => {
                                 <p>Order Total</p>
                                 <p> {USDDollar(calculateSubtotal())} </p>
                             </div>
-                            <Button type="button" className="checkout-btn">
+                            <Button onClick={handleCheckout} type="button" className="checkout-btn">
                                 <p>Proceed to checkout</p>
                             </Button>
                         </div>                        
