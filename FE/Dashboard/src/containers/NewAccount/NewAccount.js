@@ -4,8 +4,11 @@ import Tab from 'components/Tab';
 import InputGroup from 'components/InputGroup';
 import { Button } from "components/Button";
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 function NewAccount() {
+    // const register = useSelector((state) => state.register);
+    const dispatch = useDispatch();
     const page = "Accounts New";
     const [form, setForm] = useState({
         firstName: '',
@@ -44,8 +47,20 @@ function NewAccount() {
         ],
         signUp: [
             {
+                id: "username",
+                label: "User Name",
+            },
+            {
                 id: "email",
                 label: "Email",
+            },
+            {
+                id: "phoneNumber",
+                label: "Phone Number",
+            },
+            {
+                id: "address",
+                label: "Address",
             },
             {
                 id: "password",
@@ -99,16 +114,35 @@ function NewAccount() {
         }));
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
+        // Error input check
+        const hasErrors = Object.values(formErrors).some((error) => error);
+        if (hasErrors) {
+            return;
+        }
+
+        try {
+            // Call API register
+            await dispatch.register.registerUser({
+                firstName: form.firstName,
+                lastName: form.lastName,
+                email: form.email,
+                phoneNumber: form.phoneNumber,
+                image: null,
+                address: form.address,
+                username: form.username,
+                password: form.password,
+            });
+
+            console.log("Thành công")
+        } catch (error) {
+            console.error("Đã xảy ra lỗi khi đăng ký:", error);
+            // Xử lý lỗi ở đây nếu cần thiết
+        }
     }
 
-    // console.log("firstName: ", form.firstName)
-    // console.log("lastName: ", form.lastName)
-    // console.log("email: ", form.email)
-    // console.log("password: ", form.password)
-    // console.log("confirmPassword: ", form.confirmPassword)
-
+    
     return (
         <HelmetProvider>
             <Helmet>
@@ -152,8 +186,8 @@ function NewAccount() {
                                         placeholder={item.label}
                                         value={form[item.id]}
                                         onChange={e => handleOnChange(e, item.id)}
-                                        onBlur={() => handleOnBlur(item.id)} 
-                                        onFocus={() => handleFocus(item.id)} 
+                                        onBlur={() => handleOnBlur(item.id)}
+                                        onFocus={() => handleFocus(item.id)}
                                     />
                                     {renderError(item.id, item.label)}
                                 </div>

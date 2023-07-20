@@ -114,7 +114,7 @@ export const Header = () => {
         <NavLink to="/login" className="nav-item">
           sign in
         </NavLink>
-        <NavLink to="/sign-up" className="nav-item">
+        <NavLink to="/accounts/new" className="nav-item">
           create an account
         </NavLink>
         <NavLink to="/favourite" className="nav-item">
