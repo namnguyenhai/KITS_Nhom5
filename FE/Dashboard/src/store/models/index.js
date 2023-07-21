@@ -1,3 +1,5 @@
 import { products } from "./products";
 import { cart } from "./cart";
-export { products, cart };
+import { orders } from "./orders";
+
+export { products, cart, orders };

@@ -6,11 +6,13 @@ import { Button } from 'components/Button';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { ArrowUp } from 'components/ImageList';
+
 const Payment = () => {
     const page = "Create Payment";
 
     const dispatch = useDispatch();
     const cart = useSelector((state) => state.cart.products);
+    const orders = useSelector((state) => state.cart.orders);
 
     const [visibility, setVisibility] = useState("visible");
 
@@ -34,7 +36,9 @@ const Payment = () => {
         dispatch.cart.fetchCart();
     }, [dispatch.cart]);
 
-    console.log(cart)
+    const handleCheckout = () => {
+        dispatch.orders.checkout();
+    }
 
     return (
         <HelmetProvider>
@@ -60,7 +64,7 @@ const Payment = () => {
                             </div>
                         </div>
                         <div className="payment-btn">
-                            <Button>
+                            <Button onClick={handleCheckout}>
                                 <p>Place Order</p>
                             </Button>
                             <Button>
