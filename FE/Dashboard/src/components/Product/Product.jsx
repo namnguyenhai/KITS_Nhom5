@@ -103,6 +103,8 @@ export const Product = ({
   const hasDiscount = oldprice > price;
 
   // Split the color and image URLs into arrays
+  const priceApi = price ? price.split(",") : [];
+  const firstPrice = priceApi.length > 0 ? priceApi[0].trim() : null;
   const colorOptions = color ? color.split(",") : [];
   const imageUrls = bgImage ? bgImage.split(",") : [];
   const firstImageUrl = imageUrls.length > 0 ? imageUrls[0].trim() : null;
@@ -121,7 +123,7 @@ export const Product = ({
           <p className="old">{USDollar.format(oldprice)}</p>
         </div>
       ) : (
-        <p className="price">{USDollar.format(price)}</p>
+        <p className="price">{USDollar.format(firstPrice)}</p>
       )}
       {colorOptions.length > 0 ? (
         <div className="colors">
