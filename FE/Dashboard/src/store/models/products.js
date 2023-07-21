@@ -118,8 +118,8 @@ export const products = {
         const response = await axios.get(ALL_PRODUCTS);
         const data = response.data.product;
         // Log the fetched data and its type to the console
-        console.log('Fetched data:', data);
-        console.log('Type of data:', typeof data);
+        // console.log('Fetched data:', data);
+        // console.log('Type of data:', typeof data);
         // call data
         dispatch.products.setListProduct(data);
       } catch (error) {

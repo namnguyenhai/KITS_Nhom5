@@ -9,3 +9,6 @@ export const REMOVE_CART_BY_ID_SIZE_COLOR = `${DOMAIN}/remove-cart`;
 export const UPDATE_CART = `${DOMAIN}/update-cart`;
 export const CLEAR_CART = `${DOMAIN}/remove-all-cart`;
 export const CHECKOUT = `${DOMAIN}/api/user/orders/checkout`;
+export const ALL_COLORS = `${DOMAIN}/colors/getallcolor`;
+export const ALL_SIZES = `${DOMAIN}/sizes/getallsize`;
+export const ALL_CATEGORIES = `${DOMAIN}/category/getallcategory`;
