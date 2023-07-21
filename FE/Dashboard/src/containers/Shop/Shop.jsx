@@ -205,7 +205,7 @@ const QueryProducts = styled.div`
     right: 0;
     top: -5%;
   }
-  .colors {
+  .color {
     display: flex;
     width: 27px;
     height: 27px;
@@ -216,6 +216,10 @@ const QueryProducts = styled.div`
   .color.selected {
     border: 2px solid #fff;
     outline: 2px solid #000;
+  }
+  .choose {
+    border: 1px solid #000;
+    color: #000;
   }
 `;
 
@@ -267,6 +271,18 @@ const Shop = () => {
       .catch((error) => console.error("Error fetching data:", error));
   }, []);
 
+  // Select color
+  const [selectedColor, setSelectedColor] = useState(null);
+  const handleColorSelect = (colorOption) => {
+    setSelectedColor(colorOption);
+  };
+
+  // Select brand
+  const [selectedSize, setSelectedSize] = useState(null);
+  const handleSizeSelect = (sizeOption) => {
+    setSelectedSize(sizeOption);
+  };
+
   return (
     <HelmetProvider>
       <Helmet>
@@ -316,7 +332,11 @@ const Shop = () => {
               </div>
               <div className="allsize">
                 {sizes.map((size, index) => (
-                  <Button key={index} className="size">
+                  <Button
+                    key={index}
+                    className={`size ${selectedSize === size ? "choose" : ""}`}
+                    onClick={() => handleSizeSelect(size)}
+                  >
                     {size.sizeName}
                   </Button>
                 ))}
@@ -329,8 +349,14 @@ const Shop = () => {
               </div>
               <div className="allcolor">
                 {colors.map((color, index) => (
-                  <div className="colors" key={index}>
-                    <Button className="color" bgColor={color.colorName} />
+                  <div className="color" key={index}>
+                    <Button
+                      bgColor={color.colorName}
+                      className={`color ${
+                        selectedColor === color ? "selected" : ""
+                      }`}
+                      onClick={() => handleColorSelect(color)}
+                    />
                   </div>
                 ))}
               </div>
