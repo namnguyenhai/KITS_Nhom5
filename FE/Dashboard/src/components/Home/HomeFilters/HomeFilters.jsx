@@ -2,6 +2,7 @@ import { Product } from "components/Product";
 import { styled } from "styled-components";
 import { Button } from "components/Button";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 const HFStyled = styled.div`
   margin-top: 48px;
@@ -42,6 +43,9 @@ const HFStyled = styled.div`
     gap: 25px;
     margin-bottom: 60px;
   }
+  .link {
+    text-decoration: none;
+  }
 `;
 
 export const HomeFilters = () => {
@@ -69,13 +73,18 @@ export const HomeFilters = () => {
       <div className="right">
         <div className="products">
           {productsStore.listProduct.map((card) => (
-            <Product
+            <Link
               key={card.productId}
-              name={card.productName}
-              bgImage={card.urlImage}
-              category={card.categoryName}
-              price={card.priceStock}
-            />
+              to={`/products/${card.productId}`}
+              className="link"
+            >
+              <Product
+                name={card.productName}
+                bgImage={card.urlImage}
+                category={card.categoryName}
+                price={card.priceStock}
+              />
+            </Link>
           ))}
         </div>
         <Button
