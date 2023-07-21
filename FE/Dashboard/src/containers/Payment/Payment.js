@@ -1,5 +1,5 @@
 import './Payment.scss';
-import { HideDetail, ShowDetail } from 'components/ImageList';
+// import { HideDetail, ShowDetail } from 'components/ImageList';
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import Tab from 'components/Tab';
 import { Button } from 'components/Button';

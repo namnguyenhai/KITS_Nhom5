@@ -4,7 +4,7 @@ import Tab from "components/Tab";
 import { 
     product1, product2, product3, Heart, 
     Checked, Zoom, Facebook, Twitter, Pinterest, Instagram, 
-    HideDetail, ShowDetail, Increase
+    HideDetail, ShowDetail
 } from 'components/ImageList';
 import { Button } from "components/Button";
 import { Link } from "react-router-dom";

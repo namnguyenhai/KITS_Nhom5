@@ -11,7 +11,8 @@ import mid from "assets/images/home/midbanner.svg";
 import { Button } from "components/Button";
 import { BottomAds, BrandAds, HomeBlog, HomeFilters } from "components/Home";
 import { ProductCarousel } from "components/ProductCarousel";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
 
 const HomeStyled = styled.div`
   margin: 20px;
@@ -121,6 +122,12 @@ const BgBanner = styled.div`
 
 const Homepage = () => {
   const productsStore = useSelector((state) => state.products);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    // Fetch products when the component mounts
+    dispatch.products.fetchProducts();
+  }, [dispatch.products]);
 
   return (
     <HelmetProvider>
@@ -150,7 +157,7 @@ const Homepage = () => {
               </div>
             </div>
           </BgBanner>
-          <BgBanner></BgBanner>
+          <BgBanner />
         </Carousel>
         <BrandAds />
         <HomeFilters />
@@ -168,7 +175,7 @@ const Homepage = () => {
         </div>
         <div className="bestsell">
           <p className="bestsell-title">best sellers</p>
-          <ProductCarousel productList={ productsStore.listProduct } />
+          <ProductCarousel productList={productsStore.listProduct} />
         </div>
         <BottomAds />
         <HomeBlog />
