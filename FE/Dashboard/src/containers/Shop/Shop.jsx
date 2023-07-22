@@ -222,6 +222,9 @@ const QueryProducts = styled.div`
     border: 1px solid #000;
     color: #000;
   }
+  .link {
+    text-decoration: none;
+  }
 `;
 
 const Shop = () => {
