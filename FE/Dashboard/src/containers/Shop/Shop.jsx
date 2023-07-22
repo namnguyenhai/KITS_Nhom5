@@ -12,6 +12,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { ALL_CATEGORIES, ALL_COLORS, ALL_SIZES } from "api";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 const ShopStyled = styled.div`
   margin: 20px;
@@ -237,7 +238,11 @@ const Shop = () => {
   const [colors, setColors] = useState([]);
   // Get all categories, sizes, colors
   useEffect(() => {
-    Promise.all([axios.get(ALL_CATEGORIES), axios.get(ALL_SIZES), axios.get(ALL_COLORS)])
+    Promise.all([
+      axios.get(ALL_CATEGORIES),
+      axios.get(ALL_SIZES),
+      axios.get(ALL_COLORS),
+    ])
       .then(([categories, sizes, colors]) => {
         setCategories(categories.data.category);
         setSizes(sizes.data.size);
@@ -379,14 +384,19 @@ const Shop = () => {
             </div>
             <div className="products">
               {productsStore.listProduct.map((card) => (
-                <Product
+                <Link
                   key={card.productId}
-                  name={card.productName}
-                  bgImage={card.urlImage}
-                  category={card.categoryName}
-                  price={card.priceStock}
-                  color={card.colorName}
-                />
+                  to={`/products/${card.productId}`}
+                  className="link"
+                >
+                  <Product
+                    name={card.productName}
+                    bgImage={card.urlImage}
+                    category={card.categoryName}
+                    price={card.priceStock}
+                    color={card.colorName}
+                  />
+                </Link>
               ))}
             </div>
             <div className="mid-banner">
@@ -408,14 +418,19 @@ const Shop = () => {
             </div>
             <div className="products">
               {productsStore.listProduct.map((card) => (
-                <Product
+                <Link
                   key={card.productId}
-                  name={card.productName}
-                  bgImage={card.urlImage}
-                  category={card.categoryName}
-                  price={card.priceStock}
-                  color={card.colorName}
-                />
+                  to={`/products/${card.productId}`}
+                  className="link"
+                >
+                  <Product
+                    name={card.productName}
+                    bgImage={card.urlImage}
+                    category={card.categoryName}
+                    price={card.priceStock}
+                    color={card.colorName}
+                  />
+                </Link>
               ))}
             </div>
           </div>
