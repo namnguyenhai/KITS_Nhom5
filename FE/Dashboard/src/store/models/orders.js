@@ -1,6 +1,6 @@
 import axios from "axios";
 import { toast } from 'react-toastify';
-import { GET_CART, CHECKOUT } from "api";
+import { CHECKOUT } from "api";
 
 export const orders = {
     state: {
@@ -28,7 +28,7 @@ export const orders = {
                     position: toast.POSITION.TOP_CENTER,
                 }))
         }
-        
+
 
     }),
 

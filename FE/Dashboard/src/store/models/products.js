@@ -1,5 +1,5 @@
-mport axios from "axios";
-import { GET_PRODUCTS, GET_PRODUCT_BY_ID ,ALL_PRODUCTS} from "api";
+import axios from "axios";
+import { GET_PRODUCT_BY_ID ,ALL_PRODUCTS} from "api";
 export const products = {
     state: {
         listProduct: [],
@@ -48,7 +48,7 @@ export const products = {
             }
         },
         async getProductById(productId) {
-            await axios.get(${GET_PRODUCT_BY_ID}/${productId}) 
+            await axios.get(`${GET_PRODUCT_BY_ID}/${productId}`) 
                 .then(res => this.setProduct(res.data.product[0]))
                 .catch(err => console.log(err))
         },
