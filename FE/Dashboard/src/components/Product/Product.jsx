@@ -96,10 +96,10 @@ export const Product = ({
   ...rest
 }) => {
   const [selectedColor, setSelectedColor] = useState(null);
-
   const handleColorSelect = (colorOption) => {
     setSelectedColor(colorOption);
   };
+
   const hasDiscount = oldprice > price;
 
   // Split the color and image URLs into arrays

@@ -9,6 +9,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { Product } from "components/Product";
 import model from "assets/images/shop/model.svg";
 import { useEffect } from "react";
+import { useState } from "react";
+import { ALL_CATEGORIES, ALL_COLORS, ALL_SIZES } from "api";
+import axios from "axios";
+import { Link } from "react-router-dom";
 
 const ShopStyled = styled.div`
   margin: 20px;
@@ -202,6 +206,25 @@ const QueryProducts = styled.div`
     right: 0;
     top: -5%;
   }
+  .color {
+    display: flex;
+    width: 27px;
+    height: 27px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .color.selected {
+    border: 2px solid #fff;
+    outline: 2px solid #000;
+  }
+  .choose {
+    border: 1px solid #000;
+    color: #000;
+  }
+  .link {
+    text-decoration: none;
+  }
 `;
 
 const Shop = () => {
@@ -212,6 +235,36 @@ const Shop = () => {
     // Fetch products when the component mounts
     dispatch.products.fetchProducts();
   }, [dispatch.products]);
+
+  const [categories, setCategories] = useState([]);
+  const [sizes, setSizes] = useState([]);
+  const [colors, setColors] = useState([]);
+  // Get all categories, sizes, colors
+  useEffect(() => {
+    Promise.all([
+      axios.get(ALL_CATEGORIES),
+      axios.get(ALL_SIZES),
+      axios.get(ALL_COLORS),
+    ])
+      .then(([categories, sizes, colors]) => {
+        setCategories(categories.data.category);
+        setSizes(sizes.data.size);
+        setColors(colors.data.color);
+      })
+      .catch((error) => console.error("Error fetching data:", error));
+  }, []);
+
+  // Select color
+  const [selectedColor, setSelectedColor] = useState(null);
+  const handleColorSelect = (colorOption) => {
+    setSelectedColor(colorOption);
+  };
+
+  // Select brand
+  const [selectedSize, setSelectedSize] = useState(null);
+  const handleSizeSelect = (sizeOption) => {
+    setSelectedSize(sizeOption);
+  };
 
   return (
     <HelmetProvider>
@@ -241,24 +294,18 @@ const Shop = () => {
                 <div className="minus" />
               </div>
               <div className="allcheck">
-                <label>
-                  <input className="checkbox" type="checkbox" /> state
-                </label>
-                <label>
-                  <input className="checkbox" type="checkbox" /> cooper
-                </label>
-                <label>
-                  <input className="checkbox" type="checkbox" /> bardor
-                </label>
-                <label>
-                  <input className="checkbox" type="checkbox" /> alfani
-                </label>
-                <label>
-                  <input className="checkbox" type="checkbox" /> cece
-                </label>
-                <label>
-                  <input className="checkbox" type="checkbox" /> donna ricco
-                </label>
+                <div className="allcheck">
+                  {categories.map((category, index) => (
+                    <label key={index}>
+                      <input
+                        className="checkbox"
+                        type="checkbox"
+                        value={category.categoryName}
+                      />{" "}
+                      {category.categoryName}
+                    </label>
+                  ))}
+                </div>
               </div>
             </div>
             <div>
@@ -267,57 +314,34 @@ const Shop = () => {
                 <div className="minus" />
               </div>
               <div className="allsize">
-                <Button className="size">XS</Button>
-                <Button className="size">S</Button>
-                <Button className="size">M</Button>
-                <Button className="size">N</Button>
-                <Button className="size">L</Button>
-                <Button className="size">XL</Button>
-                <Button className="size">XXL</Button>
-                <Button className="size">XXXL</Button>
+                {sizes.map((size, index) => (
+                  <Button
+                    key={index}
+                    className={`size ${selectedSize === size ? "choose" : ""}`}
+                    onClick={() => handleSizeSelect(size)}
+                  >
+                    {size.sizeName}
+                  </Button>
+                ))}
               </div>
             </div>
             <div>
               <div className="filter-title">
-                <p>Dress length</p>
-                <div className="minus" />
-              </div>
-              <div className="allcheck">
-                <label>
-                  <input className="checkbox" type="checkbox" /> short
-                </label>
-                <label>
-                  <input className="checkbox" type="checkbox" /> knee length
-                </label>
-                <label>
-                  <input className="checkbox" type="checkbox" /> high low
-                </label>
-                <label>
-                  <input className="checkbox" type="checkbox" /> long
-                </label>
-                <label>
-                  <input className="checkbox" type="checkbox" /> midi
-                </label>
-              </div>
-            </div>
-            <div>
-              <div className="filter-title">
-                <p>Dress length</p>
+                <p>Color</p>
                 <div className="minus" />
               </div>
               <div className="allcolor">
-                <Button className="color" bgColor={"#292A2D"} />
-                <Button className="color" bgColor={"#F3ECE2"} />
-                <Button className="color" bgColor={"#24426A"} />
-                <Button className="color" bgColor={"#18574A"} />
-                <Button className="color" bgColor={"#971E34"} />
-                <Button className="color" bgColor={"#CBA13E"} />
-                <Button className="color" bgColor={"#73513C"} />
-                <Button className="color" bgColor={"#DAB1B1"} />
-                <Button className="color" bgColor={"#666689"} />
-                <Button className="color" bgColor={"#C2BEB6"} />
-                <Button className="color" bgColor={"#AAABA7"} />
-                <Button className="color" bgColor={"#2B9FA7"} />
+                {colors.map((color, index) => (
+                  <div className="color" key={index}>
+                    <Button
+                      bgColor={color.colorName}
+                      className={`color ${
+                        selectedColor === color ? "selected" : ""
+                      }`}
+                      onClick={() => handleColorSelect(color)}
+                    />
+                  </div>
+                ))}
               </div>
             </div>
             <div>
@@ -363,14 +387,19 @@ const Shop = () => {
             </div>
             <div className="products">
               {productsStore.listProduct.map((card) => (
-                <Product
+                <Link
                   key={card.productId}
-                  name={card.productName}
-                  bgImage={card.urlImage}
-                  category={card.categoryName}
-                  price={card.priceStock}
-                  color={card.colorName}
-                />
+                  to={`/products/${card.productId}`}
+                  className="link"
+                >
+                  <Product
+                    name={card.productName}
+                    bgImage={card.urlImage}
+                    category={card.categoryName}
+                    price={card.priceStock}
+                    color={card.colorName}
+                  />
+                </Link>
               ))}
             </div>
             <div className="mid-banner">
@@ -392,14 +421,19 @@ const Shop = () => {
             </div>
             <div className="products">
               {productsStore.listProduct.map((card) => (
-                <Product
+                <Link
                   key={card.productId}
-                  name={card.productName}
-                  bgImage={card.urlImage}
-                  category={card.categoryName}
-                  price={card.priceStock}
-                  color={card.colorName}
-                />
+                  to={`/products/${card.productId}`}
+                  className="link"
+                >
+                  <Product
+                    name={card.productName}
+                    bgImage={card.urlImage}
+                    category={card.categoryName}
+                    price={card.priceStock}
+                    color={card.colorName}
+                  />
+                </Link>
               ))}
             </div>
           </div>

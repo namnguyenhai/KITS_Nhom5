@@ -11,6 +11,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { LOGIN_USER } from "api";
+import Cookies from "js-cookie";
 const LoginStyled = styled.div`
   background-color: #ffffff;
   height: 100vh;
@@ -146,6 +147,8 @@ export const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    // Remove the existing token cookie (if any)
+    Cookies.remove("token");
     try {
       await axios
         .post(LOGIN_USER, {
@@ -153,10 +156,10 @@ export const Login = () => {
           password: password,
         })
         .then((data) => {
-          console.log(data);
-          localStorage.setItem("token", data.data.token);
-          localStorage.setItem("UserId", data.data.userId);
+          // Set new cookie
           navigate("/");
+          console.log(data);
+          Cookies.set("token", data.data.token, { expires: 7 }); // 'expires' sets the cookie to expire after 7 days
         });
     } catch (err) {
       toast.error("Wrong Username or Password!", {
