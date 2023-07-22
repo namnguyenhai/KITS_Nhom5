@@ -299,9 +299,11 @@ const Shop = () => {
                   {splitCategory.map((category) => (
                     <label key={category}>
                       <input
-                        className="checkbox"
-                        type="checkbox"
+                        className="radio"
+                        type="radio"
+                        name="categoryGroup" // Set a unique name for the radio button group
                         value={category}
+                        // onChange={handleChange} // Add an onChange handler if you need to handle the selection change
                       />{" "}
                       {category}
                     </label>
