@@ -2,9 +2,7 @@ import { Helmet, HelmetProvider } from "react-helmet-async";
 import './Products.scss';
 import Tab from "components/Tab";
 import { 
-    product1, product2, product3, Heart, 
-    Checked, Zoom, Facebook, Twitter, Pinterest, Instagram, 
-    HideDetail, ShowDetail, Increase
+    Heart, Checked, Zoom, Facebook, Twitter, Pinterest, Instagram, HideDetail, ShowDetail
 } from 'components/ImageList';
 import { Button } from "components/Button";
 import { Link } from "react-router-dom";
@@ -17,48 +15,6 @@ import { useParams } from 'react-router-dom';
 
 const Products = () => {
     const page = "Products";
-
-    const product = {
-        id: 1,
-        name: "Women Black Checked Fit and Flare Dress",
-        price: 90,
-        category: "Woment Dress",
-        brand: "FENDI",
-        color: ["black", "blue", "red", "white"],
-        size: ["XS", "S", "M", "L", "XL", "XXL", "XXXL"],
-        image: [product1, product2, product3],
-        desciption: (
-            <div className="col">
-                <div className="col-6">
-                    <b>ABOUT PRODUCT</b>
-                    <p>Cool off this summer in the Mini Ruffle Smocked Tank Top from our very own LA Hearts. This tank features a smocked body, adjustable straps, scoop neckline, ruffled hems, and a cropped fit.</p>
-                    <b>ADVANTAGES</b>
-                    <li>Smocked body</li>
-                    <li>Adjustable straps</li>
-                    <li>Scoop neckline</li>
-                    <li>Ruffled hems</li>
-                    <li>Cropped length</li>
-                    <li>Model is wearing a small</li>
-                    <li>100% rayon</li>
-                    <li>Machine washable</li>
-                    <b>ADVANTAGES</b>
-                    <li>Smocked body</li>
-                    <li>Adjustable straps</li>
-                    <li>Scoop neckline</li>
-                </div>
-                <div className="col-6">
-                    <b>SHIPPING</b>
-                    <p>
-                        We offer Free Standard Shipping for all orders over $75 to the 50 states and the District of Columbia. The minimum order value must be $75 before taxes, shipping and handling. Shipping fees are non-refundable.
-                        <br />
-                        Please allow up to 2 business days (excluding weekends, holidays, and sale days) to process your order.
-                        <br />
-                        Processing Time + Shipping Time = Delivery Time
-                    </p>
-                </div>
-            </div>
-        )
-    };
 
     const params = useParams();
         
@@ -148,6 +104,8 @@ const Products = () => {
         }
     }, [active.color, active.size]);
 
+    console.log(productsStore.product?.urlImage)
+
     if (!productsStore.product) {
         return <div>Loading...</div>;
     } else {
@@ -196,7 +154,7 @@ const Products = () => {
                                 />
     
                                 <div className="products-attributes-brand">
-                                    <p>{product.brand}</p>
+                                    <p>{productsStore.product?.brand}</p>
                                 </div>
     
                                 <div className="products-attributes-name">
