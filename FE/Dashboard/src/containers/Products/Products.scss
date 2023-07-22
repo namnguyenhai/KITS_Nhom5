@@ -338,6 +338,10 @@
             opacity: 1;
             margin-top: 0;
             transition: all .3s ease-in-out;
+
+            p, span, div, ul, li, a {
+                font-family: 'Oswald', sans-serif !important;
+            }
         }
         .hide-desc {
             visibility: hidden;

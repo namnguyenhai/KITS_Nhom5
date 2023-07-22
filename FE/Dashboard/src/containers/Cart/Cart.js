@@ -44,7 +44,7 @@ const Cart = () => {
 
     const handleGetQuantity = useCallback((quantity, productId, sizeName, colorName) => {
         const data = { productId, quantity, sizeName, colorName };
-        dispatch.cart.updateCart(data);
+        dispatch.cart.updateCart(data)
         setCartChanged(true);
     }, [dispatch.cart]);
 
