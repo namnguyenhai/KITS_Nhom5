@@ -42,9 +42,11 @@ export const cart = {
         async updateCart(product) {
             await axios.put(UPDATE_CART, product)
                 .then(res => {})
-                .catch(err => toast.error("UPDATE PRODUCTS TO CART FAILURE", {
-                    position: toast.POSITION.TOP_CENTER,
-                }))
+                .catch(res => {
+                    toast.error(`MAXIMUM QUANTITY OF PRODUCTS IN STOCK IS ${res.response.data}`, {
+                        position: toast.POSITION.TOP_CENTER,
+                    })}
+                )
         },
 
         async removeCart(product) {
