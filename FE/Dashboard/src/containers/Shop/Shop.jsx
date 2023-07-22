@@ -10,11 +10,12 @@ import { Product } from "components/Product";
 import model from "assets/images/shop/model.svg";
 import { useEffect } from "react";
 import { useState } from "react";
-import { ALL_CATEGORIES, ALL_COLORS, ALL_SIZES } from "api";
+import { DATA_FILTER } from "api";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
 const ShopStyled = styled.div`
+  overflow: hidden;
   margin: 20px;
   .banner {
     width: 100%;
@@ -236,23 +237,23 @@ const Shop = () => {
     dispatch.products.fetchProducts();
   }, [dispatch.products]);
 
-  const [categories, setCategories] = useState([]);
-  const [sizes, setSizes] = useState([]);
-  const [colors, setColors] = useState([]);
-  // Get all categories, sizes, colors
+  const [categories, setCategories] = useState();
+  const [sizes, setSizes] = useState();
+  const [colors, setColors] = useState();
+
   useEffect(() => {
-    Promise.all([
-      axios.get(ALL_CATEGORIES),
-      axios.get(ALL_SIZES),
-      axios.get(ALL_COLORS),
-    ])
-      .then(([categories, sizes, colors]) => {
-        setCategories(categories.data.category);
-        setSizes(sizes.data.size);
-        setColors(colors.data.color);
+    axios
+      .get(DATA_FILTER)
+      .then((res) => {
+        setCategories(res.data.stock[0].brand);
+        setSizes(res.data.stock[0].sizeId);
+        setColors(res.data.stock[0].colorId);
       })
       .catch((error) => console.error("Error fetching data:", error));
   }, []);
+  const splitCategory = categories ? categories.split(",") : [];
+  const splitSize = sizes ? sizes.split(",") : [];
+  const splitColor = colors ? colors.split(",") : [];
 
   // Select color
   const [selectedColor, setSelectedColor] = useState(null);
@@ -295,14 +296,14 @@ const Shop = () => {
               </div>
               <div className="allcheck">
                 <div className="allcheck">
-                  {categories.map((category, index) => (
-                    <label key={index}>
+                  {splitCategory.map((category) => (
+                    <label key={category}>
                       <input
                         className="checkbox"
                         type="checkbox"
-                        value={category.categoryName}
+                        value={category}
                       />{" "}
-                      {category.categoryName}
+                      {category}
                     </label>
                   ))}
                 </div>
@@ -314,13 +315,13 @@ const Shop = () => {
                 <div className="minus" />
               </div>
               <div className="allsize">
-                {sizes.map((size, index) => (
+                {splitSize.map((size) => (
                   <Button
-                    key={index}
+                    key={size}
                     className={`size ${selectedSize === size ? "choose" : ""}`}
                     onClick={() => handleSizeSelect(size)}
                   >
-                    {size.sizeName}
+                    {size}
                   </Button>
                 ))}
               </div>
@@ -331,10 +332,10 @@ const Shop = () => {
                 <div className="minus" />
               </div>
               <div className="allcolor">
-                {colors.map((color, index) => (
-                  <div className="color" key={index}>
+                {splitColor.map((color) => (
+                  <div className="color" key={color}>
                     <Button
-                      bgColor={color.colorName}
+                      bgColor={color}
                       className={`color ${
                         selectedColor === color ? "selected" : ""
                       }`}

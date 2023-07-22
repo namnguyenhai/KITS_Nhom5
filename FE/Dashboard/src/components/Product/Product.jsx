@@ -1,5 +1,4 @@
 import { Button } from "components/Button";
-import { useState } from "react";
 import { styled } from "styled-components";
 
 const ProductStyled = styled.div`
@@ -73,10 +72,6 @@ const ProductStyled = styled.div`
     height: 27px;
     gap: 10px;
   }
-  .color.selected {
-    border: 2px solid #fff;
-    outline: 2px solid #000;
-  }
 `;
 
 // format price
@@ -95,11 +90,6 @@ export const Product = ({
   color,
   ...rest
 }) => {
-  const [selectedColor, setSelectedColor] = useState(null);
-  const handleColorSelect = (colorOption) => {
-    setSelectedColor(colorOption);
-  };
-
   const hasDiscount = oldprice > price;
 
   // Split the color and image URLs into arrays
@@ -134,10 +124,6 @@ export const Product = ({
               height={"25px"}
               borderColor={null}
               bgColor={colorOption.trim()} // Trim the color value to remove any leading/trailing spaces
-              className={`color ${
-                selectedColor === colorOption ? "selected" : ""
-              }`}
-              onClick={() => handleColorSelect(colorOption)}
             />
           ))}
         </div>
