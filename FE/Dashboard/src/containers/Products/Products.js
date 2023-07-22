@@ -27,10 +27,12 @@ const Products = () => {
         dispatch.products.getProductById(productId);
     }, [dispatch]);
 
-    const imageList = productsStore.product?.urlImage.split(",") || [];
-    const sizeList = productsStore.product?.sizeName.split(",") || [];
-    const colorList = productsStore.product?.colorName.split(",") || [];
-    const priceList = productsStore.product?.priceStock.split(",") || [];
+    const imageList = productsStore.product?.urlImage?.split(',') || [];
+    const sizeList = productsStore.product?.sizeName?.split(',') || [];
+    const colorList = productsStore.product?.colorName?.split(',') || [];
+    const priceList = productsStore.product?.priceStock?.split(',') || [];
+
+    console.log(productsStore.product)
 
     const description = productsStore.product?.description;
 
