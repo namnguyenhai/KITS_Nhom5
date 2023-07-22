@@ -15,6 +15,7 @@ const ButtonQuantity = ({ className, initial, productId, sizeName, colorName, ha
         }
     };
 
+
     useEffect(() => {
         handleGetQuantity(quantity, productId, sizeName, colorName);
     }, [quantity]);

@@ -44,7 +44,7 @@ const CarouselStyled = styled.div`
   }
 `;
 
-export const ProductCarousel = ({productList}) => {
+export const ProductCarousel = ({ productList }) => {
   // const dispatch = useDispatch();
   return (
     <CarouselStyled>
@@ -54,15 +54,13 @@ export const ProductCarousel = ({productList}) => {
         keyBoardControl={true}
         removeArrowOnDeviceType={["tablet", "mobile"]}
       >
-        { productList?.map((card, index) => (
+        {productList?.map((card, index) => (
           <Product
-            key={index}
-            name={card.name}
-            bgImage={card.bgImage}
-            tag={card.tag}
-            category={card.category}
-            price={card.price}
-            oldprice={card.oldprice}
+            key={card.productId}
+            name={card.productName}
+            bgImage={card.urlImage}
+            category={card.categoryName}
+            price={card.priceStock}
           />
         ))}
       </Carousel>

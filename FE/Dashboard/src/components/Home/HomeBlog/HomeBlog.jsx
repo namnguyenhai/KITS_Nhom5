@@ -2,7 +2,6 @@ import { styled } from "styled-components";
 
 const BlogStyled = styled.div`
   width: 100%;
-  height: 564px;
   background: #f8f9fb;
   margin-top: 80px;
   padding: 45px 20px;
