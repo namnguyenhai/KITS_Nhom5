@@ -232,41 +232,16 @@ const Shop = () => {
     dispatch.products.fetchProducts();
   }, [dispatch.products]);
 
-  // Get all categories
   const [categories, setCategories] = useState([]);
-  useEffect(() => {
-    // Fetch data from the API
-    axios
-      .get(ALL_CATEGORIES)
-      .then((res) => {
-        // console.log(res.data.category);
-        setCategories(res.data.category);
-      })
-      .catch((error) => console.error("Error fetching data:", error));
-  }, []);
-
-  // Get all sizes
   const [sizes, setSizes] = useState([]);
-  useEffect(() => {
-    // Fetch data from the API
-    axios
-      .get(ALL_SIZES)
-      .then((res) => {
-        // console.log(res);
-        setSizes(res.data.size);
-      })
-      .catch((error) => console.error("Error fetching data:", error));
-  }, []);
-
-  // Get all colors
   const [colors, setColors] = useState([]);
+  // Get all categories, sizes, colors
   useEffect(() => {
-    // Fetch data from the API
-    axios
-      .get(ALL_COLORS)
-      .then((res) => {
-        console.log(res);
-        setColors(res.data.color);
+    Promise.all([axios.get(ALL_CATEGORIES), axios.get(ALL_SIZES), axios.get(ALL_COLORS)])
+      .then(([categories, sizes, colors]) => {
+        setCategories(categories.data.category);
+        setSizes(sizes.data.size);
+        setColors(colors.data.color);
       })
       .catch((error) => console.error("Error fetching data:", error));
   }, []);
