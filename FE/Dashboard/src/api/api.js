@@ -22,4 +22,5 @@ export const ALL_COLORS = `${DOMAIN}/colors/getallcolor`;
 export const ALL_SIZES = `${DOMAIN}/sizes/getallsize`;
 export const ALL_CATEGORIES = `${DOMAIN}/category/getallcategory`;
 export const DATA_FILTER = `${DOMAIN}/stocks/getstockcolorssizesbrands`
+export const API_FILTER = `${DOMAIN}/products/filterproduct`
 

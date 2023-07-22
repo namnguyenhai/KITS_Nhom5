@@ -18,7 +18,6 @@ const HomeStyled = styled.div`
   margin: 20px;
   .mid-banner {
     width: 100%;
-    height: 467px;
     background: linear-gradient(
         90deg,
         #ddebf1 0%,
