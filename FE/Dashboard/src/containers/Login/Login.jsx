@@ -39,6 +39,7 @@ const LoginStyled = styled.div`
     height: 35px;
     border-radius: 2px;
     box-sizing: border-box;
+    text-indent: 10px;
   }
   .div_right {
     height: 100vh;
@@ -219,7 +220,7 @@ export const Login = () => {
                 </TextFormat>
                 <input
                   className="width_input"
-                  type="text"
+                  type="password"
                   id="passwordInput"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}

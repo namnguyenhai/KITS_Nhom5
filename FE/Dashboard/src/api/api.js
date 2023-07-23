@@ -5,6 +5,7 @@ export const GET_PRODUCTS = `${DOMAIN}/products/getAllProductInfo`;
 export const GET_PRODUCT_BY_ID = `${DOMAIN}/products/getproductbyid`;
 
 export const LOGIN_USER = `${DOMAIN}/api/login`;
+export const LOGOUT_USER = `${DOMAIN}/api/logout`;
 
 export const REGISTER_USER = `${DOMAIN}/api/register`
 

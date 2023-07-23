@@ -1,8 +1,10 @@
 import { styled } from "styled-components";
 import { NavLink } from "react-router-dom";
 import search from "assets/images/header/search.svg";
-// import heart from "assets/images/header/heart.svg";
+// import heart from "asưsets/images/header/heart.svg";
 import cart from "assets/images/header/cart.svg";
+import { toast } from "react-toastify";
+import Cookies from "js-cookie";
 
 const HeaderStyled = styled.div`
   width: 100%;
@@ -79,7 +81,29 @@ const HeaderStyled = styled.div`
   }
 `;
 
-export const Header = () => {
+export const HeaderLogged = () => {
+  //   const token = Cookies.get("token");
+  //   const headers = {
+  //     Authorization: `Bearer ${token}`,
+  //     "Content-Type": "application/json",
+  //   };
+  //   const requestData = {
+  //     // Your request data properties here
+  //   };
+  const handleSignOut = () => {
+    try {
+      Cookies.remove("token");
+      toast.success("Signed out successfully!", {
+        position: toast.POSITION.TOP_CENTER,
+      });
+    } catch (error) {
+      console.error(error);
+      toast.error("Error logging out!", {
+        position: toast.POSITION.TOP_LEFT,
+      });
+    }
+  };
+
   return (
     <HeaderStyled>
       <div className="logo">lisa</div>
@@ -111,11 +135,11 @@ export const Header = () => {
         </NavLink>
       </div>
       <div className="navbar">
-        <NavLink to="/login" className="nav-item">
-          sign in
+        <NavLink to="/login" className="nav-item" onClick={handleSignOut}>
+          sign out
         </NavLink>
-        <NavLink to="/accounts/new" className="nav-item">
-          create an account
+        <NavLink to="/account" className="nav-item dropdown">
+          my account
         </NavLink>
         {/* <NavLink to="/favourite" className="nav-item">
           <img className="heart" src={heart} alt="heart icon" />
