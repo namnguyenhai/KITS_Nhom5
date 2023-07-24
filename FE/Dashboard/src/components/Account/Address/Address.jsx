@@ -1,4 +1,9 @@
+import { UPDATE_USER } from "api";
+import axios from "axios";
 import { Button } from "components/Button";
+import Cookies from "js-cookie";
+import { useState } from "react";
+import { toast } from "react-toastify";
 import { styled } from "styled-components";
 
 const AddressStyled = styled.div`
@@ -40,6 +45,39 @@ const AddressStyled = styled.div`
 `;
 
 export const Address = () => {
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [address, setAddress] = useState("");
+
+  const handleSaveAddress = () => {
+    const token = Cookies.get("token");
+    const userData = {
+      firstName: firstName,
+      lastName: lastName,
+      phoneNumber: phoneNumber,
+      address: address,
+    };
+
+    axios
+      .put(UPDATE_USER, userData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      })
+      .then((response) => {
+        toast.success("User data updated successfully!", {
+          position: toast.POSITION.TOP_CENTER,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+        toast.error("Error updating user data!", {
+          position: toast.POSITION.TOP_CENTER,
+        });
+      });
+  };
   return (
     <AddressStyled>
       <p className="title">Contact Information</p>
@@ -47,23 +85,45 @@ export const Address = () => {
         <div className="label">
           First Name<span className="red">*</span>
         </div>
-        <input className="input" type="text" placeholder="Alex" />
+        <input
+          className="input"
+          type="text"
+          placeholder="Alex"
+          value={firstName}
+          onChange={(e) => setFirstName(e.target.value)}
+        />
       </div>
       <div className="data-fields">
         <span className="label">Last Name</span>
-        <input className="input" type="text" placeholder="Driver" />
+        <input
+          className="input"
+          type="text"
+          placeholder="Driver"
+          value={lastName}
+          onChange={(e) => setLastName(e.target.value)}
+        />
       </div>
       <div className="data-fields">
         <span className="label">
           Phone Number<span className="red">*</span>
         </span>
-        <input className="input" type="text" />
+        <input
+          className="input"
+          type="text"
+          value={phoneNumber}
+          onChange={(e) => setPhoneNumber(e.target.value)}
+        />
       </div>
       <div className="data-fields">
         <span className="label">
           Address<span className="red">*</span>
         </span>
-        <input className="input" type="text" />
+        <input
+          className="input"
+          type="text"
+          value={address}
+          onChange={(e) => setAddress(e.target.value)}
+        />
       </div>
       <div className="center">
         <Button
@@ -73,6 +133,7 @@ export const Address = () => {
           height={"50px"}
           textColor={"#fff"}
           fontSize={14}
+          onClick={handleSaveAddress}
         >
           save address
         </Button>

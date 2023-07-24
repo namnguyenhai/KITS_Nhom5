@@ -1,5 +1,9 @@
+import { GET_USER, UPDATE_USER } from "api";
+import axios from "axios";
 import { Button } from "components/Button";
-import { useState } from "react";
+import Cookies from "js-cookie";
+import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import { styled } from "styled-components";
 
 const InfoStyled = styled.div`
@@ -52,6 +56,48 @@ export const Information = () => {
   // State to track the visibility of the email/ password field
   const [showEmailField, setShowEmailField] = useState(false);
   const [showPassField, setShowPassField] = useState(false);
+
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const token = Cookies.get("token");
+  const userData = {
+    firstName: firstName,
+    lastName: lastName,
+    email: email,
+    password: password,
+  };
+  useEffect(() => {
+    axios
+      .get(GET_USER, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      })
+      .then((res) => console.log(res));
+  });
+  const handleSave = () => {
+    axios
+      .put(UPDATE_USER, userData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      })
+      .then((response) => {
+        toast.success("User data updated successfully!", {
+          position: toast.POSITION.TOP_CENTER,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+        toast.error("Error updating user data!", {
+          position: toast.POSITION.TOP_CENTER,
+        });
+      });
+  };
   return (
     <InfoStyled>
       <p className="title">Account Information</p>
@@ -59,13 +105,25 @@ export const Information = () => {
         <div className="label">
           First Name<span className="red">*</span>
         </div>
-        <input className="input" type="text" placeholder="Alex" />
+        <input
+          className="input"
+          type="text"
+          placeholder="Alex"
+          value={firstName}
+          onChange={(e) => setFirstName(e.target.value)}
+        />
       </div>
       <div className="data-fields">
         <span className="label">
           Last Name<span className="red">*</span>
         </span>
-        <input className="input" type="text" placeholder="Driver" />
+        <input
+          className="input"
+          type="text"
+          placeholder="Driver"
+          value={lastName}
+          onChange={(e) => setLastName(e.target.value)}
+        />
       </div>
       <div className="check">
         <input
@@ -80,7 +138,12 @@ export const Information = () => {
           <span className="label">
             Email<span className="red">*</span>
           </span>
-          <input className="input" type="text" />
+          <input
+            className="input"
+            type="text"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
         </div>
       )}
       <div className="check">
@@ -96,7 +159,12 @@ export const Information = () => {
           <span className="label">
             Password<span className="red">*</span>
           </span>
-          <input className="input" type="password" />
+          <input
+            className="input"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
         </div>
       )}
       <Button
@@ -106,6 +174,7 @@ export const Information = () => {
         height={"50px"}
         textColor={"#fff"}
         fontSize={14}
+        onClick={handleSave}
       >
         save
       </Button>
