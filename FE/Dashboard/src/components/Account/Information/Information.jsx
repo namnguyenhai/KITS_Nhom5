@@ -62,67 +62,71 @@ export const Information = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const token = Cookies.get("token");
+  const headers = {
+    Authorization: `Bearer ${token}`,
+    "Content-Type": "application/json",
+  };
+
+  useEffect(() => {
+    axios
+      .get(GET_USER, { headers })
+      .then((res) => {
+        setFirstName(res.data.firstName);
+        setLastName(res.data.lastName);
+        setEmail(res.data.email);
+      })
+      .catch((error) => console.error("Error fetching data:", error));
+    // eslint-disable-next-line
+  }, []);
+
   const userData = {
     firstName: firstName,
     lastName: lastName,
-    email: email,
-    password: password,
   };
-  useEffect(() => {
-    axios
-      .get(GET_USER, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      })
-      .then((res) => console.log(res));
-  });
+
+  if (showEmailField) {
+    userData.email = email;
+  }
+  if (showPassField) {
+    userData.password = password;
+  }
+
   const handleSave = () => {
     axios
-      .put(UPDATE_USER, userData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      })
+      .put(UPDATE_USER, userData, { headers })
       .then((response) => {
         toast.success("User data updated successfully!", {
           position: toast.POSITION.TOP_CENTER,
         });
       })
       .catch((error) => {
-        console.log(error);
         toast.error("Error updating user data!", {
           position: toast.POSITION.TOP_CENTER,
         });
       });
   };
+
   return (
     <InfoStyled>
       <p className="title">Account Information</p>
       <div className="data-fields">
-        <div className="label">
-          First Name<span className="red">*</span>
-        </div>
+        <div className="label">First Name</div>
         <input
           className="input"
           type="text"
-          placeholder="Alex"
           value={firstName}
           onChange={(e) => setFirstName(e.target.value)}
+          disabled
         />
       </div>
       <div className="data-fields">
-        <span className="label">
-          Last Name<span className="red">*</span>
-        </span>
+        <span className="label">Last Name</span>
         <input
           className="input"
           type="text"
-          placeholder="Driver"
           value={lastName}
           onChange={(e) => setLastName(e.target.value)}
+          disabled
         />
       </div>
       <div className="check">

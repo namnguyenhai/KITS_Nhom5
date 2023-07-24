@@ -1,8 +1,8 @@
-import { UPDATE_USER } from "api";
+import { GET_USER, UPDATE_USER } from "api";
 import axios from "axios";
 import { Button } from "components/Button";
 import Cookies from "js-cookie";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { styled } from "styled-components";
 
@@ -49,30 +49,42 @@ export const Address = () => {
   const [lastName, setLastName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [address, setAddress] = useState("");
+  const token = Cookies.get("token");
+  const headers = {
+    Authorization: `Bearer ${token}`,
+    "Content-Type": "application/json",
+  };
+
+  const userData = {
+    firstName: firstName,
+    lastName: lastName,
+    phoneNumber: phoneNumber,
+    address: address,
+  };
+
+  useEffect(() => {
+    axios
+      .get(GET_USER, { headers })
+      .then((res) => {
+        console.log(res.data);
+        setFirstName(res.data.firstName);
+        setLastName(res.data.lastName);
+        setPhoneNumber(res.data.phone);
+        setAddress(res.data.address);
+      })
+      .catch((error) => console.error("Error fetching data:", error));
+    // eslint-disable-next-line
+  }, []);
 
   const handleSaveAddress = () => {
-    const token = Cookies.get("token");
-    const userData = {
-      firstName: firstName,
-      lastName: lastName,
-      phoneNumber: phoneNumber,
-      address: address,
-    };
-
     axios
-      .put(UPDATE_USER, userData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      })
+      .put(UPDATE_USER, userData, { headers })
       .then((response) => {
         toast.success("User data updated successfully!", {
           position: toast.POSITION.TOP_CENTER,
         });
       })
       .catch((error) => {
-        console.log(error);
         toast.error("Error updating user data!", {
           position: toast.POSITION.TOP_CENTER,
         });
@@ -88,7 +100,6 @@ export const Address = () => {
         <input
           className="input"
           type="text"
-          placeholder="Alex"
           value={firstName}
           onChange={(e) => setFirstName(e.target.value)}
         />
@@ -98,7 +109,6 @@ export const Address = () => {
         <input
           className="input"
           type="text"
-          placeholder="Driver"
           value={lastName}
           onChange={(e) => setLastName(e.target.value)}
         />
