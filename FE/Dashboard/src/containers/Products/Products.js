@@ -12,6 +12,7 @@ import { useSelector, useDispatch } from "react-redux";
 import ButtonQuantity from "components/ButtonQuantity";
 import { toast } from 'react-toastify';
 import { useParams } from 'react-router-dom';
+import Carousel from "react-multi-carousel";
 
 const Products = () => {
     const page = "Products";
@@ -31,9 +32,6 @@ const Products = () => {
     const sizeList = productsStore.product?.sizeName?.split(',') || [];
     const colorList = productsStore.product?.colorName?.split(',') || [];
     const priceList = productsStore.product?.priceStock?.split(',') || [];
-
-    console.log(productsStore.product)
-
     const description = productsStore.product?.description;
 
     const iconShare = [ Facebook , Twitter, Pinterest, Instagram ];
@@ -46,7 +44,31 @@ const Products = () => {
         size: '',
         image: ''
     });
+
     const [stateDesc, setStateDesc] = useState(false);
+
+    const responsive = {
+        largeDesktop: {
+          breakpoint: { max: 4000, min: 1800 },
+          items: 1,
+        },
+        desktop: {
+          breakpoint: { max: 1800, min: 1600 },
+          items: 1,
+        },
+        laptop: {
+          breakpoint: { max: 1600, min: 1024 },
+          items: 1,
+        },
+        tablet: {
+          breakpoint: { max: 1024, min: 464 },
+          items: 1,
+        },
+        mobile: {
+          breakpoint: { max: 464, min: 0 },
+          items: 1,
+        },
+    };
 
     const USDollar = new Intl.NumberFormat('de-US', {
         style: 'currency',
@@ -61,6 +83,17 @@ const Products = () => {
         setActive({ ...active, image: img })
         setImgShow(img)
     }
+
+    // Add the afterChange event handler
+    const handleAfterCarouselChange = (currentSlide) => {
+        setActive({ ...active, image: imageList[currentSlide] })
+        setImgShow(imageList && imageList[currentSlide]);
+    };
+    const handleBeforeCarouselChange = (currentSlide) => {
+        setActive({ ...active, image: imageList[currentSlide] })
+        setImgShow(imageList && imageList[currentSlide]);
+    };
+
 
     const handleAddToCart = () => {
         const data = {
@@ -106,8 +139,6 @@ const Products = () => {
         }
     }, [active.color, active.size]);
 
-    console.log(productsStore.product?.urlImage)
-
     if (!productsStore.product) {
         return <div>Loading...</div>;
     } else {
@@ -128,13 +159,31 @@ const Products = () => {
                                             className={`products-image-item ${active.image === img ? 'active' : ''}`}
                                             onClick={() => imageSelected(img)}
                                         >
-                                            <img src={img} alt="product-error" />
+                                            <img src={img} alt="" />
                                         </div>
                                     )) }
                                 </div>
                                 
                                 <div className="products-image-index">
-                                    <img src={imgShow} alt="product-error" />
+                                    <Carousel
+                                        responsive={responsive}
+                                        autoPlay={true}
+                                        autoPlaySpeed={3000}
+                                        keyBoardControl={true}
+                                        className="product-slider-index"
+                                        removeArrowOnDeviceType={["tablet", "mobile"]}
+                                        beforeChange={(previousSlide, { currentSlide, onMove }) => {
+                                            handleBeforeCarouselChange(currentSlide)
+                                        }}
+                                        afterChange={(nextSlide, { currentSlide, onMove }) => {
+                                            handleAfterCarouselChange(currentSlide)
+                                        }}
+                                    >
+                                        { imageList.map((img, index) => (
+                                            <img key={index} src={img} alt="" />
+                                        ))}
+                                    </Carousel>
+                                    
                                     <div className="products-image-zoom">
                                         <Zoom /> 
                                     </div>

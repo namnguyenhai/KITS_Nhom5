@@ -17,7 +17,10 @@ export const UPDATE_CART = `${DOMAIN}/update-cart`;
 export const CLEAR_CART = `${DOMAIN}/remove-all-cart`;
 
 
-export const CHECKOUT = `${DOMAIN}/api/user/orders/checkout`;
+export const CHECKOUT_CODE = `${DOMAIN}/api/user/orders/checkout-code`;
+export const CHECKOUT_ONLINE = `${DOMAIN}/api/user/orders/checkout-online`;
+export const CREATE_PAYMENT = `${DOMAIN}/api/user/orders/create_payment`;
+
 export const ALL_COLORS = `${DOMAIN}/colors/getallcolor`;
 export const ALL_SIZES = `${DOMAIN}/sizes/getallsize`;
 export const ALL_CATEGORIES = `${DOMAIN}/category/getallcategory`;

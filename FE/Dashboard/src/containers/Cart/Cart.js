@@ -36,7 +36,7 @@ const Cart = () => {
 
     const calculateSubtotal = () => {
         let subtotal = 0;
-        cart?.map((product) => {
+        cart && cart.map((product) => {
           subtotal += product.unitPrice * product.quantity;
         });
         return subtotal;
@@ -96,7 +96,7 @@ const Cart = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                { cart.length !== 0 ? cart.map((pd, index) => (
+                                { cart && cart.length !== 0 ? cart?.map((pd, index) => (
                                     <tr key={index}>
                                         <td className="d-flex w-350"> 
                                             <img src={pd.urlImage} alt="" />

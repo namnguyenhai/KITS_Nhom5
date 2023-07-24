@@ -9,12 +9,13 @@ import { ArrowUp } from 'components/ImageList';
 
 const Payment = () => {
     const page = "Create Payment";
-
     const dispatch = useDispatch();
     const cart = useSelector((state) => state.cart.products);
     const orders = useSelector((state) => state.cart.orders);
 
     const [visibility, setVisibility] = useState("visible");
+    const [payment, setPayment] = useState('delivery');
+
 
     const USDDollar = (total) => {
         return new Intl.NumberFormat('de-DE', { 
@@ -31,13 +32,21 @@ const Payment = () => {
         return subtotal;
     };
 
+    const handleOptionChange = (event) => {
+        setPayment(event.target.value);
+    };
+
     useEffect(() => {
         // Fetch cart data only on the first render
         dispatch.cart.fetchCart();
     }, [dispatch.cart]);
 
     const handleCheckout = () => {
-        dispatch.orders.checkout();
+        if(payment === 'online') {
+            dispatch.orders.createPayment()
+        } else {
+            dispatch.orders.checkoutCode();
+        }
     }
 
     return (
@@ -62,6 +71,32 @@ const Payment = () => {
                                 <p>Moskovski prospect 39/1, Apt. 147</p>
                                 <p className="payment-info-phone">+375292169179</p>
                             </div>
+                        </div>
+                        <div className="payment-radio-group">
+                            <label htmlFor="delivery" className={payment === "delivery" ? "checked" : ""}>
+                                <input 
+                                    id="delivery" 
+                                    type="radio" 
+                                    value="delivery"
+                                    name='payment'
+                                    checked={payment === "delivery"}
+                                    onChange={handleOptionChange} 
+                                />
+                                <span>PAYMENT ON DELIVERY</span>
+                            </label>
+                        </div>
+                        <div className="payment-radio-group">
+                            <label htmlFor="online" className={payment === "online" ? "checked" : ""}>
+                                <input 
+                                    id="online" 
+                                    type="radio" 
+                                    value="online"
+                                    name='payment'
+                                    checked={payment === "online"}
+                                    onChange={handleOptionChange} 
+                                />
+                                <span>ONLINE PAYMENT</span>
+                            </label>
                         </div>
                         <div className="payment-btn">
                             <Button onClick={handleCheckout}>

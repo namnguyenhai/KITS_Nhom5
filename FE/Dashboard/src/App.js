@@ -10,6 +10,7 @@ import Products from 'containers/Products';
 import NewAccount from 'containers/NewAccount';
 import Cart from 'containers/Cart';
 import Payment from 'containers/Payment';
+import CheckoutSuccess from 'containers/CheckoutSuccess';
 import Account from 'containers/AccountPage';
 import { Address, DashAcc, Information } from 'components/Account';
 
@@ -30,6 +31,7 @@ function App() {
           <Route path="address" element={<Address />} />
         </Route>
       </Route>
+      <Route path="payment/success" element={<CheckoutSuccess />} />
       <Route path="/login" element={<Login></Login>}></Route>
     </Routes>
   );

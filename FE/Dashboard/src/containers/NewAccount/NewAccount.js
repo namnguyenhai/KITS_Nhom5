@@ -178,7 +178,7 @@ function NewAccount() {
                 username: form.username,
                 password: form.password,
             });
-            navigator("/login");
+            navigate("/login");
         } catch (error) {
             console.error("Đã xảy ra lỗi khi đăng ký:", error);
             // Xử lý lỗi ở đây nếu cần thiết
