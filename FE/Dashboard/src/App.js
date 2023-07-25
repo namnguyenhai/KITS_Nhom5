@@ -12,6 +12,7 @@ import Cart from 'containers/Cart';
 import Payment from 'containers/Payment';
 import Account from 'containers/AccountPage';
 import { Address, DashAcc, Information } from 'components/Account';
+import Contact from 'containers/Contact';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route index element={<Homepage />} />
         <Route path="shop" element={<Shop />} />
         <Route path="blog" element={<Blog />} />
+        <Route path="contact" element={<Contact />} />
         <Route path="products/:id" element={<Products />} />
         <Route path="accounts/new" element={<NewAccount />} />
         <Route path="cart" element={<Cart />} />

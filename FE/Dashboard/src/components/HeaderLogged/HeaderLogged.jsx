@@ -1,10 +1,12 @@
 import { styled } from "styled-components";
 import { NavLink } from "react-router-dom";
-import search from "assets/images/header/search.svg";
+// import search from "assets/images/header/search.svg";
 // import heart from "asưsets/images/header/heart.svg";
-import cart from "assets/images/header/cart.svg";
+import cartImg from "assets/images/header/cart.svg";
 import { toast } from "react-toastify";
 import Cookies from "js-cookie";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
 
 const HeaderStyled = styled.div`
   width: 100%;
@@ -81,6 +83,14 @@ const HeaderStyled = styled.div`
   }
 `;
 
+const USDDollar = (total) => {
+  return new Intl.NumberFormat("de-DE", {
+    style: "currency",
+    currency: "USD",
+    currencyDisplay: "code",
+  }).format(total);
+};
+
 export const HeaderLogged = () => {
   //   const token = Cookies.get("token");
   //   const headers = {
@@ -90,6 +100,20 @@ export const HeaderLogged = () => {
   //   const requestData = {
   //     // Your request data properties here
   //   };
+  const cart = useSelector((state) => state.cart.products);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    // Fetch cart data only on the first render
+    dispatch.cart.fetchCart();
+  }, [dispatch.cart]);
+  const calculateSubtotal = () => {
+    let subtotal = 0;
+    cart &&
+      cart.forEach((product) => {
+        subtotal += product.unitPrice * product.quantity;
+      });
+    return subtotal;
+  };
   const handleSignOut = () => {
     try {
       Cookies.remove("token");
@@ -122,15 +146,12 @@ export const HeaderLogged = () => {
         <NavLink to="/blog" className="nav-item" activeclassname="active">
           blog
         </NavLink>
-        <NavLink to="/sale" className="nav-item" activeclassname="active">
-          sale
-        </NavLink>
         <NavLink
           to="/contact"
           className="nav-item contact"
           activeclassname="active"
         >
-          <img src={search} alt="search icon" />
+          {/* <img src={search} alt="search icon" /> */}
           contact us
         </NavLink>
       </div>
@@ -145,10 +166,12 @@ export const HeaderLogged = () => {
           <img className="heart" src={heart} alt="heart icon" />
         </NavLink> */}
         <NavLink to="/cart" className="nav-item shop">
-          <img className="cart" src={cart} alt="cart icon" />
+          <img className="cart" src={cartImg} alt="cart icon" />
           <div className="cart-info">
-            <span className="cart-item">Shopping Cart</span>
-            <span className="cart-price">0, 00 EUR</span>
+            <span className="cart-item">
+              {cart.length > 0 ? cart.length + " item(s)" : "Shopping Cart"}
+            </span>
+            <span className="cart-price">{USDDollar(calculateSubtotal())}</span>
           </div>
         </NavLink>
       </div>
