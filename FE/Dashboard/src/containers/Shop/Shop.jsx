@@ -214,7 +214,9 @@ const QueryProducts = styled.div`
     right: 0;
     top: -5%;
   }
-
+  .checkbox {
+    accent-color: #000;
+  }
   .choose {
     border: 1px solid #000;
     color: #000;
@@ -360,9 +362,9 @@ const Shop = () => {
                   {splitBrand.map((brand) => (
                     <label key={brand}>
                       <input
-                        className="radio"
+                        className="checkbox"
                         type="checkbox"
-                        name="brandGroup" // Set a unique name for the radio button group
+                        name="brandGroup"
                         value={brand}
                         onChange={() => handleBrandSelect(brand)} // Add onChange event to capture the selected brand
                         checked={selectedBrand === brand} // Set the checked attribute based on the selected brand
