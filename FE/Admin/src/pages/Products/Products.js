@@ -8,7 +8,7 @@ import Input from "components/Input";
 import Button from "components/Button";
 import Table from 'components/Table';
 import { useSelector, useDispatch } from 'react-redux';
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Modal from "components/Modal";
 import ProductDetailAdd from "./ProductDetailAdd";
 
@@ -25,7 +25,13 @@ function Products() {
 
     useEffect(() => {
         dispatch.products.fetchProducts();
-    }, [dispatch])
+    }, [dispatch.products])
+
+    // Handle search
+    const handleSearchProduct = useCallback((e) => {
+        const { value } = e.target;
+        dispatch.products.filterProductByName(value);
+    }, [dispatch.products]);
 
     // Value card
     const card = {
@@ -117,7 +123,7 @@ function Products() {
     }
     // Create values data
     const rows = products?.map(pd => 
-        createData(pd.productId, pd.productName, pd.brand, pd.categoryName, <Eye onClick={() => handleOpenModal(pd)}/>)
+        createData(pd.productId, pd.productName, pd.brand, pd.category_name, <Eye onClick={() => handleOpenModal(pd)}/>)
     );
 
     // Handle edit product
@@ -126,9 +132,9 @@ function Products() {
     }
 
     // Handle delete product
-    const handleDelete = (id) => {
-        console.log(id)
-    }
+    const handleDelete = useCallback((id) => {
+        dispatch.products.deleteProduct(id);
+    }, [dispatch.products])
 
     // Handle selectedAll product
     const handleSelectedAll = (arr) => {
@@ -216,9 +222,9 @@ function Products() {
     }
 
     // Handle delete product
-    const handleDeleteDetail = (id) => {
-        console.log(id)
-    }
+    const handleDeleteDetail = useCallback((id) => {
+        dispatch.stock.deleteStock(id)
+    }, [dispatch.stock]);
 
     // Handle selectedAll product
     const handleSelectedAllDetail = (arr) => {
@@ -230,8 +236,8 @@ function Products() {
             key={2}
             headCells={headCellsPdDetail}
             rows={rowsPdDetail}
-            deleteById={handleDelete} 
-            EditById={handleDeleteDetail} 
+            deleteById={handleDeleteDetail} 
+            EditById={handleEditDetail} 
             selectedAll={handleSelectedAllDetail}
         />
     )
@@ -260,6 +266,7 @@ function Products() {
                         className={cx('content__btn-search')} 
                         label="Press / to search" 
                         icon={<SearchIcon />} 
+                        onChange={e => handleSearchProduct(e)}
                     />
                     <Button 
                         className={cx('content__btn-add')} 

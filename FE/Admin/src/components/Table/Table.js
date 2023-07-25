@@ -253,7 +253,7 @@ export default function EnhancedTable(props) {
     const endIndex = startIndex + rowsPerPage;
     const rowsToDisplay = sortedRows.slice(startIndex, endIndex);
     setVisibleRows(rowsToDisplay);
-  }, [props.rows, order, orderBy, page, rowsPerPage]);
+  }, [props.rows, order, orderBy, page, rowsPerPage, deleteById]);
 
   
 // get ID and handleDelete

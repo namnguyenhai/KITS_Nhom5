@@ -4,10 +4,22 @@ import styles from './Home.module.scss';
 import { BarIcon, CartIcon, BagIcon, EmojiiIcon } from 'components/ImageList'
 import Card from "components/Card";
 import ColumnChart from "components/ColumnChart";
+import { useSelector, useDispatch } from 'react-redux';
+import { useEffect } from "react";
+
 const cx = classNames.bind(styles);
 
 function Home() {
-    const cards = [
+    const dispatch = useDispatch();
+    const products = useSelector(state => state.products.productList);
+    const orderStatistics = useSelector(state => state.orders.orderStatistics);
+
+    useEffect(() => {
+        dispatch.products.fetchProducts();
+        dispatch.orders.statisticOrderByMonth();
+    }, [dispatch.products]);
+
+    const cards = products && [
         {
             label: 'Total Visits',
             icon: <BarIcon />,
@@ -26,7 +38,7 @@ function Home() {
             label: 'Total Products',
             icon: <BagIcon />,
             color: 'green',
-            value: 77,
+            value: products.length,
             unit: false,
         },
         {
@@ -49,68 +61,22 @@ function Home() {
         />
     ));
 
-    const data = [
-        {
-            name: 'Jan',
-            total: 0,                   
-            quantity: 30,
-        },
-        {
-            name: 'Feb',
-            total: 40,
-            quantity: 50,
-        },
-        {
-            name: 'Mar',
-            total: 40,
-            quantity: 50,
-        },
-        {
-            name: 'Apr',
-            total: 60,
-            quantity: 70,
-        },
-        {
-            name: 'May',
-            total: 30,
-            quantity: 40,
-        },
-        {
-            name: 'Jun',
-            total: 80,
-            quantity: 90,
-        },
-        {
-            name: 'Jul',
-            total: 45,
-            quantity: 55,
-        },
-        {
-            name: 'Aug',
-            total: 35,
-            quantity: 45,
-        },
-        {
-            name: 'Sep',
-            total: 25,
-            quantity: 35,
-        },
-        {
-            name: 'Oct',
-            total: 35,
-            quantity: 50,
-        },
-        {
-            name: 'Nov',
-            total: 20,
-            quantity: 30,
-        },
-        {
-            name: 'Dec',
-            total: 10,
-            quantity: 20,
-        },
-    ]
+    const data = orderStatistics && orderStatistics.map(order => {
+        const month = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+        return {
+            name: month[order.month - 1],
+            total: order.totalpricemonth,
+            quantity: order.numberorder,
+        }   
+    }) 
+
+    const totalRevenue = () => {
+        let sum = 0;
+        orderStatistics && orderStatistics.map(order => {
+            sum += order.totalpricemonth;
+        })
+        return sum;
+    }
 
     return ( 
         <Wrapper className={cx('home')}>
@@ -118,7 +84,7 @@ function Home() {
                 { cardList }
             </div>
             
-            <ColumnChart db={data} />
+            <ColumnChart db={data} totalRevenue={totalRevenue()} />
         </Wrapper>
     );
 }

@@ -5,7 +5,7 @@ import { useRef, useState } from "react";
 
 const cx = classNames.bind(styles);
 
-function Input({ className, type, value, label, icon, ...props }) {
+function Input({ className, type, label, icon, ...props }) {
     const [isLabelUp, setIsLabelUp] = useState(false);
     const inputRef = useRef(null);
   
@@ -30,7 +30,6 @@ function Input({ className, type, value, label, icon, ...props }) {
             <input 
                 {...props}
                 type="text" 
-                value={value}
                 onBlur={handleInputBlur} 
                 onFocus={handleInputFocus}
                 ref={inputRef}

@@ -8,7 +8,7 @@ import { ArrowBottomIcon } from "components/ImageList";
 
 const cx = classNames.bind(styles);
 
-function ColumnChart({ db }) {
+function ColumnChart({ db, totalRevenue }) {
     const [data, setData] = useState([]); 
 
     useEffect(() => {
@@ -25,7 +25,7 @@ function ColumnChart({ db }) {
             <div className={cx('total-revenue')}>
                 <div className={cx('total-revenue__content')}>
                     <h3>Total Revenue</h3>
-                    <h2> {USDollar.format(980273)} </h2>
+                    <h2> {USDollar.format(totalRevenue)} </h2>
                 </div>
                 <div className={cx('total-revenue__filter')}>
                     <Button 

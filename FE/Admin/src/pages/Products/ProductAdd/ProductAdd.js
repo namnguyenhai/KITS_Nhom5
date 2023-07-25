@@ -143,6 +143,7 @@ function ProductAdd() {
     // Handle add new Color
     const btnAddNewColor = (e) => {
         e.preventDefault();
+        
         axios.post("http://localhost:8080/colors/add", { 
                 colorName: newColor
             })

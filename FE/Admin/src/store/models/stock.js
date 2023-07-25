@@ -1,5 +1,6 @@
 import axios from "axios";
-import { GET_STOCK_PRODUCT, GET_STOCK_BY_ID_PRODUCT, ADD_STOCK, DELETE_STOCK } from "api";
+import { GET_STOCK_BY_ID_PRODUCT, ADD_STOCK, DELETE_STOCK } from "api";
+import { toast } from 'react-toastify';
 
 export const stock = {
     state: {
@@ -18,11 +19,6 @@ export const stock = {
     effects: (dispatch) => ({
       // handle state changes with impure functions.
       // use async/await for async actions
-        fetchStock(payload, rootState) {
-            axios.get(GET_STOCK_PRODUCT)
-                .then(res => this.setStock(res.data.stock))
-                .catch(err => console.log(err))
-        },
         async addStock(data) {
             await axios.post(ADD_STOCK, data)
               .then(res => this.setStock(res.data.stock))
@@ -35,7 +31,9 @@ export const stock = {
         },
         deleteStock(stockId) {
             axios.delete(`${DELETE_STOCK}/${stockId}`)
-                .then(res => this.setStock(res.data.stock))
+                .then(res => toast.success(`DELETE PRODUCT SUCCESSFULY !`, {
+                    position: toast.POSITION.TOP_CENTER
+                  }))
                 .catch(err => console.log(err))
         }
     }),

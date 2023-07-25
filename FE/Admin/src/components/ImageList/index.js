@@ -17,6 +17,7 @@ import { ReactComponent as More } from 'assets/images/icons/more.svg';
 import { ReactComponent as Filter } from 'assets/images/icons/filter.svg';
 import { ReactComponent as UpLoadIcon } from 'assets/images/icons/upload.svg';
 import { ReactComponent as CloseIcon } from 'assets/images/icons/close.svg';
+import { ReactComponent as Money } from 'assets/images/icons/price.svg';
 
 export {
     DashBoardIcon,
@@ -38,4 +39,5 @@ export {
     Filter,
     UpLoadIcon,
     CloseIcon,
+    Money
 }
