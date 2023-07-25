@@ -81,9 +81,6 @@ const LoginStyled = styled.div`
     cursor: pointer;
     transition: 0.3s;
   }
-  .buttonSignIn:hover {
-    opacity: 0.5;
-  }
   .buttonFacebook {
     width: 30px;
     height: 30px;
@@ -154,7 +151,6 @@ export const Login = () => {
         .then((data) => {
           // Set new cookie
           navigate("/");
-          console.log(data);
           Cookies.set("token", data.data.token, { expires: 7 }); // 'expires' sets the cookie to expire after 7 days
         });
     } catch (err) {
