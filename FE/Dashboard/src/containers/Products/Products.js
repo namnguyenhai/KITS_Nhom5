@@ -118,9 +118,10 @@ const Products = () => {
             return toast.warning("PLEASE CHOOSE PRODUCT SIZE", {
                 position: toast.POSITION.TOP_CENTER,
             })
+        } else {
+            dispatch.cart.addToCart(data);
         }
         
-        dispatch.cart.addToCart(data);
     }
 
     useEffect(() => {

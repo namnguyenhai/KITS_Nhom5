@@ -7,7 +7,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Save, Close, HideDetail, ShowDetail } from 'components/ImageList';
 import { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { toast } from 'react-toastify';
 
 const Cart = () => {
     const page = "Shopping Cart";
