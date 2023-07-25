@@ -29,8 +29,12 @@ const Products = () => {
     }, [dispatch]);
 
     const imageList = productsStore.product?.urlImage?.split(',') || [];
-    const sizeList = productsStore.product?.sizeName?.split(',') || [];
-    const colorList = productsStore.product?.colorName?.split(',') || [];
+    const sizeList = productsStore.product?.sizeName?.split(',').filter(function(value, index, self) { 
+        return self.indexOf(value) === index;
+    }) || [];
+    const colorList = productsStore.product?.colorName?.split(',').filter(function(value, index, self) { 
+        return self.indexOf(value) === index;
+    }) || [];
     const priceList = productsStore.product?.priceStock?.split(',') || [];
     const description = productsStore.product?.description;
 
