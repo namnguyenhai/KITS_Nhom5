@@ -2,8 +2,10 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { publicRoutes } from './routes';
 import DefaultLayout from './layouts/DefaultLayout';
 import { Fragment } from 'react';
+import Cookies from 'js-cookie';
 
 function App() {
+  
   return (
     <Router>
       <div className="App">

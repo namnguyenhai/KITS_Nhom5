@@ -1,5 +1,7 @@
 export const DOMAIN = "http://localhost:8080";
 
+export const LOGIN_USER = `${DOMAIN}/api/login`;
+
 export const GET_PRODUCT = `${DOMAIN}/products/getAllProductInfo`;
 export const ADD_PRODUCT = `${DOMAIN}/stocks/add_stock_new_product`;
 export const DELETE_PRODUCT = `${DOMAIN}/products/delete`;
