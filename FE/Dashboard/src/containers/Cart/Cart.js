@@ -33,13 +33,13 @@ const Cart = () => {
         }).format(total);
     }
 
-    const calculateSubtotal = () => {
+    const calculateSubtotal = useCallback(() => {
         let subtotal = 0;
         cart && cart.map((product) => {
           subtotal += product.unitPrice * product.quantity;
         });
         return subtotal;
-    };
+    }, []);
 
     const handleGetQuantity = useCallback((quantity, productId, sizeName, colorName) => {
         const data = { productId, quantity, sizeName, colorName };

@@ -105,7 +105,9 @@ export const Product = ({
   // Split the color and image URLs into arrays
   const priceApi = price ? price.split(",") : [];
   const firstPrice = priceApi.length > 0 ? priceApi[0].trim() : null;
-  const colorOptions = color ? color.split(",") : [];
+  const colorOptions = color ? color.split(",").filter(function (value, index, self) {
+    return self.indexOf(value) === index;
+  }) : [];
   const imageUrls = bgImage ? bgImage.split(",") : [];
   const firstImageUrl = imageUrls.length > 0 ? imageUrls[0].trim() : null;
 
