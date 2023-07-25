@@ -13,6 +13,7 @@ import Payment from 'containers/Payment';
 import Account from 'containers/AccountPage';
 import { Address, DashAcc, Information } from 'components/Account';
 import Contact from 'containers/Contact';
+import ForgotPass from 'containers/ForgotPass';
 
 function App() {
   return (
@@ -32,7 +33,8 @@ function App() {
           <Route path="address" element={<Address />} />
         </Route>
       </Route>
-      <Route path="/login" element={<Login></Login>}></Route>
+      <Route path="/login" element={<Login />}></Route>
+      <Route path="/forgot" element={<ForgotPass />}></Route>
     </Routes>
   );
 }

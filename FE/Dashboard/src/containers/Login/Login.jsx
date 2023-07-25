@@ -8,7 +8,7 @@ import Linkedin from "assets/images/login/LinkedIn.svg";
 import { TextFormat } from "components/Text";
 import axios from "axios";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { LOGIN_USER } from "api";
 import Cookies from "js-cookie";
@@ -44,16 +44,6 @@ const LoginStyled = styled.div`
   .div_right {
     height: 100vh;
     width: 50%;
-  }
-  .flexrow_between {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-  }
-  .flexrow {
-    display: flex;
-    gap: 10px;
-    align-items: center;
   }
   .flexrowSignInUp {
     display: flex;
@@ -136,8 +126,13 @@ const LoginStyled = styled.div`
     cursor: pointer;
   }
   .buttonForgot {
-    border: none;
-    background-color: transparent;
+    font-size: 15px;
+    color: #eb5757;
+    text-decoration: none;
+    transition: 0.3s;
+  }
+  .buttonForgot:hover {
+    opacity: 0.5;
   }
 `;
 
@@ -227,26 +222,6 @@ export const Login = () => {
                 />
               </div>
 
-              <div className="flexrow_between">
-                <div className="flexrow">
-                  <input type="checkbox" id="checkRemember" />
-                  <TextFormat
-                    size={"16px"}
-                    weight={400}
-                    fontfam={"Inter"}
-                    color={"#8A92A6"}
-                  >
-                    Remember me?
-                  </TextFormat>
-                </div>
-                <div>
-                  <button className="buttonForgot">
-                    <TextFormat size={"16px"} weight={500} fontfam={"Inter"}>
-                      Forgot password
-                    </TextFormat>
-                  </button>
-                </div>
-              </div>
               <button type="submit" className="buttonSignIn">
                 <TextFormat
                   color={"#FFFFFF"}
@@ -272,6 +247,9 @@ export const Login = () => {
               <button className="buttonInstagram"></button>
               <button className="buttonLinkedIn"></button>
             </div>
+            <Link to="/forgot" className="buttonForgot">
+              Forgot password?
+            </Link>
             <div className="flexrowSignInUp">
               <TextFormat
                 color={"#232D42"}
