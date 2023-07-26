@@ -11,7 +11,7 @@ import mid from "assets/images/home/midbanner.svg";
 import { Button } from "components/Button";
 import { BottomAds, BrandAds, HomeBlog, HomeFilters } from "components/Home";
 import { ProductCarousel } from "components/ProductCarousel";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 
 const HomeStyled = styled.div`
@@ -120,7 +120,6 @@ const BgBanner = styled.div`
 `;
 
 const Homepage = () => {
-  const productsStore = useSelector((state) => state.products);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -174,7 +173,7 @@ const Homepage = () => {
         </div>
         <div className="bestsell">
           <p className="bestsell-title">best sellers</p>
-          <ProductCarousel productList={productsStore.listProduct} />
+          <ProductCarousel />
         </div>
         <BottomAds />
         <HomeBlog />

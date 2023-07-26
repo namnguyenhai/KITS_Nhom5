@@ -12,6 +12,7 @@ export const REGISTER_USER = `${DOMAIN}/api/register`
 export const GET_USER = `${DOMAIN}/api/user/users/user`
 
 export const ALL_PRODUCTS = `${DOMAIN}/products/getallproductsandstocks`
+export const BEST_SELLER = `${DOMAIN}/products/getbestseller`
 
 export const ADD_TO_CART = `${DOMAIN}/add-cart`;
 export const GET_CART = `${DOMAIN}/cart`;

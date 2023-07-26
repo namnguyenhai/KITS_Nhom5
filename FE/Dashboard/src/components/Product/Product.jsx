@@ -90,7 +90,6 @@ export const Product = ({
   color,
   ...rest
 }) => {
-  const hasDiscount = oldprice > price;
 
   // Split the color and image URLs into arrays
   const priceApi = price ? price.split(",") : [];
@@ -107,14 +106,7 @@ export const Product = ({
       {/* {tag ? <div className="tag">{tag}</div> : null} */}
       <p className="brand">{brand}</p>
       <p className="name">{name}</p>
-      {hasDiscount ? (
-        <div className="discount">
-          <p className="new">{USDollar.format(price)}</p>
-          <p className="old">{USDollar.format(oldprice)}</p>
-        </div>
-      ) : (
-        <p className="price">{USDollar.format(firstPrice)}</p>
-      )}
+      {!price ? null : <p className="price">{USDollar.format(firstPrice)}</p>}
       {colorOptions.length > 0 ? (
         <div className="colors">
           {colorOptions.map((colorOption, index) => (
