@@ -26,7 +26,7 @@ const ProductStyled = styled.div`
     top: 5%;
     left: 0;
   }
-  .cate {
+  .brand {
     color: #bdbdbd;
     font-size: 12px;
     font-weight: 600;
@@ -84,7 +84,7 @@ export const Product = ({
   name,
   tag,
   bgImage,
-  category,
+  brand,
   price,
   oldprice,
   color,
@@ -105,7 +105,7 @@ export const Product = ({
         <img className="image" src={firstImageUrl} alt={name} />
       )}
       {/* {tag ? <div className="tag">{tag}</div> : null} */}
-      <p className="cate">{category}</p>
+      <p className="brand">{brand}</p>
       <p className="name">{name}</p>
       {hasDiscount ? (
         <div className="discount">

@@ -477,7 +477,7 @@ const Shop = () => {
                   <Product
                     name={card.productName}
                     bgImage={card.urlImage}
-                    category={card.categoryName}
+                    brand={card.brand}
                     price={card.priceStock}
                     color={card.colorName}
                   />
@@ -511,7 +511,7 @@ const Shop = () => {
                   <Product
                     name={card.productName}
                     bgImage={card.urlImage}
-                    category={card.categoryName}
+                    brand={card.brand}
                     price={card.priceStock}
                     color={card.colorName}
                   />
