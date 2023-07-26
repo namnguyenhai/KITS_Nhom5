@@ -14,6 +14,7 @@ const token = Cookies.get("token");
 
 const Payment = () => {
     const page = "Create Payment";
+    
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const cart = useSelector((state) => state.cart.products);
@@ -21,7 +22,6 @@ const Payment = () => {
 
     const [visibility, setVisibility] = useState("visible");
     const [payment, setPayment] = useState('delivery');
-
 
     const USDDollar = (total) => {
         return new Intl.NumberFormat('de-DE', { 
@@ -55,12 +55,13 @@ const Payment = () => {
         }
     }
 
-    // if(token) {
-    //     toast.warning("PLEASE LOGIN TO SHOP", {
-    //         position: toast.POSITION.TOP_CENTER,
-    //     });
-    //     ;
-    // }
+    if(!token) {
+        toast.warning("PLEASE LOGIN TO SHOP", {
+            position: toast.POSITION.TOP_CENTER,
+        });
+        return navigate("/login");
+    } 
+
     return (
         <HelmetProvider>
             <Helmet>

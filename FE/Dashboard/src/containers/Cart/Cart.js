@@ -7,10 +7,12 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Save, Close, HideDetail, ShowDetail } from 'components/ImageList';
 import { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
+import Cookies from 'js-cookie';
+import { toast } from 'react-toastify';
 
 const Cart = () => {
     const page = "Shopping Cart";
-
+    const token = Cookies.get("token");
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const cart = useSelector((state) => state.cart.products);
@@ -59,7 +61,14 @@ const Cart = () => {
     }, [dispatch.cart]);
 
     const handleCheckout = () => {
-        navigate("/payment");
+        if(!token) {
+            toast.warning("PLEASE LOGIN TO SHOP", {
+                position: toast.POSITION.TOP_CENTER,
+            });
+            return navigate("/login");
+        } else {
+            return navigate("/payment");
+        }
     }
 
     useEffect(() => {
@@ -73,6 +82,7 @@ const Cart = () => {
             setCartChanged(false);
         }
     }, [isCartChanged]);
+
 
     return (
         <HelmetProvider>
