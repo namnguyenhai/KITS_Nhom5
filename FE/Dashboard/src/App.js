@@ -11,10 +11,12 @@ import NewAccount from 'containers/NewAccount';
 import Cart from 'containers/Cart';
 import Payment from 'containers/Payment';
 import Account from 'containers/AccountPage';
+
 import { Address, DashAcc, Information, Orders } from 'components/Account';
 import Contact from 'containers/Contact';
 import ForgotPass from 'containers/ForgotPass';
 import CheckoutSuccess from 'containers/CheckoutSuccess';
+
 
 function App() {
   return (
@@ -35,6 +37,7 @@ function App() {
           <Route path="orders" element={<Orders />} />
         </Route>
       </Route>
+
       <Route path="payment/success" element={<CheckoutSuccess />} />
       <Route path="/login" element={<Login />}></Route>
       <Route path="/forgot" element={<ForgotPass />}></Route>

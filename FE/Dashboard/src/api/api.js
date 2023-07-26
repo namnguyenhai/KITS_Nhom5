@@ -6,13 +6,14 @@ export const GET_PRODUCT_BY_ID = `${DOMAIN}/products/getproductbyid`;
 
 export const LOGIN_USER = `${DOMAIN}/api/login`;
 
-
 export const FORGOT_PASSWORD = `${DOMAIN}/api/reset-password/user`
 export const LOGOUT_USER = `${DOMAIN}/api/logout`;
 export const UPDATE_USER = `${DOMAIN}/api/user/users/update`;
 export const REGISTER_USER = `${DOMAIN}/api/register`
 export const GET_USER = `${DOMAIN}/api/user/users/user`
+
 export const GET_USER_BY_ID = `${DOMAIN}/api/user/users/getuserbyid`;
+
 
 export const ALL_PRODUCTS = `${DOMAIN}/products/getallproductsandstocks`
 

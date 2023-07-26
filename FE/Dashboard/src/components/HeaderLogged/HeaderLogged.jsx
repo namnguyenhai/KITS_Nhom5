@@ -1,5 +1,7 @@
 import { styled } from "styled-components";
+
 import { Link, NavLink } from "react-router-dom";
+
 // import search from "assets/images/header/search.svg";
 // import heart from "asưsets/images/header/heart.svg";
 import cartImg from "assets/images/header/cart.svg";
@@ -7,7 +9,9 @@ import { toast } from "react-toastify";
 import Cookies from "js-cookie";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
+
 import Badge from '@mui/material/Badge';
+
 
 const HeaderStyled = styled.div`
   width: 100%;
@@ -93,7 +97,9 @@ const USDDollar = (total) => {
 };
 
 export const HeaderLogged = () => {
+
   const cart = useSelector((state) => state.cart);
+
   const dispatch = useDispatch();
   useEffect(() => {
     // Fetch cart data only on the first render
@@ -151,6 +157,7 @@ export const HeaderLogged = () => {
         {/* <NavLink to="/favourite" className="nav-item">
           <img className="heart" src={heart} alt="heart icon" />
         </NavLink> */}
+
         <Link to="/cart" className="nav-item shop">
           { cart.products?.length > 0 ? (
             <Badge 
@@ -169,6 +176,7 @@ export const HeaderLogged = () => {
             <span className="cart-price"> {cart && USDDollar(cart.totalPrice)} </span>
           </div>
         </Link>
+
       </div>
     </HeaderStyled>
   );

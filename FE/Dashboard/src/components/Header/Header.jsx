@@ -1,5 +1,7 @@
 import { styled } from "styled-components";
+
 import { Link, NavLink } from "react-router-dom";
+
 // import search from "assets/images/header/search.svg";
 // import heart from "assets/images/header/heart.svg";
 import cartImg from "assets/images/header/cart.svg";
@@ -90,7 +92,9 @@ const USDDollar = (total) => {
 };
 
 export const Header = () => {
+
   const cart = useSelector((state) => state.cart);
+
   const dispatch = useDispatch();
   useEffect(() => {
     // Fetch cart data only on the first render
@@ -134,6 +138,7 @@ export const Header = () => {
         {/* <NavLink to="/favourite" className="nav-item">
           <img className="heart" src={heart} alt="heart icon" />
         </NavLink> */}
+
         <Link to="/cart" className="nav-item shop">
           <img className="cart" src={cartImg} alt="cart icon" />
           <div className="cart-info">
@@ -141,6 +146,7 @@ export const Header = () => {
               {cart.products?.length > 0 ? cart.products.length + " item(s)" : "Shopping Cart"}
             </span>
             <span className="cart-price"> {cart && USDDollar(cart.totalPrice)} </span>
+
           </div>
         </Link>
       </div>
