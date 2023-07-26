@@ -7,7 +7,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Save, Close, HideDetail, ShowDetail } from 'components/ImageList';
 import { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { toast } from 'react-toastify';
+import Stepper from "components/Stepper";
 
 const Cart = () => {
     const page = "Shopping Cart";
@@ -82,7 +82,10 @@ const Cart = () => {
             </Helmet>
             <div className="shopping-cart">
                 <Tab className="cart-tab" page={page} />
-                <h1>Shopping Cart</h1>
+                <div className="stepper">
+                    <Stepper shipping={0} />
+                </div>
+
                 <div className="cart-container">
                     <div className="product-list">
                         <table>
@@ -144,7 +147,7 @@ const Cart = () => {
                                 <tr>
                                     <td colSpan={6}>
                                         <div className="d-flex justify-between">
-                                            <Button type="submit" className="cart-btn">
+                                            <Button type="submit" className="cart-btn" onClick={() => navigate("/")}>
                                                 <p>Continue shopping</p>
                                             </Button>
                                             <Button 

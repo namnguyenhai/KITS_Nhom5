@@ -6,15 +6,23 @@ import { Button } from 'components/Button';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { ArrowUp } from 'components/ImageList';
+import Stepper from "components/Stepper";
+import { toast } from 'react-toastify';
+import { useNavigate } from "react-router-dom";
+import Cookies from 'js-cookie';
+
+const userId = Cookies.get("userId")
+const token = Cookies.get("token");
 
 const Payment = () => {
     const page = "Create Payment";
-
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const cart = useSelector((state) => state.cart.products);
-    const orders = useSelector((state) => state.cart.orders);
+    const user = useSelector((state) => state.register);
 
     const [visibility, setVisibility] = useState("visible");
+    const [payment, setPayment] = useState('delivery');
 
     const USDDollar = (total) => {
         return new Intl.NumberFormat('de-DE', { 
@@ -34,11 +42,36 @@ const Payment = () => {
     useEffect(() => {
         // Fetch cart data only on the first render
         dispatch.cart.fetchCart();
+        dispatch.register.getUserById(userId);
+
+        setTimeout(() => {
+            if(cart?.length === 0) {
+                toast.warning("NO PRODUCTS IN CART! PLEASE ADD PRODUCTS TO CART TO PAY.", {
+                    position: toast.POSITION.TOP_CENTER,
+                })
+                setTimeout(() => navigate("/cart"), 3000);
+            }
+        }, 100)
     }, [dispatch.cart]);
 
+    const handleOptionChange = (event) => {
+        setPayment(event.target.value);
+    };
+
     const handleCheckout = () => {
-        dispatch.orders.checkout();
+        if(payment === 'online') {
+            dispatch.orders.createPayment()
+        } else {
+            dispatch.orders.checkoutCode();
+        }
     }
+
+    if(!token) {
+        toast.warning("PLEASE LOGIN TO SHOP", {
+            position: toast.POSITION.TOP_CENTER,
+        });
+        return navigate("/login");
+    } 
 
     return (
         <HelmetProvider>
@@ -47,27 +80,53 @@ const Payment = () => {
             </Helmet>
             <div className="payment">
                 <Tab className="payment-tab" page={page} category="Womens Dress" product="Angels malu" />
-                <h1>Payment</h1>
+                <div className="stepper">
+                    <Stepper shopping={1} payment={1} />
+                </div>
                 <div className="payment-container">
                     <div className="payment-method">
                         <p>Payment Method:</p>
                         <div className="paymnet-check-order">
                             <p>Check / Money order</p>
                             <div className="payment-input-checked">
-                                <input type="checkbox" />
-                                <span>My billing and shipping address are the same</span>
                             </div>
                             <div className="payment-info">
-                                <p>Vyacheslav Kulbitskii </p>
-                                <p>Moskovski prospect 39/1, Apt. 147</p>
-                                <p className="payment-info-phone">+375292169179</p>
+                                <p>Fullname: {`${user.user?.firstname} ${user.user?.lastname}`}  </p>
+                                <p>Address: {user.user?.address} </p>
+                                <p className="payment-info-phone">Phone Number: {user.user?.phonenumber} </p>
                             </div>
+                        </div>
+                        <div className="payment-radio-group">
+                            <label htmlFor="delivery" className={payment === "delivery" ? "checked" : ""}>
+                                <input 
+                                    id="delivery" 
+                                    type="radio" 
+                                    value="delivery"
+                                    name='payment'
+                                    checked={payment === "delivery"}
+                                    onChange={handleOptionChange} 
+                                />
+                                <span>PAYMENT ON DELIVERY</span>
+                            </label>
+                        </div>
+                        <div className="payment-radio-group">
+                            <label htmlFor="online" className={payment === "online" ? "checked" : ""}>
+                                <input 
+                                    id="online" 
+                                    type="radio" 
+                                    value="online"
+                                    name='payment'
+                                    checked={payment === "online"}
+                                    onChange={handleOptionChange} 
+                                />
+                                <span>ONLINE PAYMENT</span>
+                            </label>
                         </div>
                         <div className="payment-btn">
                             <Button onClick={handleCheckout}>
                                 <p>Place Order</p>
                             </Button>
-                            <Button>
+                            <Button onClick={() => navigate(-1)}>
                                 <p>Back</p>
                             </Button>
                         </div>
@@ -94,7 +153,7 @@ const Payment = () => {
                                 setVisibility("hidden") : setVisibility("visible")
                             }
                         >
-                            <p>1 Item in Cart</p>
+                            <p> {cart?.length} Item in Cart</p>
                             <ArrowUp />
                         </div>
                         <div className={`order-list${visibility === "visible" ? "" : " visibility"}`}>

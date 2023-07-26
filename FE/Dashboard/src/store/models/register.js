@@ -1,4 +1,4 @@
-import { REGISTER_USER } from "api";
+import { REGISTER_USER, GET_USER_BY_ID } from "api";
 import axios from "axios";
 import { toast } from "react-toastify";
 
@@ -13,6 +13,12 @@ export const register = {
           isLoading: payload,
         };
       },
+      setUser(state, user) {
+        return {
+          ...state,
+          user
+        }
+      }
     },
     effects: (dispatch) => ({
       async registerUser(user) {
@@ -33,5 +39,10 @@ export const register = {
           dispatch.register.setLoading(false);
         }
       },
+      getUserById(userId) {
+        axios.get(GET_USER_BY_ID, { params: { userId } })
+          .then(res => this.setUser(res.data.product[0]))
+          .catch(err => console.log(err))
+      }
     }),
   };
