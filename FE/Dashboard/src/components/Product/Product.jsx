@@ -1,5 +1,4 @@
 import { Button } from "components/Button";
-import { useState } from "react";
 import { styled } from "styled-components";
 
 const ProductStyled = styled.div`
@@ -27,7 +26,7 @@ const ProductStyled = styled.div`
     top: 5%;
     left: 0;
   }
-  .cate {
+  .brand {
     color: #bdbdbd;
     font-size: 12px;
     font-weight: 600;
@@ -73,10 +72,6 @@ const ProductStyled = styled.div`
     height: 27px;
     gap: 10px;
   }
-  .color.selected {
-    border: 2px solid #fff;
-    outline: 2px solid #000;
-  }
 `;
 
 // format price
@@ -89,25 +84,18 @@ export const Product = ({
   name,
   tag,
   bgImage,
-  category,
+  brand,
   price,
   oldprice,
   color,
   ...rest
 }) => {
-  const [selectedColor, setSelectedColor] = useState(null);
-  const handleColorSelect = (colorOption) => {
-    setSelectedColor(colorOption);
-  };
-
   const hasDiscount = oldprice > price;
 
   // Split the color and image URLs into arrays
   const priceApi = price ? price.split(",") : [];
   const firstPrice = priceApi.length > 0 ? priceApi[0].trim() : null;
-  const colorOptions = color ? color.split(",").filter(function (value, index, self) {
-    return self.indexOf(value) === index;
-  }) : [];
+  const colorOptions = color ? color.split(",") : [];
   const imageUrls = bgImage ? bgImage.split(",") : [];
   const firstImageUrl = imageUrls.length > 0 ? imageUrls[0].trim() : null;
 
@@ -117,7 +105,7 @@ export const Product = ({
         <img className="image" src={firstImageUrl} alt={name} />
       )}
       {/* {tag ? <div className="tag">{tag}</div> : null} */}
-      <p className="cate">{category}</p>
+      <p className="brand">{brand}</p>
       <p className="name">{name}</p>
       {hasDiscount ? (
         <div className="discount">
@@ -136,10 +124,6 @@ export const Product = ({
               height={"25px"}
               borderColor={null}
               bgColor={colorOption.trim()} // Trim the color value to remove any leading/trailing spaces
-              className={`color ${
-                selectedColor === colorOption ? "selected" : ""
-              }`}
-              onClick={() => handleColorSelect(colorOption)}
             />
           ))}
         </div>

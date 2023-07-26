@@ -169,35 +169,6 @@
                 }
             }
         }
-        .payment-radio-group {
-            user-select: none;
-
-            p {
-                font-size: 18px;
-                font-weight: 500;
-                line-height: 24px;
-            }
-            label {
-                display: flex;
-                cursor: pointer;
-                font-weight: 500;
-                margin: 1.2rem 0;
-                color: #828282;
-
-                span {
-                    margin-left: 0.5rem;
-                    font-size: 14px;
-                    font-weight: 400;
-                    line-height: 20px;
-                }
-            }
-            .checked {
-                
-                span {
-                    color: #000000;
-                }
-            }
-        }
     }
     .order-summary {
         min-width: 500px;

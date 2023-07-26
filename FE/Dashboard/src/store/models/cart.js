@@ -4,7 +4,7 @@ import { GET_CART, ADD_TO_CART, UPDATE_CART, REMOVE_CART_BY_ID_SIZE_COLOR, CLEAR
 
 export const cart = {
     state: {
-        products: []
+        products: [],
     },
 
     reducers: {
@@ -28,13 +28,11 @@ export const cart = {
         async addToCart(product) {
             await axios.post(ADD_TO_CART, product)
                 .then(res => {
-                    this.setCart(res.data);
-
                     return toast.success("ADDING PRODUCTS TO CART SUCCESSFULLY", {
                         position: toast.POSITION.TOP_CENTER,
                     })
                 })
-                .catch(err => toast.error(`MAXIMUM QUANTITY OF PRODUCTS IN STOCK IS ${err.response.data}`, {
+                .catch(err => toast.error("ADDING PRODUCTS TO CART FAILURE", {
                     position: toast.POSITION.TOP_CENTER,
                 }))
         },

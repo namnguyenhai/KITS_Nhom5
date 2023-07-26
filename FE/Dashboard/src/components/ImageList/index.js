@@ -21,9 +21,7 @@ import cartPd2 from 'assets/images/cart/product-2.png';
 import { ReactComponent as Save } from 'assets/images/cart/save.svg';
 import { ReactComponent as Close } from 'assets/images/cart/close.svg';
 import { ReactComponent as ArrowUp } from 'assets/images/payment/arrow-up.svg';
-import checkoutSuccessIcon from 'assets/images/payment/checkout-success.png';
-import { ReactComponent as DecreaseIcon } from 'assets/images/products/decrease.svg'
-import { ReactComponent as Continue } from 'assets/images/payment/continue.svg'
+import { ReactComponent as Eye } from 'assets/images/account/eye.svg';
 
 export {
     product1,
@@ -49,7 +47,5 @@ export {
     Save,
     Close,
     ArrowUp,
-    checkoutSuccessIcon,
-    DecreaseIcon,
-    Continue
+    Eye,
 }

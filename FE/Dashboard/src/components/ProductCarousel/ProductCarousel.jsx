@@ -59,7 +59,7 @@ export const ProductCarousel = ({ productList }) => {
             key={card.productId}
             name={card.productName}
             bgImage={card.urlImage}
-            category={card.categoryName}
+            brand={card.brand}
             price={card.priceStock}
           />
         ))}

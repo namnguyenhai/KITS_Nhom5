@@ -10,9 +10,10 @@ import Products from 'containers/Products';
 import NewAccount from 'containers/NewAccount';
 import Cart from 'containers/Cart';
 import Payment from 'containers/Payment';
-import CheckoutSuccess from 'containers/CheckoutSuccess';
 import Account from 'containers/AccountPage';
-import { Address, DashAcc, Information } from 'components/Account';
+import { Address, DashAcc, Information, Orders } from 'components/Account';
+import Contact from 'containers/Contact';
+import ForgotPass from 'containers/ForgotPass';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route index element={<Homepage />} />
         <Route path="shop" element={<Shop />} />
         <Route path="blog" element={<Blog />} />
+        <Route path="contact" element={<Contact />} />
         <Route path="products/:id" element={<Products />} />
         <Route path="accounts/new" element={<NewAccount />} />
         <Route path="cart" element={<Cart />} />
@@ -29,10 +31,11 @@ function App() {
           <Route index element={<DashAcc />} />
           <Route path="information" element={<Information />} />
           <Route path="address" element={<Address />} />
+          <Route path="orders" element={<Orders />} />
         </Route>
       </Route>
-      <Route path="payment/success" element={<CheckoutSuccess />} />
-      <Route path="/login" element={<Login></Login>}></Route>
+      <Route path="/login" element={<Login />}></Route>
+      <Route path="/forgot" element={<ForgotPass />}></Route>
     </Routes>
   );
 }

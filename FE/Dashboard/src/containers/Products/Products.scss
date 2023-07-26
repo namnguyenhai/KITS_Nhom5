@@ -32,13 +32,10 @@
                 overflow: hidden;
                 position: relative;
 
-                .product-slider-index {
-                    width: 624px;
-                    max-width: 624px;
-                }
-
                 > img {
                     display: block;
+                    width: 624px;
+                    max-width: 624px;
                     height: auto;
                     transition: all 0.3s;
                     transform: scale(1);

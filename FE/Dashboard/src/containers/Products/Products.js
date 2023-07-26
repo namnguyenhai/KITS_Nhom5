@@ -1,29 +1,23 @@
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import './Products.scss';
 import Tab from "components/Tab";
-import {
+import { 
     Heart, Checked, Zoom, Facebook, Twitter, Pinterest, Instagram, HideDetail, ShowDetail
 } from 'components/ImageList';
 import { Button } from "components/Button";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { ProductCarousel } from "components/ProductCarousel";
 import { useSelector, useDispatch } from "react-redux";
 import ButtonQuantity from "components/ButtonQuantity";
 import { toast } from 'react-toastify';
 import { useParams } from 'react-router-dom';
-import Carousel from "react-multi-carousel";
 
 const Products = () => {
     const page = "Products";
 
-    const location = useLocation();
-    useEffect(() => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }, [location.pathname])
-
     const params = useParams();
-
+        
     const productId = params.id;
 
     const dispatch = useDispatch();
@@ -34,16 +28,15 @@ const Products = () => {
     }, [dispatch]);
 
     const imageList = productsStore.product?.urlImage?.split(',') || [];
-    const sizeList = productsStore.product?.sizeName?.split(',').filter(function (value, index, self) {
-        return self.indexOf(value) === index;
-    }) || [];
-    const colorList = productsStore.product?.colorName?.split(',').filter(function (value, index, self) {
-        return self.indexOf(value) === index;
-    }) || [];
+    const sizeList = productsStore.product?.sizeName?.split(',') || [];
+    const colorList = productsStore.product?.colorName?.split(',') || [];
     const priceList = productsStore.product?.priceStock?.split(',') || [];
+
+    console.log(productsStore.product)
+
     const description = productsStore.product?.description;
 
-    const iconShare = [Facebook, Twitter, Pinterest, Instagram];
+    const iconShare = [ Facebook , Twitter, Pinterest, Instagram ];
     const [quantity, setQuantity] = useState(1);
     const [imgShow, setImgShow] = useState('');
     const [price, setPrice] = useState();
@@ -53,31 +46,7 @@ const Products = () => {
         size: '',
         image: ''
     });
-
     const [stateDesc, setStateDesc] = useState(false);
-
-    const responsive = {
-        largeDesktop: {
-            breakpoint: { max: 4000, min: 1800 },
-            items: 1,
-        },
-        desktop: {
-            breakpoint: { max: 1800, min: 1600 },
-            items: 1,
-        },
-        laptop: {
-            breakpoint: { max: 1600, min: 1024 },
-            items: 1,
-        },
-        tablet: {
-            breakpoint: { max: 1024, min: 464 },
-            items: 1,
-        },
-        mobile: {
-            breakpoint: { max: 464, min: 0 },
-            items: 1,
-        },
-    };
 
     const USDollar = new Intl.NumberFormat('de-US', {
         style: 'currency',
@@ -93,17 +62,6 @@ const Products = () => {
         setImgShow(img)
     }
 
-    // Add the afterChange event handler
-    const handleAfterCarouselChange = (currentSlide) => {
-        setActive({ ...active, image: imageList[currentSlide] })
-        setImgShow(imageList && imageList[currentSlide]);
-    };
-    const handleBeforeCarouselChange = (currentSlide) => {
-        setActive({ ...active, image: imageList[currentSlide] })
-        setImgShow(imageList && imageList[currentSlide]);
-    };
-
-
     const handleAddToCart = () => {
         const data = {
             productId: productsStore.product?.productId,
@@ -115,35 +73,34 @@ const Products = () => {
             sizeName: active.size
         };
 
-        if (data.quantity < 1) {
+        if(data.quantity < 1) {
             return toast.warning("QUANTITY INVALID", {
                 position: toast.POSITION.TOP_CENTER,
             })
-        } else if (!data.colorName) {
+        } else if(!data.colorName) {
             return toast.warning("PLEASE CHOOSE PRODUCT COLOR", {
                 position: toast.POSITION.TOP_CENTER,
             })
-        } else if (!data.sizeName) {
+        } else if(!data.sizeName) {
             return toast.warning("PLEASE CHOOSE PRODUCT SIZE", {
                 position: toast.POSITION.TOP_CENTER,
             })
-        } else {
-            dispatch.cart.addToCart(data);
         }
-
+        
+        dispatch.cart.addToCart(data);
     }
 
     useEffect(() => {
         if (imageList.length > 0) {
-            setImgShow(imageList[0]);
-            setActive({ ...active, image: imageList[0] });
-            setPrice(priceList[0])
+          setImgShow(imageList[0]);
+          setActive({ ...active, image: imageList[0] });
+          setPrice(priceList[0])
         }
     }, [productsStore]);
 
     useEffect(() => {
-        for (let i = 0; i < priceList?.length; i++) {
-            if (active.size === sizeList[i] && active.color === colorList[i]) {
+        for(let i = 0; i < priceList?.length; i++) {
+            if(active.size === sizeList[i] && active.color === colorList[i]) {
                 setPrice(priceList[i])
             } else continue;
         }
@@ -155,157 +112,139 @@ const Products = () => {
         return (
             <HelmetProvider>
                 <Helmet>
-                    <title> {page} </title>
+                <title> {page} </title>
                 </Helmet>
-                {productsStore.product &&
-                    <div className="products">
-                        <div className="products-container">
-                            <div className="products-overview">
-                                <div className="products-image">
-                                    <div className="products-image-list">
-                                        {imageList.map((img, index) => (
-                                            <div
-                                                key={index}
-                                                className={`products-image-item ${active.image === img ? 'active' : ''}`}
-                                                onClick={() => imageSelected(img)}
-                                            >
-                                                <img src={img} alt="" />
-                                            </div>
-                                        ))}
-                                    </div>
-
-                                    <div className="products-image-index">
-                                        <Carousel
-                                            responsive={responsive}
-                                            autoPlay={true}
-                                            autoPlaySpeed={3000}
-                                            keyBoardControl={true}
-                                            className="product-slider-index"
-                                            removeArrowOnDeviceType={["tablet", "mobile"]}
-                                            beforeChange={(previousSlide, { currentSlide, onMove }) => {
-                                                handleBeforeCarouselChange(currentSlide)
-                                            }}
-                                            afterChange={(nextSlide, { currentSlide, onMove }) => {
-                                                handleAfterCarouselChange(currentSlide)
-                                            }}
+                { productsStore.product && 
+                <div className="products">
+                    <div className="products-container">
+                        <div className="products-overview">
+                            <div className="products-image">
+                                <div className="products-image-list">
+                                    { imageList.map((img, index) => (
+                                        <div 
+                                            key={index} 
+                                            className={`products-image-item ${active.image === img ? 'active' : ''}`}
+                                            onClick={() => imageSelected(img)}
                                         >
-                                            {imageList.map((img, index) => (
-                                                <img key={index} src={img} alt="" />
-                                            ))}
-                                        </Carousel>
-
-                                        <div className="products-image-zoom">
-                                            <Zoom />
+                                            <img src={img} alt="product-error" />
                                         </div>
-                                    </div>
-                                    <div className="products-image-share">
-                                        <p>SHARE:</p>
-                                        <div className="image-icon-list">
-                                            {iconShare.map((Icon, index) => <Icon key={index} />)}
-                                        </div>
+                                    )) }
+                                </div>
+                                
+                                <div className="products-image-index">
+                                    <img src={imgShow} alt="product-error" />
+                                    <div className="products-image-zoom">
+                                        <Zoom /> 
                                     </div>
                                 </div>
-
-                                <div className="products-attributes">
-                                    {/* Tab: Page/category/product */}
-                                    <Tab
-                                        page={page}
-                                        category={productsStore.product?.categoryName}
-                                        product={productsStore.product?.productName}
-                                    />
-
-                                    <div className="products-attributes-brand">
-                                        <p>{productsStore.product?.brand}</p>
-                                    </div>
-
-                                    <div className="products-attributes-name">
-                                        <p>{productsStore.product?.productName}</p>
-                                    </div>
-
-                                    <div className="products-attributes-select">
-                                        <p>SELECT COLOR</p>
-                                        <div className="attributes-select">
-                                            {colorList?.map(color => (
-                                                <div key={color} className={`wrapper-btn ${active.color === color && 'active'}`}>
-                                                    <Button
-                                                        width="20px"
-                                                        height="20px"
-                                                        className={`btn-color`}
-                                                        bgColor={color}
-                                                        onClick={() => setActive({ ...active, color })}
-                                                    />
-                                                </div>
-                                            ))}
-                                        </div>
-                                    </div>
-                                    <div className="products-attributes-select">
-                                        <p>SELECT SIZE</p>
-                                        <div className="attributes-select">
-                                            {sizeList?.map(size => (
-                                                <Button
-                                                    key={size}
-                                                    className={`btn-size ${active.size === size && 'active'}`}
-                                                    width="56px"
-                                                    height="46px"
-                                                    onClick={() => setActive({ ...active, size })}
-                                                >
-                                                    {size}
-                                                </Button>
-                                            ))}
-                                            <Link to="#" >
-                                                Size guide
-                                            </Link>
-                                        </div>
-                                    </div>
-                                    <div className="products-attributes-group">
-                                        <div className="attributes-row">
-                                            <p>QUANTITY</p>
-                                            <ButtonQuantity handleGetQuantity={handleGetQuantity} />
-                                        </div>
-
-                                        <div className="attributes-row">
-                                            <p>PRIRCE TOTAL</p>
-                                            <h3> {USDollar.format(price)} </h3>
-                                        </div>
-                                    </div>
-                                    <div className="products-attributes-group">
-                                        <Button
-                                            bgColor="#000"
-                                            textColor="#FFF"
-                                            className="btn-add-to-bag"
-                                            width="200px"
-                                            onClick={handleAddToCart}
-                                        ><p>ADD TO CART</p></Button>
-                                        <Button width="200px" className="btn-save"> <Heart /> SAVE</Button>
-                                    </div>
-                                    <div className="products-attributes-group mt-1">
-                                        <div className="d-flex">
-                                            <Checked />
-                                            <p>Free shipping</p>
-                                        </div>
-                                        <p>Product code: RFKK1024</p>
-                                        <p>TAGS: NEW arrivals, Top women</p>
+                                <div className="products-image-share">
+                                    <p>SHARE:</p>
+                                    <div className="image-icon-list">
+                                        { iconShare.map((Icon, index) => <Icon key={index} />) }
                                     </div>
                                 </div>
                             </div>
-                            <div className="products-detail">
-                                <div className="products-detail-title" onClick={() => setStateDesc(!stateDesc)}>
-                                    <p>Details</p>
-                                    {!stateDesc ? <HideDetail /> : <ShowDetail />}
+    
+                            <div className="products-attributes">
+                                {/* Tab: Page/category/product */}
+                                <Tab 
+                                    page={page}
+                                    category={productsStore.product?.categoryName}
+                                    product={productsStore.product?.productName}
+                                />
+    
+                                <div className="products-attributes-brand">
+                                    <p>{productsStore.product?.brand}</p>
                                 </div>
-                                <div className={`products-desc ${stateDesc && 'hide-desc'}`} dangerouslySetInnerHTML={{ __html: description }}>
-
+    
+                                <div className="products-attributes-name">
+                                    <p>{productsStore.product?.productName}</p>
+                                </div>
+    
+                                <div className="products-attributes-select">
+                                    <p>SELECT COLOR</p>
+                                    <div className="attributes-select">
+                                        { colorList?.map(color => (
+                                            <div key={color} className={`wrapper-btn ${active.color === color && 'active'}`}>
+                                                <Button 
+                                                    width="20px"
+                                                    height="20px"
+                                                    className={`btn-color`}
+                                                    bgColor={color}
+                                                    onClick={() => setActive({ ...active, color })}
+                                                />
+                                            </div>
+                                        )) }
+                                    </div>
+                                </div>
+                                <div className="products-attributes-select">
+                                    <p>SELECT SIZE</p>
+                                    <div className="attributes-select">
+                                        { sizeList?.map(size => (
+                                            <Button 
+                                                key={size}
+                                                className={`btn-size ${active.size === size && 'active'}`}
+                                                width="56px"
+                                                height="46px"
+                                                onClick={() => setActive({ ...active, size })}
+                                            >
+                                                {size}
+                                            </Button>
+                                        )) }
+                                        <Link to="#" >
+                                            Size guide
+                                        </Link>
+                                    </div>
+                                </div>
+                                <div className="products-attributes-group">
+                                    <div className="attributes-row">
+                                        <p>QUANTITY</p>
+                                        <ButtonQuantity handleGetQuantity={handleGetQuantity} />
+                                    </div>
+    
+                                    <div className="attributes-row">
+                                        <p>PRIRCE TOTAL</p>
+                                        <h3> {USDollar.format(price)} </h3>
+                                    </div>
+                                </div>
+                                <div className="products-attributes-group">
+                                    <Button 
+                                        bgColor="#000" 
+                                        textColor="#FFF" 
+                                        className="btn-add-to-bag"
+                                        width="200px"
+                                        onClick={handleAddToCart}
+                                    ><p>ADD TO CART</p></Button>
+                                    <Button width="200px" className="btn-save"> <Heart /> SAVE</Button>
+                                </div>
+                                <div className="products-attributes-group mt-1">
+                                    <div className="d-flex">
+                                        <Checked />
+                                        <p>Free shipping</p>            
+                                    </div>
+                                    <p>Product code: RFKK1024</p>
+                                    <p>TAGS: NEW arrivals, Top women</p>
                                 </div>
                             </div>
                         </div>
-                        <div className="products-slider">
-                            <p>You May Also Like</p>
-                            <ProductCarousel productList={productsStore.listProduct} />
+                        <div className="products-detail">
+                            <div className="products-detail-title" onClick={() => setStateDesc(!stateDesc)}>
+                                <p>Details</p>
+                                { !stateDesc ? <HideDetail /> : <ShowDetail /> }
+                            </div>
+                            <div className={`products-desc ${stateDesc && 'hide-desc'}`} dangerouslySetInnerHTML={{__html: description}}>
+                                    
+                            </div>
                         </div>
-                    </div>}
+                    </div>
+                    <div className="products-slider">
+                        <p>You May Also Like</p>
+                        <ProductCarousel productList={ productsStore.listProduct } />
+                    </div>
+                </div>}
             </HelmetProvider>
         );
     }
-};
-
-export default Products;
+  };
+  
+  export default Products;

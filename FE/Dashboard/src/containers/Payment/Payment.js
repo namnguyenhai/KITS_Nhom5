@@ -6,22 +6,15 @@ import { Button } from 'components/Button';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { ArrowUp } from 'components/ImageList';
-import Cookies from 'js-cookie';
-import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
-
-const token = Cookies.get("token");
 
 const Payment = () => {
     const page = "Create Payment";
-    
-    const navigate = useNavigate();
+
     const dispatch = useDispatch();
     const cart = useSelector((state) => state.cart.products);
     const orders = useSelector((state) => state.cart.orders);
 
     const [visibility, setVisibility] = useState("visible");
-    const [payment, setPayment] = useState('delivery');
 
     const USDDollar = (total) => {
         return new Intl.NumberFormat('de-DE', { 
@@ -38,29 +31,14 @@ const Payment = () => {
         return subtotal;
     };
 
-    const handleOptionChange = (event) => {
-        setPayment(event.target.value);
-    };
-
     useEffect(() => {
         // Fetch cart data only on the first render
         dispatch.cart.fetchCart();
     }, [dispatch.cart]);
 
     const handleCheckout = () => {
-        if(payment === 'online') {
-            dispatch.orders.createPayment()
-        } else {
-            dispatch.orders.checkoutCode();
-        }
+        dispatch.orders.checkout();
     }
-
-    if(!token) {
-        toast.warning("PLEASE LOGIN TO SHOP", {
-            position: toast.POSITION.TOP_CENTER,
-        });
-        return navigate("/login");
-    } 
 
     return (
         <HelmetProvider>
@@ -84,32 +62,6 @@ const Payment = () => {
                                 <p>Moskovski prospect 39/1, Apt. 147</p>
                                 <p className="payment-info-phone">+375292169179</p>
                             </div>
-                        </div>
-                        <div className="payment-radio-group">
-                            <label htmlFor="delivery" className={payment === "delivery" ? "checked" : ""}>
-                                <input 
-                                    id="delivery" 
-                                    type="radio" 
-                                    value="delivery"
-                                    name='payment'
-                                    checked={payment === "delivery"}
-                                    onChange={handleOptionChange} 
-                                />
-                                <span>PAYMENT ON DELIVERY</span>
-                            </label>
-                        </div>
-                        <div className="payment-radio-group">
-                            <label htmlFor="online" className={payment === "online" ? "checked" : ""}>
-                                <input 
-                                    id="online" 
-                                    type="radio" 
-                                    value="online"
-                                    name='payment'
-                                    checked={payment === "online"}
-                                    onChange={handleOptionChange} 
-                                />
-                                <span>ONLINE PAYMENT</span>
-                            </label>
                         </div>
                         <div className="payment-btn">
                             <Button onClick={handleCheckout}>
