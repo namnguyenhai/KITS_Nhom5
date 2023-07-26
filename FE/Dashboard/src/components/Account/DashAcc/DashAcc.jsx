@@ -42,6 +42,9 @@ const DashStyled = styled.div`
     display: flex;
     gap: 10px;
   }
+  button {
+    font-family: 'Oswald', sans-serif;
+  }
 `;
 
 export const DashAcc = () => {

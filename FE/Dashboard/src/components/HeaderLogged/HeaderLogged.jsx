@@ -1,5 +1,7 @@
 import { styled } from "styled-components";
-import { NavLink } from "react-router-dom";
+
+import { Link, NavLink } from "react-router-dom";
+
 // import search from "assets/images/header/search.svg";
 // import heart from "asưsets/images/header/heart.svg";
 import cartImg from "assets/images/header/cart.svg";
@@ -7,6 +9,9 @@ import { toast } from "react-toastify";
 import Cookies from "js-cookie";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
+
+import Badge from '@mui/material/Badge';
+
 
 const HeaderStyled = styled.div`
   width: 100%;
@@ -92,28 +97,15 @@ const USDDollar = (total) => {
 };
 
 export const HeaderLogged = () => {
-  //   const token = Cookies.get("token");
-  //   const headers = {
-  //     Authorization: `Bearer ${token}`,
-  //     "Content-Type": "application/json",
-  //   };
-  //   const requestData = {
-  //     // Your request data properties here
-  //   };
-  const cart = useSelector((state) => state.cart.products);
+
+  const cart = useSelector((state) => state.cart);
+
   const dispatch = useDispatch();
   useEffect(() => {
     // Fetch cart data only on the first render
     dispatch.cart.fetchCart();
   }, [dispatch.cart]);
-  const calculateSubtotal = () => {
-    let subtotal = 0;
-    cart &&
-      cart.forEach((product) => {
-        subtotal += product.unitPrice * product.quantity;
-      });
-    return subtotal;
-  };
+
   const handleSignOut = () => {
     try {
       Cookies.remove("token");
@@ -165,15 +157,26 @@ export const HeaderLogged = () => {
         {/* <NavLink to="/favourite" className="nav-item">
           <img className="heart" src={heart} alt="heart icon" />
         </NavLink> */}
-        <NavLink to="/cart" className="nav-item shop">
-          <img className="cart" src={cartImg} alt="cart icon" />
+
+        <Link to="/cart" className="nav-item shop">
+          { cart.products?.length > 0 ? (
+            <Badge 
+              anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'left',
+              }} 
+              badgeContent={cart.products.length} 
+              color="error"
+            >
+              <img className="cart" src={cartImg} alt="cart icon" />
+            </Badge>
+          ) : ( <img className="cart" src={cartImg} alt="cart icon" /> ) }
           <div className="cart-info">
-            <span className="cart-item">
-              {cart.length > 0 ? cart.length + " item(s)" : "Shopping Cart"}
-            </span>
-            <span className="cart-price">{USDDollar(calculateSubtotal())}</span>
+            <span className="cart-item">Shopping Cart</span>
+            <span className="cart-price"> {cart && USDDollar(cart.totalPrice)} </span>
           </div>
-        </NavLink>
+        </Link>
+
       </div>
     </HeaderStyled>
   );

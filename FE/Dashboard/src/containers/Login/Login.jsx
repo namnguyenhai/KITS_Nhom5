@@ -152,6 +152,7 @@ export const Login = () => {
           // Set new cookie
           navigate("/");
           Cookies.set("token", data.data.token, { expires: 7 }); // 'expires' sets the cookie to expire after 7 days
+          Cookies.set("userId", data.data.userId, { expires: 7 });
         });
     } catch (err) {
       toast.error("Wrong Username or Password!", {

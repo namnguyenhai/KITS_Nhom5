@@ -82,6 +82,7 @@
                         background-color: #E6F1FA;
                         width: 24px;
                         height: 24px;
+                        opacity: 1 !important;
     
                         &:first-child {
                             svg path {
@@ -90,6 +91,7 @@
                         }
                         &:hover {
                             background-color: #e6f1fabb;
+
                             svg path {
                                 fill: red;
                                 stroke: red;
@@ -114,6 +116,7 @@
                         &:hover {
                             background-color: #EB5757;
                             border: none;
+                            opacity: 1;
                             
                             p {
                                 color: #FFF;
@@ -193,6 +196,7 @@
                     &:hover {
                         background-color: #EB5757;
                         border: none;
+                        opacity: 1;
                         
                         p {
                             color: #FFF;

@@ -106,8 +106,6 @@ const Products = () => {
         }
     }, [active.color, active.size]);
 
-    console.log(productsStore.product?.urlImage)
-
     if (!productsStore.product) {
         return <div>Loading...</div>;
     } else {

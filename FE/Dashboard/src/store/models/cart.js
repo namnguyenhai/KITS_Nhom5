@@ -4,7 +4,7 @@ import { GET_CART, ADD_TO_CART, UPDATE_CART, REMOVE_CART_BY_ID_SIZE_COLOR, CLEAR
 
 export const cart = {
     state: {
-        products: []
+        products: [],
     },
 
     reducers: {
@@ -12,6 +12,12 @@ export const cart = {
             return {
                 ...state,
                 products,
+            }
+        },
+        setTotalPrice(state, totalPrice) {
+            return {
+                ...state,
+                totalPrice,
             }
         }
     },
@@ -21,14 +27,22 @@ export const cart = {
     //   use async/await for async actions
         async fetchCart() {
             await axios.get(GET_CART)
-                .then(res => this.setCart(res.data))
+                .then(res => {
+                    this.setCart(res.data);
+
+                    let subtotal = 0;
+                    res.data?.map((product) => {
+                        subtotal += product.unitPrice * product.quantity;
+                    });
+                    this.setTotalPrice(subtotal);
+                })
                 .catch(err => console.log(err))
         },
         
         async addToCart(product) {
             await axios.post(ADD_TO_CART, product)
                 .then(res => {
-                    this.setCart(res.data);
+                    dispatch.cart.fetchCart()
 
                     return toast.success("ADDING PRODUCTS TO CART SUCCESSFULLY", {
                         position: toast.POSITION.TOP_CENTER,
@@ -36,12 +50,12 @@ export const cart = {
                 })
                 .catch(err => toast.error("ADDING PRODUCTS TO CART FAILURE", {
                     position: toast.POSITION.TOP_CENTER,
-                }))
+                }));
         },
 
         async updateCart(product) {
             await axios.put(UPDATE_CART, product)
-                .then(res => {})
+                .then(res => dispatch.cart.fetchCart())
                 .catch(res => {
                     toast.error(`MAXIMUM QUANTITY OF PRODUCTS IN STOCK IS ${res.response.data}`, {
                         position: toast.POSITION.TOP_CENTER,
@@ -51,9 +65,13 @@ export const cart = {
 
         async removeCart(product) {
             await axios.delete(`${REMOVE_CART_BY_ID_SIZE_COLOR}/${product.productId}/${product.sizeName}/${product.colorName}`)
-                .then(res => toast.success("CART DELETE SUCCESSFULLY", {
+                .then(res => {
+                    dispatch.cart.fetchCart();
+
+                    toast.success("CART DELETE SUCCESSFULLY", {
                     position: toast.POSITION.TOP_CENTER,
-                }))
+                    })
+                })
                 .catch(err => toast.error("CART DELETE FAILURE", {
                     position: toast.POSITION.TOP_CENTER,
                 }))

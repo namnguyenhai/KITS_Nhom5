@@ -93,6 +93,14 @@ const AccountPage = () => {
               Account Information
             </NavLink>
             <NavLink
+              to="./orders"
+              className="side-item"
+              activeclassname="active"
+              onClick={() => setPageTitle("Account Orders")}
+            >
+              Account Orders
+            </NavLink>
+            <NavLink
               to="./address"
               className="side-item"
               activeclassname="active"

@@ -2,6 +2,10 @@ body {
   font-family: 'Oswald', sans-serif;
 }
 
+span {
+  font-family: 'Oswald', sans-serif !important;
+}
+
 .text-left {
   text-align: left;
 }
@@ -26,4 +30,11 @@ body {
 }
 .align-center {
   align-items: center;
+}
+.stepper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding-top: 1rem;
+  padding-bottom: 3rem;
 }
