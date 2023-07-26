@@ -4,21 +4,21 @@ import { Button } from "components/Button";
 import banner from "assets/images/shop/banner.svg";
 import vector from "assets/images/home/vector.svg";
 import vectorm from "assets/images/shop/vector.svg";
-import { PriceRangeSlider } from "components/PriceRangeSlider";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Product } from "components/Product";
 import model from "assets/images/shop/model.svg";
 import { useEffect } from "react";
 import { useState } from "react";
-import { ALL_CATEGORIES, ALL_COLORS, ALL_SIZES } from "api";
+import { API_FILTER, DATA_FILTER } from "api";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import ReactSlider from "react-slider";
 
 const ShopStyled = styled.div`
+  overflow: hidden;
   margin: 20px;
   .banner {
     width: 100%;
-    height: 467px;
     background: linear-gradient(
       90deg,
       #f6f8fc 0%,
@@ -124,9 +124,17 @@ const QueryProducts = styled.div`
     flex-wrap: wrap;
   }
   .color {
-    width: 25px;
-    height: 25px;
+    display: flex;
+    width: 27px;
+    height: 27px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     border: none;
+  }
+  .color.selected {
+    border: 2px solid #fff;
+    outline: 2px solid #000;
   }
   .button-range {
     display: flex;
@@ -206,17 +214,8 @@ const QueryProducts = styled.div`
     right: 0;
     top: -5%;
   }
-  .color {
-    display: flex;
-    width: 27px;
-    height: 27px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  .color.selected {
-    border: 2px solid #fff;
-    outline: 2px solid #000;
+  .checkbox {
+    accent-color: #000;
   }
   .choose {
     border: 1px solid #000;
@@ -227,44 +226,109 @@ const QueryProducts = styled.div`
   }
 `;
 
+const RangeStyled = styled.div`
+  margin-right: 40px;
+  .price {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    font-weight: 400;
+    text-transform: uppercase;
+  }
+  .customSlider {
+    margin: auto;
+  }
+  .thumb {
+    width: 6px;
+    height: 20px;
+    background: #000;
+    top: -10px;
+    cursor: pointer;
+  }
+  .customSlider-track {
+    height: 2px;
+    background: #000;
+  }
+  .customSlider-track.customSlider-track-0 {
+    /* color of the track before the thumb */
+    background: #bdbdbd;
+  }
+  .customSlider-track.customSlider-track-2 {
+    /* color of the track before the thumb */
+    background: #bdbdbd;
+  }
+`;
+
+const MIN = 0;
+const MAX = 300;
+
 const Shop = () => {
-  const productsStore = useSelector((state) => state.products);
   const dispatch = useDispatch();
-
+  // Set state for data
+  const [values, setValues] = useState([MIN, MAX]);
+  const [brands, setBrands] = useState();
+  const [sizes, setSizes] = useState();
+  const [colors, setColors] = useState();
+  // Get all data filter and split to use
   useEffect(() => {
-    // Fetch products when the component mounts
-    dispatch.products.fetchProducts();
-  }, [dispatch.products]);
-
-  const [categories, setCategories] = useState([]);
-  const [sizes, setSizes] = useState([]);
-  const [colors, setColors] = useState([]);
-  // Get all categories, sizes, colors
-  useEffect(() => {
-    Promise.all([
-      axios.get(ALL_CATEGORIES),
-      axios.get(ALL_SIZES),
-      axios.get(ALL_COLORS),
-    ])
-      .then(([categories, sizes, colors]) => {
-        setCategories(categories.data.category);
-        setSizes(sizes.data.size);
-        setColors(colors.data.color);
+    axios
+      .get(DATA_FILTER)
+      .then((res) => {
+        setBrands(res.data.stock[0].brand);
+        setSizes(res.data.stock[0].sizeId);
+        setColors(res.data.stock[0].colorId);
       })
       .catch((error) => console.error("Error fetching data:", error));
   }, []);
+  const splitBrand = brands ? brands.split(",") : [];
+  const splitSize = sizes ? sizes.split(",") : [];
+  const splitColor = colors ? colors.split(",") : [];
+
+  // Select brand
+  const [selectedBrand, setSelectedBrand] = useState("");
+  const handleBrandSelect = (brandOption) => {
+    setSelectedBrand(brandOption);
+  };
 
   // Select color
-  const [selectedColor, setSelectedColor] = useState(null);
+  const [selectedColor, setSelectedColor] = useState("");
   const handleColorSelect = (colorOption) => {
     setSelectedColor(colorOption);
   };
 
   // Select brand
-  const [selectedSize, setSelectedSize] = useState(null);
+  const [selectedSize, setSelectedSize] = useState("");
   const handleSizeSelect = (sizeOption) => {
     setSelectedSize(sizeOption);
   };
+
+  // Handle reset
+  const resetFilter = () => {
+    setSelectedBrand("");
+    setSelectedColor("");
+    setSelectedSize("");
+    setValues([MIN, MAX]);
+  };
+
+  // Handle filter data
+  const [filteredProducts, setFilteredProducts] = useState([]);
+  const applyFilter = () => {
+    axios
+      .get(
+        `${API_FILTER}?brand=${selectedBrand}&color=${selectedColor}&size=${selectedSize}&minPrice=${values[0]}&maxPrice=${values[1]}`
+      )
+      .then((res) => {
+        setFilteredProducts(res.data.product);
+      })
+      .catch((error) => console.error("Error fetching data:", error));
+  };
+  // Fetch data and apply filter
+  useEffect(() => {
+    // Fetch products when the component mounts and whenever the filters change
+    dispatch.products.fetchProducts();
+    applyFilter();
+    // eslint-disable-next-line
+  }, []);
 
   return (
     <HelmetProvider>
@@ -295,14 +359,17 @@ const Shop = () => {
               </div>
               <div className="allcheck">
                 <div className="allcheck">
-                  {categories.map((category, index) => (
-                    <label key={index}>
+                  {splitBrand.map((brand) => (
+                    <label key={brand}>
                       <input
                         className="checkbox"
                         type="checkbox"
-                        value={category.categoryName}
+                        name="brandGroup"
+                        value={brand}
+                        onChange={() => handleBrandSelect(brand)} // Add onChange event to capture the selected brand
+                        checked={selectedBrand === brand} // Set the checked attribute based on the selected brand
                       />{" "}
-                      {category.categoryName}
+                      {brand}
                     </label>
                   ))}
                 </div>
@@ -314,13 +381,13 @@ const Shop = () => {
                 <div className="minus" />
               </div>
               <div className="allsize">
-                {sizes.map((size, index) => (
+                {splitSize.map((size) => (
                   <Button
-                    key={index}
+                    key={size}
                     className={`size ${selectedSize === size ? "choose" : ""}`}
                     onClick={() => handleSizeSelect(size)}
                   >
-                    {size.sizeName}
+                    {size}
                   </Button>
                 ))}
               </div>
@@ -331,10 +398,10 @@ const Shop = () => {
                 <div className="minus" />
               </div>
               <div className="allcolor">
-                {colors.map((color, index) => (
-                  <div className="color" key={index}>
+                {splitColor.map((color) => (
+                  <div className="color" key={color}>
                     <Button
-                      bgColor={color.colorName}
+                      bgColor={color}
                       className={`color ${
                         selectedColor === color ? "selected" : ""
                       }`}
@@ -349,7 +416,20 @@ const Shop = () => {
                 <p>Price Range</p>
                 <div className="minus" />
               </div>
-              <PriceRangeSlider />
+              <RangeStyled>
+                <div className="price">
+                  <p>{values[0]} EUR</p>
+                  <p>{values[1]} EUR</p>
+                </div>
+                <ReactSlider
+                  className="customSlider"
+                  trackClassName="customSlider-track"
+                  value={values}
+                  onChange={setValues}
+                  min={MIN}
+                  max={MAX}
+                />
+              </RangeStyled>
               <div className="button-range">
                 <Button
                   bgColor={"#C4C4C4"}
@@ -358,6 +438,7 @@ const Shop = () => {
                   borderColor={"#828282"}
                   width={"114px"}
                   height={"40px"}
+                  onClick={() => applyFilter()}
                 >
                   apply
                 </Button>
@@ -368,6 +449,7 @@ const Shop = () => {
                   borderColor={"#828282"}
                   width={"114px"}
                   height={"40px"}
+                  onClick={() => resetFilter()}
                 >
                   reset
                 </Button>
@@ -386,7 +468,7 @@ const Shop = () => {
               </select>
             </div>
             <div className="products">
-              {productsStore.listProduct.map((card) => (
+              {filteredProducts.map((card) => (
                 <Link
                   key={card.productId}
                   to={`/products/${card.productId}`}
@@ -395,7 +477,7 @@ const Shop = () => {
                   <Product
                     name={card.productName}
                     bgImage={card.urlImage}
-                    category={card.categoryName}
+                    brand={card.brand}
                     price={card.priceStock}
                     color={card.colorName}
                   />
@@ -420,7 +502,7 @@ const Shop = () => {
               <img className="model" src={model} alt="model" />
             </div>
             <div className="products">
-              {productsStore.listProduct.map((card) => (
+              {filteredProducts.map((card) => (
                 <Link
                   key={card.productId}
                   to={`/products/${card.productId}`}
@@ -429,7 +511,7 @@ const Shop = () => {
                   <Product
                     name={card.productName}
                     bgImage={card.urlImage}
-                    category={card.categoryName}
+                    brand={card.brand}
                     price={card.priceStock}
                     color={card.colorName}
                   />

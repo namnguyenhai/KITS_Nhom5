@@ -54,8 +54,8 @@ export const HomeFilters = () => {
   return (
     <HFStyled>
       <div className="left">
-        <p className="filter">Filters</p>
-        <div className="allcheck">
+        <p className="filter">Check your style here!</p>
+        {/* <div className="allcheck">
           <label>
             <input className="checkbox" type="checkbox" /> best sellers
           </label>
@@ -68,7 +68,7 @@ export const HomeFilters = () => {
           <label>
             <input className="checkbox" type="checkbox" /> TREnding
           </label>
-        </div>
+        </div> */}
       </div>
       <div className="right">
         <div className="products">
@@ -81,7 +81,7 @@ export const HomeFilters = () => {
               <Product
                 name={card.productName}
                 bgImage={card.urlImage}
-                category={card.categoryName}
+                brand={card.brand}
                 price={card.priceStock}
               />
             </Link>
