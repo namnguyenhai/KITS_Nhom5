@@ -8,6 +8,8 @@ import cartImg from "assets/images/header/cart.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 
+import Badge from '@mui/material/Badge';
+
 const HeaderStyled = styled.div`
   width: 100%;
   height: 115px;
@@ -140,11 +142,20 @@ export const Header = () => {
         </NavLink> */}
 
         <Link to="/cart" className="nav-item shop">
-          <img className="cart" src={cartImg} alt="cart icon" />
+          { cart.products?.length > 0 ? (
+            <Badge 
+              anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'left',
+              }} 
+              badgeContent={cart.products.length} 
+              color="error"
+            >
+              <img className="cart" src={cartImg} alt="cart icon" />
+            </Badge>
+          ) : ( <img className="cart" src={cartImg} alt="cart icon" /> ) }
           <div className="cart-info">
-            <span className="cart-item">
-              {cart.products?.length > 0 ? cart.products.length + " item(s)" : "Shopping Cart"}
-            </span>
+          <span className="cart-item">Shopping Cart</span>
             <span className="cart-price"> {cart && USDDollar(cart.totalPrice)} </span>
 
           </div>
