@@ -116,6 +116,7 @@ const QueryProducts = styled.div`
     font-size: 12.5px;
     font-weight: 400;
     text-transform: uppercase;
+    font-family: "Oswald";
   }
   .allcolor {
     margin-right: 40px;
@@ -281,8 +282,12 @@ const Shop = () => {
       .catch((error) => console.error("Error fetching data:", error));
   }, []);
   const splitBrand = brands ? brands.split(",") : [];
-  const splitSize = sizes ? sizes.split(",") : [];
-  const splitColor = colors ? colors.split(",") : [];
+  const splitSize = sizes
+    ? sizes.split(",").filter((el, index, arr) => arr.indexOf(el) === index)
+    : [];
+  const splitColor = colors
+    ? colors.split(",").filter((el, index, arr) => arr.indexOf(el) === index)
+    : [];
 
   // Select brand
   const [selectedBrand, setSelectedBrand] = useState("");
