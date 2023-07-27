@@ -28,7 +28,7 @@ function Sidebar() {
         {
             name: 'Resources',
             icon: <ResourcesIcon />,
-            children: ['Products', 'Orders', 'Admin'],
+            children: ['Products', 'Orders'],
         },
     ];
 

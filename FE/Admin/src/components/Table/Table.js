@@ -20,6 +20,8 @@ import { visuallyHidden } from '@mui/utils';
 import { Trash, Filter, Edit } from 'components/ImageList';
 import classNames from 'classnames/bind';
 import styles from './Table.module.scss';
+import Chip from '@mui/material/Chip';
+import Stack from '@mui/material/Stack';
 
 const cx = classNames.bind(styles);
 
@@ -172,7 +174,7 @@ EnhancedTableToolbar.propTypes = {
 };
 
 export default function EnhancedTable(props) {
-  const { deleteById, EditById, selectedAll, headCells, rows } = props;
+  const { deleteById, EditById, selectedAll, headCells, rows, action } = props;
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('calories');
   const [selected, setSelected] = React.useState([]);
@@ -325,18 +327,25 @@ export default function EnhancedTable(props) {
                       {row.id}
                     </TableCell>
 
-                    { rowKeys?.map(key => key !== "detail" ? (
-                      <TableCell key={key} align="center">{row[key]}</TableCell>
-                    ) : ( <TableCell key={key} align="center" width={50}>
+                    { rowKeys?.map(key => key === 'status' ? (
+                        <TableCell key={key} align="center" width={100}>
+                          <Stack spacing={1} alignItems="center">
+                            <Chip label={row[key]} color={row[key] === 'Success' ? 'success' : 'error'} />
+                          </Stack>
+                        </TableCell>
+                      )  
+                      : key !== "detail" ? (
+                        <TableCell key={key} align="center">{row[key]}</TableCell>
+                      ) : ( <TableCell key={key} align="center" width={50}>
                           <div className={cx('btnAction')}>{row[key]}</div>
                        </TableCell> )) }
 
-                    <TableCell align="center" width={100}>  
+                    {action && <TableCell align="center" width={100}>  
                       <div className={cx('btnAction')}>
                         <Edit onClick={() => handleEdit(row.id)} /> 
                         <Trash onClick={() => handleDelete(row.id)} /> 
                       </div> 
-                    </TableCell>
+                    </TableCell>}
                   </TableRow>
                 );
               })}

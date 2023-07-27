@@ -54,7 +54,6 @@ const ImageUploader = (props) => {
             // For instance, get the download URL: https://firebasestorage.googleapis.com/...
             getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
                 setImagesUrl([...imagesUrl, downloadURL]);
-                console.log('File available at', downloadURL);
             });
         }
         );
@@ -75,7 +74,6 @@ const ImageUploader = (props) => {
 
     useEffect(() => { 
         images(imagesUrl); 
-        console.log(imagesUrl);
     }, [imagesUrl]);
 
     return (

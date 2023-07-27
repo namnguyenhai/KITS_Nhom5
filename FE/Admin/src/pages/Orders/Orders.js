@@ -3,25 +3,28 @@ import classNames from 'classnames/bind';
 import styles from './Orders.module.scss'
 import Card from "components/Card";
 import PieeChart from "components/PieeChart";
-import { Money } from 'components/ImageList'
-import Table from 'components/Table';
-import { useSelector, useDispatch } from 'react-redux';
-import { useCallback, useEffect } from "react";
+import Table from "components/Table";
+import { useEffect } from 'react';
+import { useSelector, useDispatch } from "react-redux";
+import { Eye, Money } from 'components/ImageList';
+import { useState } from 'react';
+import Modal from "components/Modal";
 
 const cx = classNames.bind(styles);
 
-const Orders = () => {
+function Orders() {
     const dispatch = useDispatch();
-    const products = useSelector(state => state.products.productList);
-    const orderStatistics = useSelector(state => state.orders.orderStatistics);
+    const orders = useSelector((state) => state.orders);
+    const [selectedProduct, setSelectedOrder] = useState({ modal: false, order: '' });
 
     useEffect(() => {
         dispatch.orders.statisticOrderByMonth();
-    }, [])
+        dispatch.orders.fetchOrders();
+    }, [dispatch.orders])
 
     const totalRevenue = () => {
         let sum = 0;
-        orderStatistics && orderStatistics.map(order => {
+        orders && orders.orderStatistics?.map(order => {
             sum += order.totalpricemonth;
         })
         return sum;
@@ -63,8 +66,64 @@ const Orders = () => {
         </>
     )
 
-    // Create head cell
+    //Handle open/close modal
+    const handleOpenModal = (order) => {
+        setSelectedOrder({ modal: !selectedProduct.modal, order });
+        dispatch.orders.getOrderById(order.orderid)
+    }
+
+     // Create head cell
     const headCells = [
+        {
+            id: 'id',
+            numeric: 'center',
+            disablePadding: true,
+            label: 'ID',
+        },
+        {
+            id: 'date',
+            numeric: 'center',
+            disablePadding: true,
+            label: 'Date',
+        },
+        {
+            id: 'status',
+            numeric: 'center',
+            disablePadding: false,
+            label: 'Status',
+        },
+        {
+            id: 'total',
+            numeric: 'center',
+            disablePadding: false,
+            label: 'Total',
+        },
+        {
+            id: 'detail',
+            numeric: 'center',
+            disablePadding: false,
+            label: 'Detail',
+        },
+    ];
+
+    // Create keys data
+    function createData(id, date, status, total, detail) {
+        return {
+            id,
+            date,
+            status,
+            total,
+            detail
+        };
+    }
+    // Create values data
+    const rows = orders.orderList?.map(order => 
+        createData(order.orderid, order.DateOrder, order.status, order.totalprice, <Eye onClick={() => handleOpenModal(order)}/>)
+    );
+
+    //* *************************  ORDER DETAIL ****************************************** *//
+
+    const headCellsPdDetail = [
         {
             id: 'id',
             numeric: 'center',
@@ -78,52 +137,61 @@ const Orders = () => {
             label: 'Name',
         },
         {
-            id: 'brand',
+            id: 'quantity',
             numeric: 'center',
             disablePadding: false,
-            label: 'Brand',
+            label: 'Quantity',
         },
         {
-            id: 'category',
+            id: 'price',
             numeric: 'center',
             disablePadding: false,
-            label: 'Category',
+            label: 'Price',
         },
         {
-            id: 'action',
+            id: 'size',
             numeric: 'center',
             disablePadding: false,
-            label: 'Action',
+            label: 'Size',
+        },
+        {
+            id: 'color',
+            numeric: 'center',
+            disablePadding: false,
+            label: 'Color',
         },
     ];
-
     // Create keys data
-    function createData(id, name, brand, category) {
+    function createDataDetail(id, productName, color, size, quantity, price) {
         return {
             id,
-            name,
-            brand,
-            category,
+            productName, 
+            color, 
+            size, 
+            quantity, 
+            price,
         };
     }
     // Create values data
-    const rows = products?.map(pd => 
-        createData(pd.productId, pd.productName, pd.brand, pd.category_name)
+    const rowsPdDetail = orders.order?.map(order => {
+        return createDataDetail(order.orderDetailId, order.productName, order.colorName, order.sizeName, order.quantityOrder, order.unitPrice)
+    });
+
+    // Title modal add order detail
+    const TitleOrderModal = (
+        <h3 style={{ fontFamily: "'Oswald', sans-serif" }}>Order Detail</h3>
     );
 
-    // Handle edit product
-    const handleEdit = (id) => {
-        console.log(id)
-    }
+    const TableOrderDetail = (
+        <Table 
+            key={2}
+            headCells={headCellsPdDetail}
+            rows={rowsPdDetail}
+        />
+    )
 
-    // Handle delete product
-    const handleDelete = useCallback((id) => {
-        dispatch.products.deleteProduct(id);
-    }, [dispatch.products])
-
-    // Handle selectedAll product
-    const handleSelectedAll = (arr) => {
-        console.log(arr)
+    if(!orders) {
+        return <div>Loading...</div>
     }
 
     return (
@@ -145,17 +213,15 @@ const Orders = () => {
             </div>
             <div className={cx('content')}>
                 <h3>Orders</h3>
-                <div className={cx('content__table')}>
+                <div className='orders__table'>
                     <Table 
                         key={1}
                         headCells={headCells}
                         rows={rows}
-                        deleteById={handleDelete} 
-                        EditById={handleEdit} 
-                        selectedAll={handleSelectedAll}
                     />
                 </div>
             </div>
+            <Modal title={TitleOrderModal} content={TableOrderDetail} selectedProduct={selectedProduct} />
         </Wrapper>
     )
 }

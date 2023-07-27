@@ -31,9 +31,11 @@ export const stock = {
         },
         deleteStock(stockId) {
             axios.delete(`${DELETE_STOCK}/${stockId}`)
-                .then(res => toast.success(`DELETE PRODUCT SUCCESSFULY !`, {
+                .then(res => {
+                  toast.success(`DELETE PRODUCT SUCCESSFULY !`, {
                     position: toast.POSITION.TOP_CENTER
-                  }))
+                  })
+                })
                 .catch(err => console.log(err))
         }
     }),

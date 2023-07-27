@@ -11,6 +11,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useCallback, useEffect, useState } from "react";
 import Modal from "components/Modal";
 import ProductDetailAdd from "./ProductDetailAdd";
+import Avatar from '@mui/material/Avatar';
+import Stack from '@mui/material/Stack';
 
 const cx = classNames.bind(styles);
 
@@ -38,7 +40,7 @@ function Products() {
         label: 'Total Products',
         icon: <BagIcon />,
         color: 'red',
-        value: 77,
+        value: products?.length,
         unit: false,
     };
 
@@ -87,6 +89,12 @@ function Products() {
             label: 'Name',
         },
         {
+            id: 'image',
+            numeric: 'center',
+            disablePadding: true,
+            label: 'Image',
+        },
+        {
             id: 'brand',
             numeric: 'center',
             disablePadding: false,
@@ -112,18 +120,25 @@ function Products() {
     ];
 
     // Create keys data
-    function createData(id, name, brand, category, detail) {
+    function createData(id, name, image, brand, category, detail) {
         return {
             id,
             name,
+            image,
             brand,
             category,
             detail
         };
     }
+
+    const ImageProduct = (src) => (
+        <Stack direction="row" spacing={2} justifyContent="center">
+            <Avatar alt="" src={src} />
+        </Stack>
+    )
     // Create values data
     const rows = products?.map(pd => 
-        createData(pd.productId, pd.productName, pd.brand, pd.category_name, <Eye onClick={() => handleOpenModal(pd)}/>)
+        createData(pd.productId, pd.productName, ImageProduct(pd.image) , pd.brand, pd.category, <Eye onClick={() => handleOpenModal(pd)}/>)
     );
 
     // Handle edit product
@@ -239,6 +254,7 @@ function Products() {
             deleteById={handleDeleteDetail} 
             EditById={handleEditDetail} 
             selectedAll={handleSelectedAllDetail}
+            action
         />
     )
 
@@ -283,6 +299,7 @@ function Products() {
                         deleteById={handleDelete} 
                         EditById={handleEdit} 
                         selectedAll={handleSelectedAll}
+                        action
                     />
                 </div>
             </div>

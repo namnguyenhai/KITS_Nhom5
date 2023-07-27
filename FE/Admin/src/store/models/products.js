@@ -30,6 +30,7 @@ export const products = {
         axios.post(ADD_PRODUCT, data)
           .then(res => {
             this.setProducts(res.data.product);
+            dispatch.products.fetchProducts();
             toast.success(`ADD NEW PRODUCT SUCCESSFULY !`, {
               position: toast.POSITION.TOP_CENTER
             })
@@ -41,6 +42,7 @@ export const products = {
       deleteProduct(productId) {
         axios.delete(`${DELETE_PRODUCT}/${productId}`) 
           .then(res => {
+            dispatch.products.fetchProducts();
             toast.success(`DELETE PRODUCT SUCCESSFULY !`, {
               position: toast.POSITION.TOP_CENTER
             })
@@ -57,11 +59,7 @@ export const products = {
               position: toast.POSITION.TOP_CENTER
             }))
         } else {
-          axios.get(GET_PRODUCT)
-            .then(res => this.setProducts(res.data.product))
-            .catch(res => toast.error(`CAN NOT GET PRODUCT FROM DATABASE!`, {
-              position: toast.POSITION.TOP_CENTER
-            }))
+          dispatch.products.fetchProducts();
         }
 
         }
