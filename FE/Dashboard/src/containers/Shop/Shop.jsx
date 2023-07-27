@@ -60,6 +60,8 @@ const ShopStyled = styled.div`
     font-size: 14px;
     font-weight: 400;
   }
+  @media screen and (max-width: 767px) {
+  }
 `;
 
 const QueryProducts = styled.div`
