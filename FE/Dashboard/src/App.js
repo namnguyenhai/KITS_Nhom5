@@ -16,6 +16,7 @@ import { Address, DashAcc, Information, Orders } from 'components/Account';
 import Contact from 'containers/Contact';
 import ForgotPass from 'containers/ForgotPass';
 import CheckoutSuccess from 'containers/CheckoutSuccess';
+import NotFoundPage from 'containers/NotFoundPage';
 
 
 function App() {
@@ -39,8 +40,9 @@ function App() {
       </Route>
 
       <Route path="payment/success" element={<CheckoutSuccess />} />
-      <Route path="/login" element={<Login />}></Route>
-      <Route path="/forgot" element={<ForgotPass />}></Route>
+      <Route path="/login" element={<Login />} />
+      <Route path="/forgot" element={<ForgotPass />} />
+      <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );
 }
