@@ -36,6 +36,7 @@ const AddressStyled = styled.div`
     font-weight: 400;
     line-height: 20px;
     text-indent: 10px;
+    font-family: 'Oswald', sans-serif;
   }
   .center {
     margin-top: 50px;

@@ -174,7 +174,7 @@ export default function EnhancedTable(props) {
       <Paper sx={{ width: '100%', mb: 2 }}>
         <TableContainer>
           <Table
-            sx={{ minWidth: 750 }}
+            sx={{ minWidth: 750}}
             aria-labelledby="tableTitle"
             size={dense ? 'small' : 'medium'}
           >
@@ -216,7 +216,7 @@ export default function EnhancedTable(props) {
                     { rowKeys?.map(key => key === 'status' ? (
                       <TableCell key={key} align="center">
                         <Stack spacing={1} alignItems="center">
-                          <Chip label={row[key]} color={row[key] !== 'success' ? 'success' : 'error'} />
+                        <Chip label={row[key]} color={row[key] === 'Success' ? 'success' : 'error'} />
                         </Stack>
                       </TableCell>
                     ) : (
