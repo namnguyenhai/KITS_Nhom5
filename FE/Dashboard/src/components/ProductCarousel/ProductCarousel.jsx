@@ -66,6 +66,7 @@ export const ProductCarousel = () => {
     <CarouselStyled>
       <Carousel
         responsive={responsive}
+        autoPlay={true}
         autoPlaySpeed={1000}
         keyBoardControl={true}
         removeArrowOnDeviceType={["tablet", "mobile"]}
